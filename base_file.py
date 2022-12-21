@@ -1,5 +1,5 @@
 # base_file.py
-# last modified: 12-09-22
+# last modified: 12-21-22
 
 #################################################################### imports ###################################################################################
 
@@ -29,6 +29,14 @@ from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMessageBox
+
+#################### scaling issues in virtual machine ###############
+# import PyQt5.QtCore as QtCore
+from PyQt5 import QtCore
+
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) # enable highdpi scaling
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True) # use highdpi icons
+#################### end ######################
 
 ############### global variable ##############
 any_script_run_one_Q = False # for multiple scanning

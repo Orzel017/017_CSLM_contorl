@@ -4,7 +4,7 @@ About: ISEC room 017 CSLM control software
 
 ## Dates:
 
-102822 $\rightarrow{}$ 110322
+102822 $\rightarrow{}$ 12-21-22
 
 ## Old text from b00_gui:
 
