@@ -1,8 +1,3 @@
-# base_file.py
-# last modified: 12-21-22
-
-#################################################################### imports ###################################################################################
-
 # general packages
 import sys
 import nidaqmx
@@ -25,6 +20,7 @@ import PyQt5
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from PyQt5.QtWidgets import QLabel
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication
@@ -34,188 +30,7 @@ from PyQt5.QtWidgets import QMessageBox
 # import PyQt5.QtCore as QtCore
 from PyQt5 import QtCore
 
-QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) # enable highdpi scaling
-QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True) # use highdpi icons
-#################### end ######################
 
-############### global variable ##############
-any_script_run_one_Q = False # for multiple scanning
-
-############### prelims #######################
-get_todays_date = date.today() # this is used for creating the final plot's plot labels
-
-todays_date = get_todays_date.strftime("%m%d%Y") # this is used for creating the final plot's plot labels
-
-################################################################## "Make_Error_Window_2" Class ######################################################################
-class Make_Error_Window_2(QtWidgets.QMainWindow): # create the "Make_Error_Window_2" for displaying a new window with error content
-
-    # ?
-    def __init__(self, parent=None):
-        super().__init__(parent)
-
-        self.setStyleSheet("background-color: red;")
-
-        self.title = "Error" # define the title of the error window
-
-        self.top = 350 # set the display location of the error window
-        self.left = 675 # can this be set to the center of the screen regardles of the position of the main window?
-
-        self.error_window_width  = 205 # define the width of the error window
-        self.error_window_height = 50 # define the height of the error window
-
-        self.setMaximumSize(self.error_window_width, self.error_window_height) # set the maximum size of the error window
-        self.setMinimumSize(self.error_window_width, self.error_window_height) # set the minimum size of the error window
-
-        # begin content of the error window
-        error_window_left_justify_adjust = 5 # optional adjustment parameter for the content of the error window (left justify)
-
-        error_window_top_justify_adjust = 5 # optional adjustment parameter for the content of the error window (top justify)
-
-        error_window_content_line_1 = QLabel("ERROR!", self)
-        error_window_content_line_1.move(60 + error_window_left_justify_adjust, 0 + error_window_top_justify_adjust)
-        error_window_content_line_1.resize(300, 15)
-
-        error_window_content_line_2 = QLabel("Adjust address to save", self)
-        error_window_content_line_2.move(40 + error_window_left_justify_adjust, 15 + error_window_top_justify_adjust)
-        error_window_content_line_2.resize(300, 15)
-
-        # end content of the error window
-
-        self.setWindowTitle(self.title) # set the title of the displayed error window
-        self.setGeometry(self.left, self.top, self.error_window_width, self.error_window_height) # set the geometry (size) of the displayed error window
-
-################################################################## "Make_Error_Window" Class ######################################################################
-class Make_Error_Window(QtWidgets.QMainWindow): # create the "Make_Error_Window" for displaying a new window with error content
-
-    # ?
-    def __init__(self, parent=None):
-        super().__init__(parent)
-
-        self.setStyleSheet("background-color: red;")
-
-        self.title = "Error" # define the title of the error window
-
-        self.top    = 350 # set the display location of the error window
-        self.left   = 675 # can this be set to the center of the screen regardles of the position of the main window?
-
-        self.error_window_width  = 205 # define the width of the error window
-        self.error_window_height = 50 # define the height of the error window
-
-        self.setMaximumSize(self.error_window_width, self.error_window_height) # set the maximum size of the error window
-        self.setMinimumSize(self.error_window_width, self.error_window_height) # set the minimum size of the error window
-
-        # begin content of the aobut window
-        error_window_left_justify_adjust = 5 # optional adjustment parameter for the content of the error window (left justify)
-
-        error_window_top_justify_adjust = 5 # optional adjustment parameter for the content of the error window (top justify)
-
-        error_window_content_line_1 = QLabel("ERROR!", self)
-        error_window_content_line_1.move(60 + error_window_left_justify_adjust, 0 + error_window_top_justify_adjust)
-        error_window_content_line_1.resize(300, 15)
-
-        error_window_content_line_2 = QLabel("Adjust resolution", self)
-        error_window_content_line_2.move(45 + error_window_left_justify_adjust, 15 + error_window_top_justify_adjust)
-        error_window_content_line_2.resize(300, 15)
-
-        # end content of the error window
-
-        self.setWindowTitle(self.title) # set the title of the displayed error window
-        self.setGeometry(self.left, self.top, self.error_window_width, self.error_window_height) # set the geometry (size) of the displayed error window
-
-
-################################################################## "Make_About_Window" Class ######################################################################
-class Make_About_Window(QtWidgets.QMainWindow): # create the "Make_About_Window" for displaying a new window with about content
-
-    # ?
-    def __init__(self, parent=None):
-        super().__init__(parent)
-
-        self.title = "About" # define the title of the about window
-
-        self.top    = 350 # set the display location of the about window
-        self.left   = 675 # can this be set to the center of the screen regardles of the position of the main window?
-
-        self.about_window_width  = 205 # define the width of the about window
-        self.about_window_height = 70 # define the height of the about window
-
-        self.setMaximumSize(self.about_window_width, self.about_window_height) # set the maximum size of the about window
-        self.setMinimumSize(self.about_window_width, self.about_window_height) # set the minimum size of the about window
-
-        # begin content of the aobut window
-        about_window_left_justify_adjust = 5 # optional adjustment parameter for the content of the about window (left justify)
-
-        about_window_top_justify_adjust = 5 # optional adjustment parameter for the content of the about window (top justify)
-
-        about_window_content_line_1 = QLabel("Application name: mda_017_gui", self)
-        about_window_content_line_1.move(0 + about_window_left_justify_adjust, 0 + about_window_top_justify_adjust)
-        about_window_content_line_1.resize(300, 15)
-
-        about_window_content_line_2 = QLabel("Author: Miles D. Ackerman", self)
-        about_window_content_line_2.move(0 + about_window_left_justify_adjust, 15 + about_window_top_justify_adjust)
-        about_window_content_line_2.resize(300, 15)
-
-        about_window_content_line_3 = QLabel("Last modified: 110322", self)
-        about_window_content_line_3.move(0 + about_window_left_justify_adjust, 30 + about_window_top_justify_adjust)
-        about_window_content_line_3.resize(300, 15)
-
-        about_window_content_line_3 = QLabel("OS: MS Windows 10 Pro", self)
-        about_window_content_line_3.move(0 + about_window_left_justify_adjust, 45 + about_window_top_justify_adjust)
-        about_window_content_line_3.resize(300, 15)
-        # end content of the about window
-
-        self.setWindowTitle(self.title) # set the title of the displayed about window
-        self.setGeometry(self.left, self.top, self.about_window_width, self.about_window_height) # set the geometry (size) of the displayed about window
-
-################################################### MatPlotLib class ######################################################################################
-class MplCanvas(FigureCanvasQTAgg):
-
-    def __init__(self, parent = None, width = 10, height = 10, dpi = 1000):
-
-        # fig = Figure(figsize = (width, height), dpi = dpi)
-        # self.axes = fig.add_subplot()
-        self.fig, self.axes = plt.subplots(figsize=(width, height), dpi=dpi, tight_layout = True)
-        super(MplCanvas, self).__init__(self.fig)
-
-########################################################################## "Parent" class #####################################################################
-class Parent(QtWidgets.QMainWindow):
-
-    # ?
-    def __init__(self, parent = None):
-        super().__init__(parent)
-
-        def display_about_window():
-
-            self.Make_About_Window = Make_About_Window()
-            self.Make_About_Window.show()
-
-        ######################################################################### GUI prelims ##############################################################################
-
-        # setting up main GUI window
-        self.child_widget = Child(parent = self)
-        self.setCentralWidget(self.child_widget) # setting the central widget of the main window (Parent class) to the Child class
-        gui_window_height = 470 # define the main window height
-        gui_window_width = 800 # define the main window width
-        self.setGeometry(400, 200, gui_window_width, gui_window_height) # x-coord, y-coord, width, height
-        self.setMinimumSize(gui_window_width, gui_window_height) # set the main window min size
-        self.setMaximumSize(gui_window_width, gui_window_height) # set the main window max size
-        self.setWindowTitle("mda_017_gui") # set the title of the main window
-
-        ################################################################### menu bar #############################################################################
-        main_window_menu_bar = self.menuBar() # this creates the menu abr for the main GUI window
-        
-        # "File" menu option
-        file_menu = main_window_menu_bar.addMenu("File") # this adds the "File" option to the main window's menu bar
-        exit_option = QtWidgets.QAction("Exit", self) # adds the "Exit" sub_option to "File" menu option
-        exit_option.triggered.connect(qApp.quit) # setting the fnc of clicking "Exit" sub_option to quit application
-        file_menu.addAction(exit_option) # adding "Exit" sub_option to "File" option
-        
-        # "Help" menu option
-        help_menu = main_window_menu_bar.addMenu("Help") # this adds the "Help" option to the main window's menu bar
-        hep_menu_about = QtWidgets.QAction("About", self) # this adds an "About" sub_option to the "Help" option
-        hep_menu_about.triggered.connect(display_about_window) # this connects clicking the "About" to "..."
-        help_menu.addAction(hep_menu_about) # adding "About" sub_option to the "Help" menu option
-
-############################################################################# "Chid" class #######################################################################
 class Child(QtWidgets.QWidget):#, **kwargs): # kwargs needed?
 
     # ?
@@ -1485,15 +1300,3 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         cmenutwoAct = cmenu.addAction("two")
         cmenuthreeAct = cmenu.addAction("three")
         action = cmenu.exec_(self.mapToGlobal(event.pos()))
-
-############################################################## start gui ################################################################################
-
-# ?
-if __name__ == '__main__':
-
-    app = QtWidgets.QApplication(sys.argv)
-    mw = Parent()
-    mw.show()
-    sys.exit(app.exec_())
-
-#################################################################### END #######################################################################################
