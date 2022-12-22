@@ -1,4 +1,5 @@
 # general packages
+# from Parent_file import Parent
 import sys
 import nidaqmx
 from nidaqmx.constants import AcquisitionType
@@ -21,15 +22,17 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QLabel
+from PyQt5.QtWidgets import QHBoxLayout
 from PyQt5 import QtWidgets
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QMessageBox
+# from PyQt5.QtGui import QPixmap
+# from PyQt5.QtWidgets import QApplication
+# from PyQt5.QtWidgets import QMessageBox
 
 #################### scaling issues in virtual machine ###############
 # import PyQt5.QtCore as QtCore
-from PyQt5 import QtCore
-
+# from PyQt5 import QtCore
+# from Parent_file import Parent
+from Base import MplCanvas, Make_Error_Window_2, Make_Error_Window
 
 class Child(QtWidgets.QWidget):#, **kwargs): # kwargs needed?
 

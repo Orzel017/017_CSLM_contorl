@@ -1,12 +1,12 @@
 # base_file.py
-# last modified: 12-21-22
+# last modified: 12-22-22
 
 #################################################################### imports ###################################################################################
 
 ####################### reference about window #####################
 # from About_Window import Make_About_Window
-from Parent_file import Parent
-from Class_file import *
+# from Parent_file import Parent
+# from Class_file import Child
 
 # general packages
 import sys
@@ -1449,14 +1449,14 @@ class MplCanvas(FigureCanvasQTAgg):
 #         cmenuthreeAct = cmenu.addAction("three")
 #         action = cmenu.exec_(self.mapToGlobal(event.pos()))
 
-############################################################## start gui ################################################################################
+# ############################################################## start gui ################################################################################
 
-# ?
-if __name__ == '__main__':
+# # ?
+# if __name__ == '__main__':
 
-    app = QtWidgets.QApplication(sys.argv)
-    mw = Parent()
-    mw.show()
-    sys.exit(app.exec_())
+#     app = QtWidgets.QApplication(sys.argv)
+#     mw = Parent()
+#     mw.show()
+#     sys.exit(app.exec_())
 
 #################################################################### END #######################################################################################

@@ -6,9 +6,9 @@ File name: "Parent.py"
 ########################################################################################## start imports ##############################################################################################
 
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QLabel
+from PyQt5.QtWidgets import qApp
 from About_Window import Make_About_Window
-from Base import *
+from Class_file import Child
 
 ############################################################################################ end imports ##############################################################################################
 
