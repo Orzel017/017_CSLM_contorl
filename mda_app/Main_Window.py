@@ -15,7 +15,9 @@ the geometry and scaling parameters of the whole application can be set here
 TODO:
 *Scaling issues- need to adjust from fixed maximum main window width to arbitrary user-defined window dimensions. This requries some kind of adjustment for all child widgets within the main app 
 window
-*
+*Implement "View" menu bar item actions -should be to change the UI for the user
+*Implement "Actions" menu bar functionality -could be to re-arrange the child windows on the GUI
+*Implement "Devices" meny bar actions -should be to list avaialble devices (info. about the DAQ, the ITC4001, and more)
 """
 
 ########################################################################################## start imports ##############################################################################################
@@ -69,7 +71,7 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
         self.setMaximumSize(gui_window_width, gui_window_height) # set the main window max size
 
         # asthetics
-        self.setWindowTitle("mda_017_gui") # set the title of the main app window
+        self.setWindowTitle("unique_app_name") # set the title of the main app window
 
         ################################################################################ end GUI main window prelims ##################################################################################
 
@@ -77,20 +79,51 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
 
         main_window_menu_bar = self.menuBar() # create the menu bar for the main app window
         
-        # "File" menu item
+        ####################################################################################### "File" menu bar item ##################################################################################
         file_menu_bar_item = main_window_menu_bar.addMenu("File") # add the "File" item to the main window's menu bar
 
-        exit_app_file_sub_item = QtWidgets.QAction("Exit", self) # adds the "Exit" sub_item to "File" menu item
+        exit_app_file_sub_item = QtWidgets.QAction("Exit", self) # adds the "Exit" sub-item to "File" menu item
 
         file_menu_bar_item.addAction(exit_app_file_sub_item) # adding an action to the "Exit" sub-item
 
         exit_app_file_sub_item.triggered.connect(qApp.quit) # setting the function of clicking "Exit" sub_option to quit application
+
+        ######################################################################################### "Edit" menu bar item ################################################################################
+        edit_menu_bar_item = main_window_menu_bar.addMenu("Edit") # add the "Edit" item to the main window's menu bar
         
-        # "Help" menu item
-        help_menu = main_window_menu_bar.addMenu("Help") # this adds the "Help" option to the main window's menu bar
-        hep_menu_about = QtWidgets.QAction("About", self) # this adds an "About" sub_option to the "Help" option
-        hep_menu_about.triggered.connect(display_about_window) # this connects clicking the "About" to "..."
-        help_menu.addAction(hep_menu_about) # adding "About" sub_option to the "Help" menu option
+        temp_edit_one_edit_sub_item = QtWidgets.QAction("temp_1", self) #
+
+        edit_menu_bar_item.addAction(temp_edit_one_edit_sub_item) #
+
+        ############################################################################################ "View" menu bar item #############################################################################
+        view_menu_bar_item = main_window_menu_bar.addMenu("View") # add the "View" item to the main window's menu bar
+        
+        temp_view_one_view_sub_item = QtWidgets.QAction("temp_1", self) #
+
+        view_menu_bar_item.addAction(temp_view_one_view_sub_item) #
+
+        ########################################################################################### "Actions" menu bar item ###########################################################################
+        actions_menu_bar_item = main_window_menu_bar.addMenu("Actions") # add the "Actions" item to the main window's menu bar
+        
+        temp_actions_one_actions_sub_item = QtWidgets.QAction("temp_1", self) #
+
+        actions_menu_bar_item.addAction(temp_actions_one_actions_sub_item) #
+
+        ########################################################################################### "Devices" menu bar item ###########################################################################
+        devices_menu_bar_item = main_window_menu_bar.addMenu("Devices") # add the "Devices" item to the main window's menu bar
+        
+        temp_devices_one_devices_sub_item = QtWidgets.QAction("temp_1", self) #
+
+        devices_menu_bar_item.addAction(temp_devices_one_devices_sub_item) #
+        
+        ######################################################################################## "Help" menu bar item #################################################################################
+        help_menu_bar_item = main_window_menu_bar.addMenu("Help") # this adds the "Help" item to the main window's menu bar
+
+        hep_menu_bar_about_sub_item = QtWidgets.QAction("About", self) # this adds an "About" sub-item to the "Help" item
+
+        help_menu_bar_item.addAction(hep_menu_bar_about_sub_item) # add "About" action to the "Help" menu item
+
+        hep_menu_bar_about_sub_item.triggered.connect(display_about_window) # this connects clicking the "About" sub-item to display the about window
 
         ############################################################################################ end menu bar #####################################################################################
 
