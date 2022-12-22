@@ -28,7 +28,7 @@ from PyQt5.QtWidgets import qApp # import qApp for inner-app functionality (used
 
 from About_Window import Make_About_Window # import `Make_About_Window` from the "About_Window.py" file for dispalying the About window accessed from the Help menu bar item
 
-from Class_file import Child # import `Child` class from the file "Class_file.py" to setup and build the contents of the application
+from Window_Contents import Setup_Main_Window_Contents # import `Setup_Main_Window_Contents` class from the file "Class_file.py" to setup and build the contents of the application
 
 ######################################################################################### end imports #################################################################################################
 
@@ -56,7 +56,7 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
 
         ############################################################################## start GUI main window prelims ##################################################################################
 
-        self.child_widget = Child(parent = self) # designate the child widget
+        self.child_widget = Setup_Main_Window_Contents(parent = self) # designate the child widget
 
         self.setCentralWidget(self.child_widget) # setting the central widget of the main window (Setup_Main_Window_Background class) to the Child class
 

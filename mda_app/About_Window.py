@@ -14,6 +14,8 @@ Notes:
 TODO:
 *Adjust the position of the about window to display at the center of the screen regardless of the main app window's on-screen location
 *Display current computer's OS in about window line 4
+*Format the about widnow so all of the lines of text are center aligned and the window is slightly bigger
+*Add info./a link to the license associated with this software
 """
 
 ########################################################################################## start imports ##############################################################################################

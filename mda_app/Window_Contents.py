@@ -1,11 +1,28 @@
+"""
+File name: "Window_Contents.py"
+
+Contents: main window content (curently including scanning scripts -this will be changed later as they will be moved)
+
+Dates:
+Originally separated/organized: 12-21-2022
+Last modifed: 12-22-2022
+Original author: MDA
+Last modified by: MDA
+
+Notes:
+
+TODO:
+*Move scanning scripts to other files (would they need to be changed to classes?)
+**This presents numerous issues with data handling and transfer from file to file
+"""
+
+############################################################################################## start imports ##########################################################################################
+
 # general packages
-# from Parent_file import Parent
-import sys
 import nidaqmx
 from nidaqmx.constants import AcquisitionType
 import numpy as np
 import pyqtgraph as pg
-from datetime import date
 
 import qcodes_contrib_drivers.drivers.NationalInstruments.DAQ as test
 
@@ -24,17 +41,14 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QHBoxLayout
 from PyQt5 import QtWidgets
-# from PyQt5.QtGui import QPixmap
-# from PyQt5.QtWidgets import QApplication
-# from PyQt5.QtWidgets import QMessageBox
 
-#################### scaling issues in virtual machine ###############
-# import PyQt5.QtCore as QtCore
-# from PyQt5 import QtCore
-# from Parent_file import Parent
 from Base import MplCanvas, Make_Error_Window_2, Make_Error_Window
 
-class Child(QtWidgets.QWidget):#, **kwargs): # kwargs needed?
+################## scaling issues in virtual machine ############### ? where is this now?
+
+############################################################################################### end imports ###########################################################################################
+
+class Setup_Main_Window_Contents(QtWidgets.QWidget):#, **kwargs): # kwargs needed?
 
     # ?
     def __init__(self, parent = None):#, **kwargs): # kwargs needed?
@@ -91,7 +105,7 @@ class Child(QtWidgets.QWidget):#, **kwargs): # kwargs needed?
 
         ########### XY scanning #############
         # print/display XY scan parameters fnc
-        def print_XY_scan_parameters_fnc(self, parent = Child): # this fnc does...
+        def print_XY_scan_parameters_fnc(self, parent = Setup_Main_Window_Contents): # this fnc does...
 
             # print("XY_SCAN PARAMETERS/INFO: ", end = "")                                    # this prints to the terminal
             # print("XY_scan resolution = %d, " % int(xy_scan_resolution_qlineedit.text()), end = "")
@@ -379,7 +393,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
         ########### XZ scanning #############
         # print_XZ_scan_parameters_fnc
-        def print_XZ_scan_parameters_fnc(self, parent = Child): # this fnc does...
+        def print_XZ_scan_parameters_fnc(self, parent = Setup_Main_Window_Contents): # this fnc does...
 
             # print("XZ_SCAN PARAMETERS/INFO: ", end = "")                                    # this prints to the terminal
             # print("XZ_scan resolution = %d, " % int(xz_scan_resolution_qlineedit.text()), end = "")
@@ -648,7 +662,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         ########################## YZ scanning ############################
 
         # print_YZ_scan_parameters_fnc
-        def print_YZ_scan_parameters_fnc(self, parent = Child): # this fnc does...
+        def print_YZ_scan_parameters_fnc(self, parent = Setup_Main_Window_Contents): # this fnc does...
 
             # print("YZ_SCAN PARAMETERS/INFO: ", end = "")
             # print("YZ_scan resolution = %d, " % int(yz_scan_resolution_qlineedit.text()), end = "")
