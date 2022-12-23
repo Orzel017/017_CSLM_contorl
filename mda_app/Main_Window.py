@@ -32,6 +32,10 @@ from Window_Contents import Setup_Main_Window_Contents # import `Setup_Main_Wind
 
 ######################################################################################### end imports #################################################################################################
 
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) # enable highdpi scaling
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True) # use highdpi icons
+# https://leomoon.com/journal/python/high-dpi-scaling-in-pyqt5/
+
 ################################################################################ start `Setup_Main_Window_Background`` class ##########################################################################
 
 class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup_Main_Window_Background` using QMainWindow 

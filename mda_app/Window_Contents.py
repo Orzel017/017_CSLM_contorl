@@ -5,7 +5,7 @@ Contents: main window content (curently including scanning scripts -this will be
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 12-22-2022
+Last modifed: 12-23-2022
 Original author: MDA
 Last modified by: MDA
 
@@ -29,9 +29,6 @@ import qcodes_contrib_drivers.drivers.NationalInstruments.DAQ as test
 # MatPlotLib plotting packages
 import matplotlib
 matplotlib.use('Qt5Agg')
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
-import matplotlib as mpl
-import matplotlib.pyplot as plt
 
 # PyQt5, this is the framework that builds the GUI
 import PyQt5
@@ -42,11 +39,16 @@ from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QHBoxLayout
 from PyQt5 import QtWidgets
 
-from Base import MplCanvas, Make_Error_Window_2, Make_Error_Window
+from Plotting_Setup import MplCanvas # drag in MplCanvas from plotting setup 
+
+import qcodes_contrib_drivers.drivers.NationalInstruments.DAQ as test
 
 ################## scaling issues in virtual machine ############### ? where is this now?
 
 ############################################################################################### end imports ###########################################################################################
+
+############### global variable ##############
+any_script_run_one_Q = False # for multiple scanning
 
 class Setup_Main_Window_Contents(QtWidgets.QWidget):#, **kwargs): # kwargs needed?
 
