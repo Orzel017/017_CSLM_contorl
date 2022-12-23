@@ -25,7 +25,6 @@ from datetime import date
 import matplotlib
 matplotlib.use("Qt5Agg")
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 ############################################################################################ end imports ##############################################################################################
