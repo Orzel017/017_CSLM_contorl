@@ -29,19 +29,25 @@ import matplotlib.pyplot as plt
 
 ############################################################################################ end imports ##############################################################################################
 
-############### prelims #######################
+########################################################################################### start prelims #############################################################################################
+
 get_todays_date = date.today() # this is used for creating the final plot's plot labels
 
 todays_date = get_todays_date.strftime("%m%d%Y") # this is used for creating the final plot's plot labels
 
-################################################### MatPlotLib class ######################################################################################
+############################################################################################ end prelims ##############################################################################################
+
+############################################################################### start MplCanvas class ##################################################################################################
 class MplCanvas(FigureCanvasQTAgg):
 
-    def __init__(self, parent = None, width = 10, height = 10, dpi = 1000):
+    def __init__(self, parent = None, canvas_width = 10, canvas_height = 10, canvas_dpi = 1000):
 
         # fig = Figure(figsize = (width, height), dpi = dpi)
+        
         # self.axes = fig.add_subplot()
-        self.fig, self.axes = plt.subplots(figsize=(width, height), dpi=dpi, tight_layout = True)
-        super(MplCanvas, self).__init__(self.fig)
 
-#################################################################### END #######################################################################################
+        self.figure, self.axes = plt.subplots(figsize = (canvas_width, canvas_height), dpi = canvas_dpi, tight_layout = True)
+
+        super(MplCanvas, self).__init__(self.figure)
+
+################################################################################ end MplCanvas class ##################################################################################################

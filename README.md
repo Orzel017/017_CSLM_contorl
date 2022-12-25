@@ -51,7 +51,3 @@ This software opens automatically when the cDAQ device is connected to this comp
 2. The first module inserted into the cDAQ card (the NI-9402 module) is called "mod1". This naming pattern follows the available slots within the 
 cDAQ chasis (there are four available slots)
 3. The second module in the cDAQ chasis (the NI-9263 module) is called "mod2" following in suit
-
-## New info
-
-Text here

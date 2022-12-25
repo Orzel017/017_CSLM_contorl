@@ -5,7 +5,7 @@ Contents: main window content (curently including scanning scripts -this will be
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 12-23-2022
+Last modifed: 12-25-2022
 Original author: MDA
 Last modified by: MDA
 
@@ -18,37 +18,54 @@ TODO:
 
 ############################################################################################## start imports ##########################################################################################
 
-# general packages
-import nidaqmx
-from nidaqmx.constants import AcquisitionType
-import numpy as np
-import pyqtgraph as pg
+# NI-DAQmx API imports
+import nidaqmx # general API import
 
-import qcodes_contrib_drivers.drivers.NationalInstruments.DAQ as test
+from nidaqmx.constants import (AcquisitionType, FrequencyUnits, CountDirection, Edge) # API constant(s) import(s)
+
+import numpy as np # numpy for arrays
+
+import qcodes_contrib_drivers.drivers.NationalInstruments.DAQ as test # this is a speical import from a modified package from QCoDeS
 
 # MatPlotLib plotting packages
-import matplotlib
-matplotlib.use('Qt5Agg')
+import matplotlib # generica Matplotlib import
 
-# PyQt5, this is the framework that builds the GUI
-import PyQt5
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import QLabel
-from PyQt5.QtWidgets import QHBoxLayout
-from PyQt5 import QtWidgets
+matplotlib.use("Qt5Agg") # tailor matplotlib package for use in PyQt5?
 
-from Plotting_Setup import MplCanvas # drag in MplCanvas from plotting setup 
+# datetime module
+from datetime import date # date module import
 
-import qcodes_contrib_drivers.drivers.NationalInstruments.DAQ as test
+# PyQt5, this is the framework that builds the GUI windows
+import PyQt5 # general PyQt5 framework import
 
-################## scaling issues in virtual machine ############### ? where is this now?
+from PyQt5 import QtWidgets # QtWidgets module
 
-############################################################################################### end imports ###########################################################################################
+from PyQt5.QtWidgets import QFrame, QTextEdit, QPushButton, QHBoxLayout, QLabel, QSplitter, QLineEdit, QMenu # submodules from QtWidgets
 
-############### global variable ##############
-any_script_run_one_Q = False # for multiple scanning
+from PyQt5.QtGui import QFont # QFont from QtGui
+
+from PyQt5.QtCore import Qt # Qt module from QtCore
+
+import pyqtgraph as pg # pyqtgraph import (grphing package from PyQt)
+
+# imports from other files within folder structure
+from Plotting_Setup import MplCanvas # import MplCanvas class from "Plotting_Setup.py"
+
+from Resolution_Error_Window import Make_Error_Window # import Make_Error_Window class from "Resolution_Error_Window.py"
+
+from Additional_Error_Window import Make_Error_Window_2 # import Make_Error_Window_2 class from "Additional_Error_Window.py"
+
+############################################################################################# end imports #############################################################################################
+
+########################################################################################### start prelims #############################################################################################
+
+get_todays_date = date.today() # this is used for creating the final plot's plot labels
+
+todays_date = get_todays_date.strftime("%m%d%Y") # this is used for creating the final plot's plot labels
+
+any_script_run_one_Q = False # global variable for multiple scanning
+
+############################################################################################ end prelims ##############################################################################################
 
 class Setup_Main_Window_Contents(QtWidgets.QWidget):#, **kwargs): # kwargs needed?
 
@@ -958,7 +975,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         ##################################################### plot in right window ##################################################################
 
         plot_res = 3.89
-        self.sc = MplCanvas(self, width = plot_res, height = plot_res, dpi = 110)                         # changing dpi does something to scale of figure
+        self.sc = MplCanvas(self, canvas_width = plot_res, canvas_height = plot_res, canvas_dpi = 110)                                                                      # changing dpi does something to scale of figure
         self.sc.move(2, 2)
         self.sc.setParent(right_window)
         self.sc.axes.xaxis.set_tick_params(labelsize = 8)
