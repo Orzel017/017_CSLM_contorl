@@ -26,15 +26,23 @@ from PyQt5 import QtWidgets # import QtWidgets from PyQt5 for building the windo
 
 from PyQt5.QtWidgets import qApp # import qApp for inner-app functionality (used for quitting the application while it is running)
 
+from PyQt5 import QtCore # import QtCore for viewing on high-dpi resolution monitors
+
 from About_Window import Make_About_Window # import `Make_About_Window` from the "About_Window.py" file for dispalying the About window accessed from the Help menu bar item
 
 from Window_Contents import Setup_Main_Window_Contents # import `Setup_Main_Window_Contents` class from the file "Class_file.py" to setup and build the contents of the application
 
 ######################################################################################### end imports #################################################################################################
 
-QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) # enable highdpi scaling
-QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True) # use highdpi icons
-# https://leomoon.com/journal/python/high-dpi-scaling-in-pyqt5/
+# scaling issue
+"""
+# this short section servces to remedy high-dpi scaling issue (on high-resolution monitors the appearance of the GUI displayed differently)
+# the below two lines are from https://leomoon.com/journal/python/high-dpi-scaling-in-pyqt5/
+"""
+
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) # enable highdpi scaling for applicaiton
+
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True) # use high-dpi icons across GUI
 
 ################################################################################ start `Setup_Main_Window_Background`` class ##########################################################################
 
