@@ -35,6 +35,10 @@ from Welcome_window import Setup_Welcome_Window # `Setup_Welcome_Window` from th
 
 from Window_Contents import Setup_Main_Window_Contents # import `Setup_Main_Window_Contents` class from the file "Class_file.py" to setup and build the contents of the application
 
+# from Helper_Functions import display_welcome_window
+
+import Helper_Functions
+
 ######################################################################################### end imports #################################################################################################
 
 # scaling issue
@@ -75,17 +79,24 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
 
         # self.setCentralWidget(self.child_widget) # setting the central widget of the main window (Setup_Main_Window_Background class) to the Child class
 
-        print("hello world")
+        # print("hello world")
 
-        self.first_child_widget = Setup_Welcome_Window(parent = self) # designate first child widget
+        # self.first_child_widget = Setup_Welcome_Window(parent = self) # designate first child widget
 
-        self.setCentralWidget(self.first_child_widget) # setting the first centrtal widget of the main window
+        # self.setCentralWidget(self.first_child_widget) # setting the first centrtal widget of the main window
 
-        print("displayed welcome window")
+        # self.second_child_widget = Setup_Main_Window_Contents(parent = self)
 
-        print("moved on...")
+        # print("displayed welcome window")
 
-        print("test_bool: %s" % Welcome_window.test_bool)
+        # print("moved on...")
+
+        # print("test_bool is: %s" % Welcome_window.test_bool)
+
+        # if Welcome_window.Setup_Welcome_Window.test_bool == False:
+        #     print("(main) False!")
+        # else:
+        #     print("(main) True!")
 
         # overall application dimensions
         gui_window_height = 470 # define the main window height
@@ -153,5 +164,7 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
         hep_menu_bar_about_sub_item.triggered.connect(display_about_window) # this connects clicking the "About" sub-item to display the about window
 
         ############################################################################################ end menu bar #####################################################################################
+
+        Helper_Functions.display_welcome_window(self)
 
 ################################################################################## end `Setup_Main_Window_Background` class ###########################################################################
