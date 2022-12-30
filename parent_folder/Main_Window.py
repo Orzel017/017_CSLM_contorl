@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 12-22-2022
+Last modifed: 12-30-2022
 Original author: MDA
 Last modified by: MDA
 
@@ -28,7 +28,10 @@ from PyQt5.QtWidgets import qApp # import qApp for inner-app functionality (used
 
 from PyQt5 import QtCore # import QtCore for viewing on high-dpi resolution monitors
 
-from About_Window import Make_About_Window # import `Make_About_Window` from the "About_Window.py" file for dispalying the About window accessed from the Help menu bar item
+from About_Window import Make_About_Window # import `Make_About_Window` from the "About_Window.py" file for displaying the About window accessed from the Help menu bar item
+
+import Welcome_window
+from Welcome_window import Setup_Welcome_Window # `Setup_Welcome_Window` from the "Welcome_Window.py" file for displaying the welcome user contents
 
 from Window_Contents import Setup_Main_Window_Contents # import `Setup_Main_Window_Contents` class from the file "Class_file.py" to setup and build the contents of the application
 
@@ -68,9 +71,21 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
 
         ############################################################################## start GUI main window prelims ##################################################################################
 
-        self.child_widget = Setup_Main_Window_Contents(parent = self) # designate the child widget
+        # self.child_widget = Setup_Main_Window_Contents(parent = self) # designate the child widget
 
-        self.setCentralWidget(self.child_widget) # setting the central widget of the main window (Setup_Main_Window_Background class) to the Child class
+        # self.setCentralWidget(self.child_widget) # setting the central widget of the main window (Setup_Main_Window_Background class) to the Child class
+
+        print("hello world")
+
+        self.first_child_widget = Setup_Welcome_Window(parent = self) # designate first child widget
+
+        self.setCentralWidget(self.first_child_widget) # setting the first centrtal widget of the main window
+
+        print("displayed welcome window")
+
+        print("moved on...")
+
+        print("test_bool: %s" % Welcome_window.test_bool)
 
         # overall application dimensions
         gui_window_height = 470 # define the main window height
@@ -83,7 +98,7 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
         self.setMaximumSize(gui_window_width, gui_window_height) # set the main window max size
 
         # asthetics
-        self.setWindowTitle("unique_app_name") # set the title of the main app window
+        self.setWindowTitle("mda_gui") # set the title of the main app window
 
         ################################################################################ end GUI main window prelims ##################################################################################
 

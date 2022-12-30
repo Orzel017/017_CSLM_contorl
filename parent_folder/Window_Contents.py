@@ -5,7 +5,7 @@ Contents: main window content (curently including scanning scripts -this will be
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 12-25-2022
+Last modifed: 12-30-2022
 Original author: MDA
 Last modified by: MDA
 
@@ -71,11 +71,14 @@ class Setup_Main_Window_Contents(QtWidgets.QWidget):#, **kwargs): # kwargs neede
 
     # ?
     def __init__(self, parent = None):#, **kwargs): # kwargs needed?
+
         super().__init__(parent)
+
         hbox = QHBoxLayout(self)
+
         plotwin = pg.GraphicsLayoutWidget(show = True)
 
-        ########################################################## CHILD functions ################################################################################
+        ####################################################################### Setup_Main_Window_Contents functions ##################################################################################
         
         ########## overall #################
 
