@@ -30,8 +30,8 @@ from PyQt5 import QtCore # import QtCore for viewing on high-dpi resolution moni
 
 from About_Window import Make_About_Window # import `Make_About_Window` from the "About_Window.py" file for displaying the About window accessed from the Help menu bar item
 
-import Welcome_window
-from Welcome_window import Setup_Welcome_Window # `Setup_Welcome_Window` from the "Welcome_Window.py" file for displaying the welcome user contents
+# import Welcome_window
+# from Welcome_window import Setup_Welcome_Window # `Setup_Welcome_Window` from the "Welcome_Window.py" file for displaying the welcome user contents
 
 from Window_Contents import Setup_Main_Window_Contents # import `Setup_Main_Window_Contents` class from the file "Class_file.py" to setup and build the contents of the application
 

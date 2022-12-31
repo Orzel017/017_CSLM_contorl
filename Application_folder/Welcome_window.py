@@ -21,7 +21,7 @@ TODO:
 from PyQt5 import QtWidgets # QtWidgets module
 
 from PyQt5.QtWidgets import QFrame, QLabel, QPushButton # submodules from QtWidgets
-
+from PyQt5.QtGui import QWindow
 import Main_Window
 
 import Helper_Functions
@@ -37,7 +37,7 @@ import Helper_Functions
 # global test_bool
 # test_bool = True
 
-class Setup_Welcome_Window(QtWidgets.QWidget):#, **kwargs): # kwargs needed?
+class Setup_Welcome_Window(QtWidgets.QMainWindow):#, **kwargs): # kwargs needed?
 
     test_bool = True
 
@@ -68,21 +68,29 @@ class Setup_Welcome_Window(QtWidgets.QWidget):#, **kwargs): # kwargs needed?
 
         #     # print("finished transition")
 
+        def temp_fnc_1():
+
+            self.test_window.deleteLater()
+            self.welcome_qLabel.deleteLater()
+            self.test_window.deleteLater()
+            Helper_Functions.display_window_contents(self)
+
     ###################### end welcome window functions #################
 
         # test window frame
-        test_window = QFrame(self)
-        test_window.setFrameShape(QFrame.StyledPanel)
-        test_window.setFixedSize(300, 300)
+        self.test_window = QFrame(self)
+        self.test_window.setFrameShape(QFrame.StyledPanel)
+        self.test_window.setFixedSize(300, 300)
 
         # test QLabel
-        xy_scan_x_voltage_min_widget = QLabel("Welcome Window", self) # widget
-        xy_scan_x_voltage_min_widget.setParent(test_window)
-        xy_scan_x_voltage_min_widget.move(25, 90)
+        self.welcome_qLabel = QLabel("Welcome Window", self) # widget
+        self.welcome_qLabel.setParent(self.test_window)
+        self.welcome_qLabel.move(25, 90)
 
         # test change window button
-        test_button = QPushButton("click me!", self) # button
-        test_button.setParent(test_window)
-        test_button.resize(60, 40)
-        test_button.move(80, 110)
-        test_button.clicked.connect(Helper_Functions.display_welcome_window) #
+        self.test_button = QPushButton("click me!", self) # button
+        self.test_button.setParent(self.test_window)
+        self.test_button.resize(60, 40)
+        self.test_button.move(80, 110)
+        # test_button.clicked.connect(Helper_Functions.display_window_contents(self)) #
+        self.test_button.clicked.connect(temp_fnc_1)
