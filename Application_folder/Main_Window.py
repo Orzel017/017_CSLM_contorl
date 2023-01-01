@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 12-30-2022
+Last modifed: 12-31-2022
 Original author: MDA
 Last modified by: MDA
 

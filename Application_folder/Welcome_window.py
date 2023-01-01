@@ -5,7 +5,7 @@ Contents: wlecome window content (and brief tutorial messages?)
 
 Dates:
 Originally created: 12-30-2022
-Last modifed: 12-30-2022
+Last modifed: 12-31-2022
 Original author: MDA
 Last modified by: MDA
 
@@ -70,9 +70,11 @@ class Setup_Welcome_Window(QtWidgets.QMainWindow):#, **kwargs): # kwargs needed?
 
         def temp_fnc_1():
 
-            self.test_window.deleteLater()
-            self.welcome_qLabel.deleteLater()
-            self.test_window.deleteLater()
+            self.test_window.hide()
+            self.welcome_qLabel.hide()
+            self.test_window.hide()
+            # print("****")
+            # Setup_Welcome_Window.hide()
             Helper_Functions.display_window_contents(self)
 
     ###################### end welcome window functions #################

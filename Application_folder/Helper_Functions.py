@@ -1,6 +1,7 @@
 """
 text
 
+123022 - 123122
 
 """
 
@@ -10,13 +11,17 @@ from Welcome_window import Setup_Welcome_Window
 
 from Window_Contents import Setup_Main_Window_Contents
 
+# from Main_Window import Setup_Main_Window_Background
+
 def display_welcome_window(self):
 
     print("display welcome called")
 
     # Setup_Welcome_Window()
 
-    self.setCentralWidget(Setup_Welcome_Window(parent = None))
+    self.welcome_window_contents = Setup_Welcome_Window(parent = None)
+
+    self.setCentralWidget(self.welcome_window_contents)
 
     # item = Setup_Welcome_Window(parent = None)
 
@@ -28,6 +33,12 @@ def display_window_contents(self):
 
     print("display window contents called")
 
-    self.setCentralWidget(Setup_Main_Window_Contents(parent = None))
+    # Setup_Welcome_Window.hide()
+
+    self.window_contents_child = Setup_Main_Window_Contents(parent = None)
+
+    self.setCentralWidget(self.window_contents_child)
+
+    # self.window_contents_child.show()
 
     print("window contents displayed (?)")

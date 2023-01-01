@@ -5,7 +5,7 @@ Contents: main window content (curently including scanning scripts -this will be
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 12-30-2022
+Last modifed: 12-31-2022
 Original author: MDA
 Last modified by: MDA
 
@@ -74,7 +74,7 @@ class Setup_Main_Window_Contents(QtWidgets.QWidget):#, **kwargs): # kwargs neede
 
         super().__init__(parent)
 
-        hbox = QHBoxLayout(self)
+        self.hbox = QHBoxLayout(self)
 
         plotwin = pg.GraphicsLayoutWidget(show = True)
 
@@ -950,9 +950,9 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                     break # exit the checking loop: passed
 
         ############################################################# left half window #####################################################################
-        left_window = QFrame(self)
-        left_window.setFrameShape(QFrame.StyledPanel)
-        left_window.setFixedSize(340, 430)
+        self.left_window = QFrame(self)
+        self.left_window.setFrameShape(QFrame.StyledPanel)
+        self.left_window.setFixedSize(340, 430)
 
         # QTextEdit display for printing scan parameters to GUI window
         """
@@ -965,22 +965,22 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         2. The info printed to this QTextBox could also and/or be saved to an external file for record/documentation
         """
 
-        self.parameters_dsiplay_text_box = QTextEdit(left_window)
-        self.parameters_dsiplay_text_box.resize(320, 113)
-        self.parameters_dsiplay_text_box.move(10, 309)
-        self.parameters_dsiplay_text_box.setParent(left_window)
+        parameters_dsiplay_text_box = QTextEdit(self.left_window)
+        parameters_dsiplay_text_box.resize(320, 113)
+        parameters_dsiplay_text_box.move(10, 309)
+        parameters_dsiplay_text_box.setParent(self.left_window)
 
         ############################################################### right half window ###################################################################
-        right_window = QFrame(self)
-        right_window.setFrameShape(QFrame.StyledPanel)
-        right_window.setFixedSize(430, 430)
+        self.right_window = QFrame(self)
+        self.right_window.setFrameShape(QFrame.StyledPanel)
+        self.right_window.setFixedSize(430, 430)
 
         ##################################################### plot in right window ##################################################################
 
         plot_res = 3.89
         self.sc = MplCanvas(self, canvas_width = plot_res, canvas_height = plot_res, canvas_dpi = 110)                                                                      # changing dpi does something to scale of figure
         self.sc.move(2, 2)
-        self.sc.setParent(right_window)
+        self.sc.setParent(self.right_window)
         self.sc.axes.xaxis.set_tick_params(labelsize = 8)
         self.sc.axes.yaxis.set_tick_params(labelsize = 8)
         # self.sc.fig.colorbar(plot, ax = self.sc.axes)
@@ -990,11 +990,11 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
         ############################################################# split left and right windows #########################################################
         
-        splitter1 = QSplitter(Qt.Horizontal)
-        splitter1.addWidget(left_window)
-        splitter1.addWidget(right_window)
-        hbox.addWidget(splitter1) # set layout and show window
-        self.setLayout(hbox)
+        self.splitter1 = QSplitter(Qt.Horizontal)
+        self.splitter1.addWidget(self.left_window)
+        self.splitter1.addWidget(self.right_window)
+        self.hbox.addWidget(self.splitter1) # set layout and show window
+        self.setLayout(self.hbox)
         self.show()
 
         ############################################################# scanning (XY, XZ, & YZ) section ############################################################################
@@ -1002,19 +1002,19 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         ##################################### overall ####################################
 
         ############ begin save data section ###############
-        save_scan_data_button = QPushButton("Save scan data:", self) # create the save scan data button
-        save_scan_data_button.setParent(left_window) # set the "parent" bound of the save scan data button
-        save_scan_data_button.resize(90, 20) # resize the save scan data button
-        save_scan_data_button.move(10, 280) # position the save scan data button in the left winodw
-        save_scan_data_button.clicked.connect(save_scan_data_fnc)
+        self.save_scan_data_button = QPushButton("Save scan data:", self) # create the save scan data button
+        self.save_scan_data_button.setParent(self.left_window) # set the "parent" bound of the save scan data button
+        self.save_scan_data_button.resize(90, 20) # resize the save scan data button
+        self.save_scan_data_button.move(10, 280) # position the save scan data button in the left winodw
+        self.save_scan_data_button.clicked.connect(save_scan_data_fnc)
 
         save_scan_data_qlineedit = QLineEdit(self) # qlineedit
-        save_scan_data_qlineedit.setParent(left_window)
+        save_scan_data_qlineedit.setParent(self.left_window)
         save_scan_data_qlineedit.resize(189, 20)
         save_scan_data_qlineedit.move(105, 280)
 
         save_scan_data_extension_widget = QLabel("\".npy\"", self) # widget
-        save_scan_data_extension_widget.setParent(left_window),
+        save_scan_data_extension_widget.setParent(self.left_window),
         save_scan_data_extension_widget.move(297, 288 - 5)
         ############ bendegin save data section ###############
 
@@ -1040,7 +1040,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         # scan_widget_overall = QWebEngineView()
         # scan_widget_overall.setHtml(pageSource)
         scan_widget_overall.setFont(QFont("Times font", 9))
-        scan_widget_overall.setParent(left_window)
+        scan_widget_overall.setParent(self.left_window)
         scan_widget_overall.move(120, 10)
         # scan_widget_overall.move(30, 10)
 
@@ -1058,88 +1058,90 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         xy_scan_parameters_validated_Q = False
 
         # XY scan
-        xy_scan_label_widget = QLabel("XY scan", self) # widget
-        xy_scan_label_widget.setParent(left_window)
-        xy_scan_label_widget.move(12 + 10, indiv_scan_labels_y_height + overall_y_adjust)
+        self.xy_scan_label_widget = QLabel("XY scan", self) # widget
+        self.xy_scan_label_widget.setParent(self.left_window)
+        self.xy_scan_label_widget.move(12 + 10, indiv_scan_labels_y_height + overall_y_adjust)
+        self.xy_scan_label_widget.show()
 
         # resolution
         xy_scan_resolution_widget = QLabel("Res:", self) # widget
-        xy_scan_resolution_widget.setParent(left_window)
+        xy_scan_resolution_widget.setParent(self.left_window)
         xy_scan_resolution_widget.move(xy_scan_widgets_left_x_justify, 40 + row_y_adjust + overall_y_adjust)
+        xy_scan_resolution_widget.show()
 
         xy_scan_resolution_qlineedit = QLineEdit(self) # qclineedit
-        xy_scan_resolution_qlineedit.setParent(left_window)
+        xy_scan_resolution_qlineedit.setParent(self.left_window)
         xy_scan_resolution_qlineedit.move(30, 40 + row_y_adjust + overall_y_adjust)
         xy_scan_resolution_qlineedit.resize(55, 15)
         xy_scan_resolution_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         # read time
         xy_scan_read_time_widget = QLabel("APD_t:", self) # widget
-        xy_scan_read_time_widget.setParent(left_window)
+        xy_scan_read_time_widget.setParent(self.left_window)
         xy_scan_read_time_widget.move(xy_scan_widgets_left_x_justify, 65 + row_y_adjust + overall_y_adjust)
 
         xy_scan_read_time_qlineedit = QLineEdit(self) # qclineedit
-        xy_scan_read_time_qlineedit.setParent(left_window)
+        xy_scan_read_time_qlineedit.setParent(self.left_window)
         xy_scan_read_time_qlineedit.move(40, 65 + row_y_adjust + overall_y_adjust)
         xy_scan_read_time_qlineedit.resize(45, 15)
         xy_scan_read_time_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
         
         # x voltage (min and max)
         xy_scan_x_voltage_min_widget = QLabel("x_V_min:", self) # widget
-        xy_scan_x_voltage_min_widget.setParent(left_window)
+        xy_scan_x_voltage_min_widget.setParent(self.left_window)
         xy_scan_x_voltage_min_widget.move(xy_scan_widgets_left_x_justify, 90 + row_y_adjust + overall_y_adjust)
 
         xy_scan_x_voltage_min_qlineedit = QLineEdit(self) # qclineedit
-        xy_scan_x_voltage_min_qlineedit.setParent(left_window)
+        xy_scan_x_voltage_min_qlineedit.setParent(self.left_window)
         xy_scan_x_voltage_min_qlineedit.move(50, 90 + row_y_adjust + overall_y_adjust)
         xy_scan_x_voltage_min_qlineedit.resize(35, 15)
         xy_scan_x_voltage_min_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         xy_scan_x_voltage_max_widget = QLabel("x_V_max:", self) # widget
-        xy_scan_x_voltage_max_widget.setParent(left_window)
+        xy_scan_x_voltage_max_widget.setParent(self.left_window)
         xy_scan_x_voltage_max_widget.move(xy_scan_widgets_left_x_justify, 115 + row_y_adjust + overall_y_adjust)
 
         xy_scan_x_voltage_max_qlineedit = QLineEdit(self) # qclineedit
-        xy_scan_x_voltage_max_qlineedit.setParent(left_window)
+        xy_scan_x_voltage_max_qlineedit.setParent(self.left_window)
         xy_scan_x_voltage_max_qlineedit.move(55, 115 + row_y_adjust + overall_y_adjust)
         xy_scan_x_voltage_max_qlineedit.resize(30, 15)
         xy_scan_x_voltage_max_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         # y voltage (min and max)
         xy_scan_y_voltage_min_widget = QLabel("y_V_min:", self) # widget
-        xy_scan_y_voltage_min_widget.setParent(left_window)
+        xy_scan_y_voltage_min_widget.setParent(self.left_window)
         xy_scan_y_voltage_min_widget.move(xy_scan_widgets_left_x_justify, 140 + row_y_adjust + overall_y_adjust)
 
         xy_scan_y_voltage_min_qlineedit = QLineEdit(self) # qclineedit
-        xy_scan_y_voltage_min_qlineedit.setParent(left_window)
+        xy_scan_y_voltage_min_qlineedit.setParent(self.left_window)
         xy_scan_y_voltage_min_qlineedit.move(50, 140 + row_y_adjust + overall_y_adjust)
         xy_scan_y_voltage_min_qlineedit.resize(35, 15)
         xy_scan_y_voltage_min_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         xy_scan_y_voltage_max_widget = QLabel("y_V_max:", self) # widget
-        xy_scan_y_voltage_max_widget.setParent(left_window)
+        xy_scan_y_voltage_max_widget.setParent(self.left_window)
         xy_scan_y_voltage_max_widget.move(xy_scan_widgets_left_x_justify, 165 + row_y_adjust + overall_y_adjust)
 
         xy_scan_y_voltage_max_qlineedit = QLineEdit(self) # qclineedit
-        xy_scan_y_voltage_max_qlineedit.setParent(left_window)
+        xy_scan_y_voltage_max_qlineedit.setParent(self.left_window)
         xy_scan_y_voltage_max_qlineedit.move(55, 165 + row_y_adjust + overall_y_adjust)
         xy_scan_y_voltage_max_qlineedit.resize(30, 15)
         xy_scan_y_voltage_max_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
         
         # z piezo
         xy_scan_z_piezo_voltage_widget = QLabel("z_V:", self) # widget
-        xy_scan_z_piezo_voltage_widget.setParent(left_window)
+        xy_scan_z_piezo_voltage_widget.setParent(self.left_window)
         xy_scan_z_piezo_voltage_widget.move(xy_scan_widgets_left_x_justify, 190 + row_y_adjust + overall_y_adjust)
 
         xy_scan_z_piezo_voltage_qlineedit = QLineEdit(self) # qclineedit
-        xy_scan_z_piezo_voltage_qlineedit.setParent(left_window)
+        xy_scan_z_piezo_voltage_qlineedit.setParent(self.left_window)
         xy_scan_z_piezo_voltage_qlineedit.move(30, 190 + row_y_adjust + overall_y_adjust)
         xy_scan_z_piezo_voltage_qlineedit.resize(55, 15)
         xy_scan_z_piezo_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         # run xy scan button
         xy_scan_run_button = QPushButton("run\nXY scan", self) # button
-        xy_scan_run_button.setParent(left_window)
+        xy_scan_run_button.setParent(self.left_window)
         xy_scan_run_button.resize(60, 40)
         xy_scan_run_button.move(10, 215 + row_y_adjust + overall_y_adjust)
         xy_scan_run_button.clicked.connect(xy_scan_resolution_validation_fnc) # this framework is limited currently to only validating resolution
@@ -1152,87 +1154,87 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
         # scan widget 2 "XZ"
         scan_widget_2 = QLabel("XZ scan", self)
-        scan_widget_2.setParent(left_window)
+        scan_widget_2.setParent(self.left_window)
         scan_widget_2.move(145 + 5, indiv_scan_labels_y_height + overall_y_adjust)
 
         # resolution
         xz_scan_resolution_widget = QLabel("Res:", self) # widget
-        xz_scan_resolution_widget.setParent(left_window)
+        xz_scan_resolution_widget.setParent(self.left_window)
         xz_scan_resolution_widget.move(xz_scan_widgets_left_x_justify, 40 + row_y_adjust + overall_y_adjust)
 
         xz_scan_resolution_qlineedit = QLineEdit(self) # qclineedit
-        xz_scan_resolution_qlineedit.setParent(left_window)
+        xz_scan_resolution_qlineedit.setParent(self.left_window)
         xz_scan_resolution_qlineedit.move(25 + xz_scan_widgets_left_x_justify, 40 + row_y_adjust + overall_y_adjust)
         xz_scan_resolution_qlineedit.resize(55, 15)
         xz_scan_resolution_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         # read time
         xz_scan_read_time_widget = QLabel("APD_t:", self) # widget
-        xz_scan_read_time_widget.setParent(left_window)
+        xz_scan_read_time_widget.setParent(self.left_window)
         xz_scan_read_time_widget.move(xz_scan_widgets_left_x_justify, 65 + row_y_adjust + overall_y_adjust)
 
         xz_scan_read_time_qlineedit = QLineEdit(self) # qclineedit
-        xz_scan_read_time_qlineedit.setParent(left_window)
+        xz_scan_read_time_qlineedit.setParent(self.left_window)
         xz_scan_read_time_qlineedit.move(35 + xz_scan_widgets_left_x_justify, 65 + row_y_adjust + overall_y_adjust)
         xz_scan_read_time_qlineedit.resize(45, 15)
         xz_scan_read_time_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
         
         # x voltage (min and max)
         xz_scan_x_voltage_min_widget = QLabel("x_V_min:", self) # widget
-        xz_scan_x_voltage_min_widget.setParent(left_window)
+        xz_scan_x_voltage_min_widget.setParent(self.left_window)
         xz_scan_x_voltage_min_widget.move(xz_scan_widgets_left_x_justify, 90 + row_y_adjust + overall_y_adjust)
 
         xz_scan_x_voltage_min_qlineedit = QLineEdit(self) # qclineedit
-        xz_scan_x_voltage_min_qlineedit.setParent(left_window)
+        xz_scan_x_voltage_min_qlineedit.setParent(self.left_window)
         xz_scan_x_voltage_min_qlineedit.move(45 + xz_scan_widgets_left_x_justify, 90 + row_y_adjust + overall_y_adjust)
         xz_scan_x_voltage_min_qlineedit.resize(35, 15)
         xz_scan_x_voltage_min_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         xz_scan_x_voltage_max_widget = QLabel("x_V_max:", self) # widget
-        xz_scan_x_voltage_max_widget.setParent(left_window)
+        xz_scan_x_voltage_max_widget.setParent(self.left_window)
         xz_scan_x_voltage_max_widget.move(xz_scan_widgets_left_x_justify, 115 + row_y_adjust + overall_y_adjust)
 
         xz_scan_x_voltage_max_qlineedit = QLineEdit(self) # qclineedit
-        xz_scan_x_voltage_max_qlineedit.setParent(left_window)
+        xz_scan_x_voltage_max_qlineedit.setParent(self.left_window)
         xz_scan_x_voltage_max_qlineedit.move(50 + xz_scan_widgets_left_x_justify, 115 + row_y_adjust + overall_y_adjust)
         xz_scan_x_voltage_max_qlineedit.resize(30, 15)
         xz_scan_x_voltage_max_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         # y voltage single setting
         xz_scan_y_voltage_widget = QLabel("y_V:", self) # widget
-        xz_scan_y_voltage_widget.setParent(left_window)
+        xz_scan_y_voltage_widget.setParent(self.left_window)
         xz_scan_y_voltage_widget.move(xz_scan_widgets_left_x_justify, 140 + row_y_adjust + overall_y_adjust)
 
         xz_scan_y_voltage_qlineedit = QLineEdit(self) # qclineedit
-        xz_scan_y_voltage_qlineedit.setParent(left_window)
+        xz_scan_y_voltage_qlineedit.setParent(self.left_window)
         xz_scan_y_voltage_qlineedit.move(25 + xz_scan_widgets_left_x_justify, 140 + row_y_adjust + overall_y_adjust)
         xz_scan_y_voltage_qlineedit.resize(55, 15)
         xz_scan_y_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
                                 
         # z piezo (min and max)
         xz_scan_z_piezo_min_voltage_widget = QLabel("z_V_min:", self) # widget
-        xz_scan_z_piezo_min_voltage_widget.setParent(left_window)
+        xz_scan_z_piezo_min_voltage_widget.setParent(self.left_window)
         xz_scan_z_piezo_min_voltage_widget.move(xz_scan_widgets_left_x_justify, 165 + row_y_adjust + overall_y_adjust)
 
         xz_scan_z_piezo_min_voltage_qlineedit = QLineEdit(self) # qclineedit
-        xz_scan_z_piezo_min_voltage_qlineedit.setParent(left_window)
+        xz_scan_z_piezo_min_voltage_qlineedit.setParent(self.left_window)
         xz_scan_z_piezo_min_voltage_qlineedit.move(45 + xz_scan_widgets_left_x_justify, 165 + row_y_adjust + overall_y_adjust)
         xz_scan_z_piezo_min_voltage_qlineedit.resize(35, 15)
         xz_scan_z_piezo_min_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         xz_scan_z_piezo_max_voltage_widget = QLabel("z_V_max:", self) # widget
-        xz_scan_z_piezo_max_voltage_widget.setParent(left_window)
+        xz_scan_z_piezo_max_voltage_widget.setParent(self.left_window)
         xz_scan_z_piezo_max_voltage_widget.move(xz_scan_widgets_left_x_justify, 190 + row_y_adjust + overall_y_adjust)
 
         xz_scan_z_piezo_max_voltage_qlineedit = QLineEdit(self) # qclineedit
-        xz_scan_z_piezo_max_voltage_qlineedit.setParent(left_window)
+        xz_scan_z_piezo_max_voltage_qlineedit.setParent(self.left_window)
         xz_scan_z_piezo_max_voltage_qlineedit.move(50 + xz_scan_widgets_left_x_justify, 190 + row_y_adjust + overall_y_adjust)
         xz_scan_z_piezo_max_voltage_qlineedit.resize(30, 15)
         xz_scan_z_piezo_max_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         # run xz scan button
         xz_scan_run_button = QPushButton("run\nXZ scan", self) # button
-        xz_scan_run_button.setParent(left_window)
+        xz_scan_run_button.setParent(self.left_window)
         xz_scan_run_button.resize(60, 40)
         xz_scan_run_button.move(10 + xz_scan_widgets_left_x_justify, 215 + row_y_adjust + overall_y_adjust)
         xz_scan_run_button.clicked.connect(xz_scan_resolution_validation_fnc) # this framework is limited currently to only validating resolution
@@ -1245,87 +1247,87 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
         # scan widget 3 "YZ"
         scan_widget_3 = QLabel("YZ scan", self)
-        scan_widget_3.setParent(left_window)
+        scan_widget_3.setParent(self.left_window)
         scan_widget_3.move(265 + 14, indiv_scan_labels_y_height + overall_y_adjust)
 
         # resolution
         yz_scan_resolution_widget = QLabel("Res:", self) # widget
-        yz_scan_resolution_widget.setParent(left_window)
+        yz_scan_resolution_widget.setParent(self.left_window)
         yz_scan_resolution_widget.move(yz_scan_widgets_left_x_justify, 40 + row_y_adjust + overall_y_adjust)
 
         yz_scan_resolution_qlineedit = QLineEdit(self) # qclineedit
-        yz_scan_resolution_qlineedit.setParent(left_window)
+        yz_scan_resolution_qlineedit.setParent(self.left_window)
         yz_scan_resolution_qlineedit.move(25 + yz_scan_widgets_left_x_justify, 40 + row_y_adjust + overall_y_adjust)
         yz_scan_resolution_qlineedit.resize(55, 15)
         yz_scan_resolution_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         # read time
         yz_scan_read_time_widget = QLabel("APD_t:", self) # widget
-        yz_scan_read_time_widget.setParent(left_window)
+        yz_scan_read_time_widget.setParent(self.left_window)
         yz_scan_read_time_widget.move(yz_scan_widgets_left_x_justify, 65 + row_y_adjust + overall_y_adjust)
 
         yz_scan_read_time_qlineedit = QLineEdit(self) # qclineedit
-        yz_scan_read_time_qlineedit.setParent(left_window)
+        yz_scan_read_time_qlineedit.setParent(self.left_window)
         yz_scan_read_time_qlineedit.move(35 + yz_scan_widgets_left_x_justify, 65 + row_y_adjust + overall_y_adjust)
         yz_scan_read_time_qlineedit.resize(45, 15)
         yz_scan_read_time_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
         
         # y voltage (min and max)
         yz_scan_y_voltage_min_widget = QLabel("y_V_min:", self) # widget
-        yz_scan_y_voltage_min_widget.setParent(left_window)
+        yz_scan_y_voltage_min_widget.setParent(self.left_window)
         yz_scan_y_voltage_min_widget.move(yz_scan_widgets_left_x_justify, 90 + row_y_adjust + overall_y_adjust)
 
         yz_scan_y_voltage_min_qlineedit = QLineEdit(self) # qclineedit
-        yz_scan_y_voltage_min_qlineedit.setParent(left_window)
+        yz_scan_y_voltage_min_qlineedit.setParent(self.left_window)
         yz_scan_y_voltage_min_qlineedit.move(45 + yz_scan_widgets_left_x_justify, 90 + row_y_adjust + overall_y_adjust)
         yz_scan_y_voltage_min_qlineedit.resize(35, 15)
         yz_scan_y_voltage_min_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         yz_scan_y_voltage_max_widget = QLabel("y_V_max:", self) # widget
-        yz_scan_y_voltage_max_widget.setParent(left_window)
+        yz_scan_y_voltage_max_widget.setParent(self.left_window)
         yz_scan_y_voltage_max_widget.move(yz_scan_widgets_left_x_justify, 115 + row_y_adjust + overall_y_adjust)
 
         yz_scan_y_voltage_max_qlineedit = QLineEdit(self) # qclineedit
-        yz_scan_y_voltage_max_qlineedit.setParent(left_window)
+        yz_scan_y_voltage_max_qlineedit.setParent(self.left_window)
         yz_scan_y_voltage_max_qlineedit.move(50 + yz_scan_widgets_left_x_justify, 115 + row_y_adjust + overall_y_adjust)
         yz_scan_y_voltage_max_qlineedit.resize(30, 15)
         yz_scan_y_voltage_max_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         # x voltage single setting
         yz_scan_x_voltage_widget = QLabel("x_V:", self) # widget
-        yz_scan_x_voltage_widget.setParent(left_window)
+        yz_scan_x_voltage_widget.setParent(self.left_window)
         yz_scan_x_voltage_widget.move(yz_scan_widgets_left_x_justify, 140 + row_y_adjust + overall_y_adjust)
 
         yz_scan_x_voltage_qlineedit = QLineEdit(self) # qclineedit
-        yz_scan_x_voltage_qlineedit.setParent(left_window)
+        yz_scan_x_voltage_qlineedit.setParent(self.left_window)
         yz_scan_x_voltage_qlineedit.move(25 + yz_scan_widgets_left_x_justify, 140 + row_y_adjust + overall_y_adjust)
         yz_scan_x_voltage_qlineedit.resize(55, 15)
         yz_scan_x_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
                                 
         # z piezo (min and max)
         yz_scan_z_piezo_min_voltage_widget = QLabel("z_V_min:", self) # widget
-        yz_scan_z_piezo_min_voltage_widget.setParent(left_window)
+        yz_scan_z_piezo_min_voltage_widget.setParent(self.left_window)
         yz_scan_z_piezo_min_voltage_widget.move(yz_scan_widgets_left_x_justify, 165 + row_y_adjust + overall_y_adjust)
 
         yz_scan_z_piezo_min_voltage_qlineedit = QLineEdit(self) # qclineedit
-        yz_scan_z_piezo_min_voltage_qlineedit.setParent(left_window)
+        yz_scan_z_piezo_min_voltage_qlineedit.setParent(self.left_window)
         yz_scan_z_piezo_min_voltage_qlineedit.move(45 + yz_scan_widgets_left_x_justify, 165 + row_y_adjust + overall_y_adjust)
         yz_scan_z_piezo_min_voltage_qlineedit.resize(35, 15)
         yz_scan_z_piezo_min_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         yz_scan_z_piezo_max_voltage_widget = QLabel("z_V_max:", self) # widget
-        yz_scan_z_piezo_max_voltage_widget.setParent(left_window)
+        yz_scan_z_piezo_max_voltage_widget.setParent(self.left_window)
         yz_scan_z_piezo_max_voltage_widget.move(yz_scan_widgets_left_x_justify, 190 + row_y_adjust + overall_y_adjust)
 
         yz_scan_z_piezo_max_voltage_qlineedit = QLineEdit(self) # qclineedit
-        yz_scan_z_piezo_max_voltage_qlineedit.setParent(left_window)
+        yz_scan_z_piezo_max_voltage_qlineedit.setParent(self.left_window)
         yz_scan_z_piezo_max_voltage_qlineedit.move(50 + yz_scan_widgets_left_x_justify, 190 + row_y_adjust + overall_y_adjust)
         yz_scan_z_piezo_max_voltage_qlineedit.resize(30, 15)
         yz_scan_z_piezo_max_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
         # run yz scan button
         yz_scan_run_button = QPushButton("run\nYZ scan", self) # button
-        yz_scan_run_button.setParent(left_window)
+        yz_scan_run_button.setParent(self.left_window)
         yz_scan_run_button.resize(60, 40)
         yz_scan_run_button.move(15 + yz_scan_widgets_left_x_justify, 215 + row_y_adjust + overall_y_adjust)
         yz_scan_run_button.clicked.connect(yz_scan_resolution_validation_fnc) # this framework is limited currently to only validating resolution
