@@ -1,44 +1,45 @@
 """
-text
+File name: "Helper_Functions.py"
 
-123022 - 123122
+Contents: multiple helper fuctions for use within multiple files (applications are currently displaying different windows only)
 
+Dates:
+Originally created: 12-30-2022
+Last modifed: 01-02-2023
+Original author: MDA
+Last modified by: MDA
+
+Notes: there seems to be no reason to separate these functions any further than accessing them all from one file (this file)
+
+TODO:
+*
 """
 
-# import Main_Window
+############################################################################################## start imports ##########################################################################################
 
-from Welcome_window import Setup_Welcome_Window
+# imports below are only from other files within application_folder
+from Welcome_window import Setup_Welcome_Window # import `Setup_Welcome_Window` from "Welcome_window"
 
-from Window_Contents import Setup_Main_Window_Contents
+from Window_Contents import Setup_Main_Window_Contents # import `Setup_Main_Window_Contents` from "Window_Contents"
 
-# from Main_Window import Setup_Main_Window_Background
+############################################################################################# end imports #############################################################################################
 
-def display_welcome_window(self):
+def display_welcome_window(self): # define display_welcome_window to display the welcome window contents on the Main_Window
 
-    print("display welcome called")
+    # print("display welcome called")                                                                                                                                       # temporary print statement
 
-    # Setup_Welcome_Window()
+    self.welcome_window_contents = Setup_Welcome_Window(parent = None) # designate welcome_window_contents by calling `Setup_Welcome_Window()`
 
-    self.welcome_window_contents = Setup_Welcome_Window(parent = None)
+    self.setCentralWidget(self.welcome_window_contents) # dispaly welcome window contents by setting the central widget
 
-    self.setCentralWidget(self.welcome_window_contents)
+    # print("welcome displayed (?)")                                                                                                                                        # temporary print statement
 
-    # item = Setup_Welcome_Window(parent = None)
+def display_window_contents(self): # define display_window_contents to display the main window contents on the Main_Window
 
-    # Main_Window.Setup_Main_Window_Background.setCentralWidget(item)
+    # print("display window contents called")                                                                                                                               # temporary print statement
 
-    print("welcome displayed (?)")
+    self.main_window_contents = Setup_Main_Window_Contents(parent = None) # designated the main window contents by calling `Setup_Main_Window_Contents()`
 
-def display_window_contents(self):
+    self.setCentralWidget(self.main_window_contents) # display main window contents by setting the central widget
 
-    print("display window contents called")
-
-    # Setup_Welcome_Window.hide()
-
-    self.window_contents_child = Setup_Main_Window_Contents(parent = None)
-
-    self.setCentralWidget(self.window_contents_child)
-
-    # self.window_contents_child.show()
-
-    print("window contents displayed (?)")
+    # print("window contents displayed (?)")                                                                                                                                # temporary print statement

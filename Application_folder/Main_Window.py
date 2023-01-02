@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 12-31-2022
+Last modifed: 01-02-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -37,7 +37,7 @@ from Window_Contents import Setup_Main_Window_Contents # import `Setup_Main_Wind
 
 # from Helper_Functions import display_welcome_window
 
-import Helper_Functions
+import Helper_Functions # import all functions within "Helper_Functions.py"
 
 ######################################################################################### end imports #################################################################################################
 
@@ -75,32 +75,11 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
 
         ############################################################################## start GUI main window prelims ##################################################################################
 
-        # self.child_widget = Setup_Main_Window_Contents(parent = self) # designate the child widget
-
-        # self.setCentralWidget(self.child_widget) # setting the central widget of the main window (Setup_Main_Window_Background class) to the Child class
-
-        # print("hello world")
-
-        # self.first_child_widget = Setup_Welcome_Window(parent = self) # designate first child widget
-
-        # self.setCentralWidget(self.first_child_widget) # setting the first centrtal widget of the main window
-
-        # self.second_child_widget = Setup_Main_Window_Contents(parent = self)
-
-        # print("displayed welcome window")
-
-        # print("moved on...")
-
-        # print("test_bool is: %s" % Welcome_window.test_bool)
-
-        # if Welcome_window.Setup_Welcome_Window.test_bool == False:
-        #     print("(main) False!")
-        # else:
-        #     print("(main) True!")
+        # LOCATION where old `.setCentralWidget()` display was for the main window contents
 
         # overall application dimensions
-        gui_window_height = 470 # define the main window height
-        gui_window_width = 800 # define the main window width
+        gui_window_height = 500 # define the main window height. Old was 470
+        gui_window_width = 1000 # define the main window width. Old was 800
 
         self.setGeometry(400, 200, gui_window_width, gui_window_height) # `.setgeometry()` function arguments run: x-coord, y-coord, width, height
 
@@ -165,6 +144,8 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
 
         ############################################################################################ end menu bar #####################################################################################
 
-        Helper_Functions.display_welcome_window(self)
+        ############################################################################### start return to general class code ############################################################################
 
-################################################################################## end `Setup_Main_Window_Background` class ###########################################################################
+        Helper_Functions.display_welcome_window(self) # display the welcome window contents
+
+        ################################################################################ end return to general class code #############################################################################
