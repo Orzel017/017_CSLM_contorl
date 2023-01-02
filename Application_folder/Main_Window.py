@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 12-22-2022
+Last modifed: 01-02-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -28,9 +28,16 @@ from PyQt5.QtWidgets import qApp # import qApp for inner-app functionality (used
 
 from PyQt5 import QtCore # import QtCore for viewing on high-dpi resolution monitors
 
-from About_Window import Make_About_Window # import `Make_About_Window` from the "About_Window.py" file for dispalying the About window accessed from the Help menu bar item
+from About_Window import Make_About_Window # import `Make_About_Window` from the "About_Window.py" file for displaying the About window accessed from the Help menu bar item
+
+# import Welcome_window
+# from Welcome_window import Setup_Welcome_Window # `Setup_Welcome_Window` from the "Welcome_Window.py" file for displaying the welcome user contents
 
 from Window_Contents import Setup_Main_Window_Contents # import `Setup_Main_Window_Contents` class from the file "Class_file.py" to setup and build the contents of the application
+
+# from Helper_Functions import display_welcome_window
+
+import Helper_Functions # import all functions within "Helper_Functions.py"
 
 ######################################################################################### end imports #################################################################################################
 
@@ -68,13 +75,11 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
 
         ############################################################################## start GUI main window prelims ##################################################################################
 
-        self.child_widget = Setup_Main_Window_Contents(parent = self) # designate the child widget
-
-        self.setCentralWidget(self.child_widget) # setting the central widget of the main window (Setup_Main_Window_Background class) to the Child class
+        # LOCATION where old `.setCentralWidget()` display was for the main window contents
 
         # overall application dimensions
-        gui_window_height = 470 # define the main window height
-        gui_window_width = 800 # define the main window width
+        gui_window_height = 500 # define the main window height. Old was 470
+        gui_window_width = 1000 # define the main window width. Old was 800
 
         self.setGeometry(400, 200, gui_window_width, gui_window_height) # `.setgeometry()` function arguments run: x-coord, y-coord, width, height
 
@@ -83,7 +88,7 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
         self.setMaximumSize(gui_window_width, gui_window_height) # set the main window max size
 
         # asthetics
-        self.setWindowTitle("unique_app_name") # set the title of the main app window
+        self.setWindowTitle("mda_gui") # set the title of the main app window
 
         ################################################################################ end GUI main window prelims ##################################################################################
 
@@ -139,4 +144,8 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
 
         ############################################################################################ end menu bar #####################################################################################
 
-################################################################################## end `Setup_Main_Window_Background` class ###########################################################################
+        ############################################################################### start return to general class code ############################################################################
+
+        Helper_Functions.display_welcome_window(self) # display the welcome window contents
+
+        ################################################################################ end return to general class code #############################################################################
