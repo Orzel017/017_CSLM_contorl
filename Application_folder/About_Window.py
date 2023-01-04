@@ -3,7 +3,7 @@ File name: "About_Window.py"
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 12-22-2022
+Last modifed: 01-02-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -67,7 +67,7 @@ class Make_About_Window(QtWidgets.QMainWindow): # create the class `Make_About_W
         ################################################################################## start content of the aobut window ##########################################################################
 
         # line 1
-        about_window_content_line_1 = QLabel("Application name: need_name!", self) # set line 1 text label
+        about_window_content_line_1 = QLabel("Application name: MDA_gui", self) # set line 1 text label
         about_window_content_line_1.move(0 + about_window_left_justify_adjust, 0 + about_window_top_justify_adjust) # position line 1 text
         about_window_content_line_1.resize(300, 15) # set size of text label (the effect of this is no completely clear)
 

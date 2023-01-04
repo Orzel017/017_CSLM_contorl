@@ -27,6 +27,7 @@ import Helper_Functions # import 'Helper_Functions.py" file
 
 ############################################################################################# end imports #############################################################################################
 
+# define welcome window class
 class Setup_Welcome_Window(QtWidgets.QMainWindow):#, **kwargs): # kwargs needed?
 
     # setup welcome window object

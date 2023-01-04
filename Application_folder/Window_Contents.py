@@ -5,7 +5,7 @@ Contents: main window content (curently including scanning scripts -this will be
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 12-31-2022
+Last modifed: 01-02-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -25,7 +25,7 @@ from nidaqmx.constants import (AcquisitionType, FrequencyUnits, CountDirection, 
 
 import numpy as np # numpy for arrays
 
-import qcodes_contrib_drivers.drivers.NationalInstruments.DAQ as test # this is a speical import from a modified package from QCoDeS
+import qcodes_contrib_drivers.drivers.NationalInstruments.DAQ as test # this is a speical import from a self-modified package from QCoDeS
 
 # MatPlotLib plotting packages
 import matplotlib # generica Matplotlib import
@@ -67,12 +67,13 @@ any_script_run_one_Q = False # global variable for multiple scanning
 
 ############################################################################################ end prelims ##############################################################################################
 
+# define main window contents class
 class Setup_Main_Window_Contents(QtWidgets.QWidget):#, **kwargs): # kwargs needed?
 
-    # ?
+    # define main window contents object?
     def __init__(self, parent = None):#, **kwargs): # kwargs needed?
 
-        super().__init__(parent)
+        super().__init__(parent) # inheritance?
 
         self.hbox = QHBoxLayout(self)
 
