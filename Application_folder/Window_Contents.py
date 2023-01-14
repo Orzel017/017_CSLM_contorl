@@ -5,7 +5,7 @@ Contents: main window content (curently including scanning scripts -this will be
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 01-02-2023
+Last modifed: 01-12-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -25,10 +25,14 @@ from nidaqmx.constants import (AcquisitionType, FrequencyUnits, CountDirection, 
 
 import numpy as np # numpy for arrays
 
-import sys
-sys.path.insert(0, "./Application_folder/Drivers")
-import Drivers
-from Drivers import cDAQ
+# import sys
+# sys.path.insert(0, "./Application_folder/Drivers")
+# import Drivers
+# from Drivers import cDAQ
+
+# from import cDAQ as test
+
+from Drivers import cDAQ as test
 
 # MatPlotLib plotting packages
 import matplotlib # generica Matplotlib import
@@ -84,6 +88,14 @@ class Setup_Main_Window_Contents(QtWidgets.QWidget):#, **kwargs): # kwargs neede
 
         ####################################################################### Setup_Main_Window_Contents functions ##################################################################################
         
+        def zero_galvo_function():
+            zero_galvo_card_name = "cDAQ1Mod2"
+            zero_galvo_ao_channels = {f"{zero_galvo_card_name}/ao{i}": i for i in range(4)}
+            zero_galvo = test.DAQAnalogOutputs("zero_galvo_name", zero_galvo_card_name, zero_galvo_ao_channels)
+            zero_galvo.voltage_cdaq1mod2ao0(0.0)
+            zero_galvo.voltage_cdaq1mod2ao0(0.0)
+            zero_galvo.close()
+
         ########## overall #################
 
         # display invalid resolution error window fnc
@@ -143,10 +155,10 @@ class Setup_Main_Window_Contents(QtWidgets.QWidget):#, **kwargs): # kwargs neede
             # print("XY_scan z-piezo driving voltage = %2f." % float(xy_scan_z_piezo_voltage_qlineedit.text()))
 
             # need to clear text box first
-            self.parameters_dsiplay_text_box.clear()
+            parameters_dsiplay_text_box.clear()
 
             # this prints to the QTextBox in the left_window. The output of the user-selected scan parameters is printed below
-            self.parameters_dsiplay_text_box.setPlainText(
+            parameters_dsiplay_text_box.setPlainText(
                                                         "XY_SCAN PARAMETERS/INFO:\n"
                                                         "XY_scan resolution = " + str(int(xy_scan_resolution_qlineedit.text())) + "\n"
                                                         "XY_scan counter read time = " + str(float(xy_scan_read_time_qlineedit.text())) + "\n"
@@ -244,13 +256,13 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                     idle_state = nidaqmx.constants.Level.LOW,
                     initial_delay = 0.0,
                     freq = 1000,
-                    duty_cycle = 0.5
+                    duty_cycle = 0.50
                     )
 
                 # cfg implict timing
                 counter_output_task.timing.cfg_implicit_timing(
                     sample_mode = AcquisitionType.CONTINUOUS,
-                    samps_per_chan = 1
+                    samps_per_chan = 1000000
                     )
 
                 # adding count egdes chan
@@ -268,7 +280,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                     source = "/cDAQ1/Ctr1InternalOutput",
                     active_edge = nidaqmx.constants.Edge.RISING,
                     sample_mode = AcquisitionType.CONTINUOUS,
-                    samps_per_chan = 1
+                    samps_per_chan = 1000000
                     )
                 
                 counter_output_task.start() # this starts the counter NI-DAQmx task
@@ -321,17 +333,17 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                     ##################### updating plot section ####################
                     # self.sc.axes.cla() # this does not seem to be needed
 
-                    self.sc.axes.pcolormesh(xy_scan_data_array, cmap = "inferno")
+                    self.sc.axes.pcolormesh(xy_scan_data_array, cmap = "pink")
                     self.sc.axes.set_xticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_x_driving_voltage, int((initial_x_driving_voltage + desired_end_x_mirror_voltage) / 2), desired_end_x_mirror_voltage])
                     self.sc.axes.set_yticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_y_driving_voltage, int((initial_y_driving_voltage + desired_end_y_mirror_voltage) / 2), desired_end_y_mirror_voltage])
-                    self.sc.axes.xaxis.set_tick_params(labelsize = 8)
-                    self.sc.axes.yaxis.set_tick_params(labelsize = 8)
+                    self.sc.axes.xaxis.set_tick_params(labelsize = 6)
+                    self.sc.axes.yaxis.set_tick_params(labelsize = 6)
 
-                    self.sc.axes.set_xlabel("x_mirror_driving_voltage_(V)", fontsize = 8)
-                    self.sc.axes.set_ylabel("y_mirror_driving_voltage_(V)", fontsize = 8, labelpad = -9)
+                    self.sc.axes.set_xlabel("x_mirror_driving_voltage_(V)", fontsize = 6, labelpad = -2)
+                    self.sc.axes.set_ylabel("y_mirror_driving_voltage_(V)", fontsize = 6, labelpad = -9)
 
-                    self.sc.fig.canvas.draw()
-                    self.sc.fig.canvas.flush_events() #this line is very important
+                    self.sc.figure.canvas.draw()
+                    self.sc.figure.canvas.flush_events() #this line is very important
                     ##################### updating plot section ####################
 
                     if f < (grid_size_y - 1): # this loop prevents from scanning an upper undesired row
@@ -351,20 +363,22 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
             ############################################### plotting XY scan data in plot ####################################################
             
-            # self.sc.fig.clear() # is this needed after implementing live plot updating?
+            # self.sc.figure.clear() # is this needed after implementing live plot updating?
             self.sc.axes.cla()
 
-            plot = self.sc.axes.pcolormesh(xy_scan_data_array, cmap = "inferno")
+            plot = self.sc.axes.pcolormesh(xy_scan_data_array, cmap = "pink")
             self.sc.axes.set_xticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_x_driving_voltage, int((initial_x_driving_voltage + desired_end_x_mirror_voltage) / 2), desired_end_x_mirror_voltage])
             self.sc.axes.set_yticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_y_driving_voltage, int((initial_y_driving_voltage + desired_end_y_mirror_voltage) / 2), desired_end_y_mirror_voltage])
-            self.xy_scan_plot_colorbar = self.sc.fig.colorbar(plot, ax = self.sc.axes, pad = 0.02, aspect = 15)
-            self.xy_scan_plot_colorbar.formatter.set_powerlimits((0, 0))
-            self.sc.axes.xaxis.set_tick_params(labelsize = 8)
-            self.sc.axes.yaxis.set_tick_params(labelsize = 8)
-            self.xy_scan_plot_colorbar.ax.tick_params(labelsize = 7)
-            self.sc.axes.set_xlabel("x_mirror_driving_voltage_(V)", fontsize = 8)
-            self.sc.axes.set_ylabel("y_mirror_driving_voltage_(V)", fontsize = 8, labelpad = -9)
-            self.sc.axes.set_title("XY_scan_%s_z-piezo@%d_microns" % (todays_date, int((z_piezo_set_voltage * 10))), fontsize = 8)
+            
+            # self.xy_scan_plot_colorbar = self.sc.figure.colorbar(plot, ax = self.sc.axes, pad = -2, shrink = 0.5, aspect = 15)
+            # self.xy_scan_plot_colorbar.formatter.set_powerlimits((0, 0))
+            
+            self.sc.axes.xaxis.set_tick_params(labelsize = 6)
+            self.sc.axes.yaxis.set_tick_params(labelsize = 6)
+            # self.xy_scan_plot_colorbar.ax.tick_params(labelsize = 3)
+            self.sc.axes.set_xlabel("x_mirror_driving_voltage_(V)", fontsize = 6, labelpad = -2)
+            self.sc.axes.set_ylabel("y_mirror_driving_voltage_(V)", fontsize = 6, labelpad = -9)
+            self.sc.axes.set_title("XY_scan_%s_z-piezo@%d_microns" % (todays_date, int((z_piezo_set_voltage * 10))), fontsize = 6)
             self.sc.draw()
 
             most_recent_data_array = xy_scan_data_array # make temp holding global data_array the same as xy_scan_data_array
@@ -374,7 +388,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
             self.sc.axes.cla()
 
-            # the try-except frameworks are used to refresh the plotted figs -removing the color bars associated with a previous plotted data
+            # the try-except frameworks are used to refresh the plotted figures -removing the color bars associated with a previous plotted data
             try:
                 self.xy_scan_plot_colorbar.remove()
 
@@ -396,7 +410,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         #################################### resolution checking ##################################
 
             res_min_condition = 20 # set the min allowed resolution for scanning
-            res_max_condition = 900 # set the max allowed resolution for scanning
+            res_max_condition = 2000 # set the max allowed resolution for scanning
 
             xy_scan_resolution_test_condition = False # define resolution validation bool for xy scan
 
@@ -608,8 +622,8 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                     self.sc.axes.yaxis.set_tick_params(labelsize = 8)
                     self.sc.axes.set_xlabel("x_mirror_driving_voltage_(V)", fontsize = 8)
                     self.sc.axes.set_ylabel("objective_z-piezo_height_(microns)", fontsize = 8)
-                    self.sc.fig.canvas.draw()
-                    self.sc.fig.canvas.flush_events()
+                    self.sc.figure.canvas.draw()
+                    self.sc.figure.canvas.flush_events()
                     ##################### updating plot section ####################
 
                     if f < (grid_size - 1): # this loop
@@ -627,7 +641,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
             ############################################### plotting XZ scan data in plot ####################################################
             self.sc.axes.cla()
             xz_scan_plot = self.sc.axes.pcolormesh(xz_scan_data_array, cmap = "inferno")
-            xz_scan_plot_colorbar = self.sc.fig.colorbar(xz_scan_plot, ax = self.sc.axes, pad = 0.02, aspect = 15)
+            xz_scan_plot_colorbar = self.sc.figure.colorbar(xz_scan_plot, ax = self.sc.axes, pad = 0.02, aspect = 15)
             xz_scan_plot_colorbar.formatter.set_powerlimits((0, 0))
             self.sc.axes.xaxis.set_tick_params(labelsize = 8)
             self.sc.axes.yaxis.set_tick_params(labelsize = 8)
@@ -878,8 +892,8 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                     self.sc.axes.yaxis.set_tick_params(labelsize = 8)
                     self.sc.axes.set_xlabel("y_mirror_driving_voltage_(V)", fontsize = 8)
                     self.sc.axes.set_ylabel("objective_z-piezo_height_(microns)", fontsize = 8)
-                    self.sc.fig.canvas.draw()
-                    self.sc.fig.canvas.flush_events()
+                    self.sc.figure.canvas.draw()
+                    self.sc.figure.canvas.flush_events()
                     ##################### updating plot section ####################
 
                     if f < (grid_size - 1): # this loop
@@ -895,8 +909,8 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
             ############################################### plotting YZ scan data in plot ####################################################
             self.sc.axes.cla()
-            yz_scan_plot = self.sc.axes.pcolormesh(yz_scan_data_array, cmap = "inferno")
-            yz_scan_plot_colorbar = self.sc.fig.colorbar(yz_scan_plot, ax = self.sc.axes, pad = 0.02, aspect = 15)
+            yz_scan_plot = self.sc.axes.pcolormesh(yz_scan_data_array, cmap = "pink")
+            yz_scan_plot_colorbar = self.sc.figure.colorbar(yz_scan_plot, ax = self.sc.axes, pad = 0.02, aspect = 15)
             yz_scan_plot_colorbar.formatter.set_powerlimits((0, 0))
             self.sc.axes.xaxis.set_tick_params(labelsize = 8)
             self.sc.axes.yaxis.set_tick_params(labelsize = 8)
@@ -956,7 +970,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         ############################################################# left half window #####################################################################
         self.left_window = QFrame(self)
         self.left_window.setFrameShape(QFrame.StyledPanel)
-        self.left_window.setFixedSize(340, 430)
+        self.left_window.setFixedSize(340, 510)
 
         # QTextEdit display for printing scan parameters to GUI window
         """
@@ -977,20 +991,16 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         ############################################################### right half window ###################################################################
         self.right_window = QFrame(self)
         self.right_window.setFrameShape(QFrame.StyledPanel)
-        self.right_window.setFixedSize(430, 430)
+        self.right_window.setFixedSize(600, 600)
 
         ##################################################### plot in right window ##################################################################
 
-        plot_res = 3.89
-        self.sc = MplCanvas(self, canvas_width = plot_res, canvas_height = plot_res, canvas_dpi = 110)                                                                      # changing dpi does something to scale of figure
+        plot_res = 5.42
+        self.sc = MplCanvas(self, canvas_width = plot_res, canvas_height = plot_res, canvas_dpi = 110)                                                                      # changing dpi does something to scale of figureure
         self.sc.move(2, 2)
         self.sc.setParent(self.right_window)
         self.sc.axes.xaxis.set_tick_params(labelsize = 8)
         self.sc.axes.yaxis.set_tick_params(labelsize = 8)
-        # self.sc.fig.colorbar(plot, ax = self.sc.axes)
-        # self.sc.axes.set_title("plot_title_here", fontsize = 9)
-        # self.sc.axes.set_xlabel("plot_x_label_here", fontsize = 8)
-        # self.sc.axes.set_ylabel("plot_y_label_here", fontsize = 8)
 
         ############################################################# split left and right windows #########################################################
         
@@ -1020,33 +1030,21 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         save_scan_data_extension_widget = QLabel("\".npy\"", self) # widget
         save_scan_data_extension_widget.setParent(self.left_window),
         save_scan_data_extension_widget.move(297, 288 - 5)
-        ############ bendegin save data section ###############
+        ############ end save data section ###############
 
-        # attempt at displaying Tex text as a QLabel
-        pageSource = """
-                    <html>
-
-                    <head>
-                    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">                     
-                    </script>
-                    </head>
-
-                    <body>
-                    <p><mathjax style = "font-size:1.0em">$$normal_{subscript}$$</mathjax></p>
-                    </body>
-                    
-                    </html>
-                    """
+        ###
+        self.set_galvo_to_zero_button = QPushButton("Zero galvo", self)
+        self.set_galvo_to_zero_button.setParent(self.left_window)
+        self.set_galvo_to_zero_button.resize(70, 20)
+        self.set_galvo_to_zero_button.move(80, 480)
+        self.set_galvo_to_zero_button.clicked.connect(zero_galvo_function)
+        ##
 
         # scan widgets overall "Scanning"
         scan_widget_overall = QLabel("Scanning options:")
-        # scan_widget_overall = QLabel()
-        # scan_widget_overall = QWebEngineView()
-        # scan_widget_overall.setHtml(pageSource)
-        scan_widget_overall.setFont(QFont("Times font", 9))
+        scan_widget_overall.setFont(QFont("Times font", 6))
         scan_widget_overall.setParent(self.left_window)
         scan_widget_overall.move(120, 10)
-        # scan_widget_overall.move(30, 10)
 
         indiv_scan_labels_y_height = 25
 

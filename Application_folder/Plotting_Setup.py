@@ -5,7 +5,7 @@ Contents: framework to build the plotting area (and Matplotlib Canvas)
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 12-23-2022
+Last modifed: 01-12-2022
 Original author: MDA
 Last modified by: MDA
 
@@ -40,7 +40,7 @@ todays_date = get_todays_date.strftime("%m%d%Y") # this is used for creating the
 ############################################################################### start MplCanvas class ##################################################################################################
 class MplCanvas(FigureCanvasQTAgg):
 
-    def __init__(self, parent = None, canvas_width = 10, canvas_height = 10, canvas_dpi = 1000):
+    def __init__(self, parent = None, canvas_width = 26, canvas_height = 26, canvas_dpi = 1000):
 
         # fig = Figure(figsize = (width, height), dpi = dpi)
         
