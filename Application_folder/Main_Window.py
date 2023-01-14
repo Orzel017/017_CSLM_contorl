@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 01-02-2023
+Last modifed: 01-12-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -77,8 +77,10 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
 
         # LOCATION where old `.setCentralWidget()` display was for the main window contents
 
+        self.setCentralWidget(Setup_Main_Window_Contents(self)) # set the ?
+
         # overall application dimensions
-        gui_window_height = 500 # define the main window height. Old was 470
+        gui_window_height = 650 # define the main window height. Old was 470
         gui_window_width = 1000 # define the main window width. Old was 800
 
         self.setGeometry(400, 200, gui_window_width, gui_window_height) # `.setgeometry()` function arguments run: x-coord, y-coord, width, height
@@ -146,6 +148,6 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
 
         ############################################################################### start return to general class code ############################################################################
 
-        Helper_Functions.display_welcome_window(self) # display the welcome window contents
+        # Helper_Functions.display_window_contents(self) # display the welcome window contents
 
         ################################################################################ end return to general class code #############################################################################
