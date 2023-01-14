@@ -25,13 +25,7 @@ from nidaqmx.constants import (AcquisitionType, FrequencyUnits, CountDirection, 
 
 import numpy as np # numpy for arrays
 
-# import sys
-# sys.path.insert(0, "./Application_folder/Drivers")
-# import Drivers
-# from Drivers import cDAQ
-
 # from import cDAQ as test
-
 from Drivers import cDAQ as test
 
 # MatPlotLib plotting packages
