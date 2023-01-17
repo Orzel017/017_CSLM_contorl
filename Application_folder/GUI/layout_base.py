@@ -1,53 +1,79 @@
 """
-Made: 01-16-2023
+Made: 01-14-2023
+
+Modified: 01-17-2023
 """
 
 import sys
 
-from PyQt5.QtWidgets import (QApplication, QComboBox, QStackedLayout, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (QApplication, QListWidget, QCheckBox, QRadioButton, QHBoxLayout, QWidget, QStackedWidget, QLineEdit, QFormLayout, QLabel)
 
-import page_1, page_2
-from page_1 import page_1
-from page_2 import page_2
+import page_1, page_2, page_3
 
-class Window(QWidget):
+class GUI_Background(QWidget):
 
-    def __init__(self, parent = None):
+    def __init__(self):
 
-        super(Window, self).__init__(parent)
+        super(GUI_Background, self).__init__()
 
-        self.setWindowTitle("Example")
+        ######################################### start main GUI window ###########################################
+        # overall application dimensions
+        gui_window_height = 650 # define the main window height. Old was 470
+        gui_window_width = 1000 # define the main window width. Old was 800
 
-        # Create a top-level layout
-        layout = QVBoxLayout(self)
-        self.setLayout(layout)
+        self.setGeometry(400, 200, gui_window_width, gui_window_height) # `.setgeometry()` function arguments run: x-coord, y-coord, width, height
 
-        # Create and connect the combo box to switch between pages
-        self.pageCombo = QComboBox()
-        self.pageCombo.addItems(["Page 1", "Page 2"])
-        self.pageCombo.activated.connect(self.switchPage)
+        # scaling of the main app window
+        self.setMinimumSize(gui_window_width, gui_window_height) # set the main window min size
+        self.setMaximumSize(gui_window_width, gui_window_height) # set the main window max size
+
+        # asthetics
+        self.setWindowTitle("mda_gui") # set the title of the main app window
+        ############################################## end main GUI window ####################################################
+
+        ###################################################### start left half main GUI window #################################################
+        self.leftlist = QListWidget()
+        self.leftlist.insertItem (0, "Item 1")
+        self.leftlist.insertItem (1, "Item 2")
+        self.leftlist.insertItem (2, "Item 3")
+        ##################################################### end left half main GUI window #####################################################
+
+        ###################################################### start right half main GUI window #################################################
+        self.stack1 = QWidget()
+        self.stack2 = QWidget()
+        self.stack3 = QWidget()
+
+        page_1.stack1UI(self)
+        page_2.stack2UI(self)
+        page_3.stack3UI(self)
+
+        self.Stack = QStackedWidget (self)
+        self.Stack.addWidget (self.stack1)
+        self.Stack.addWidget (self.stack2)
+        self.Stack.addWidget (self.stack3)
+        ##################################################### end right half main GUI window #################################################
+	
+        hbox = QHBoxLayout(self)
+        hbox.addWidget(self.leftlist)
+        hbox.addWidget(self.Stack)
+
+        self.setLayout(hbox)
         
-        # Create the stacked layout
-        self.stackedLayout = QStackedLayout()
+        self.leftlist.currentRowChanged.connect(self.display_index_page)
 
-        page_1_widget = page_1(self)
-        page_2_widget = page_2(self)
+        self.show()
+            
+    def display_index_page(self, i):
 
-        # add pages to the stacked layout
-        self.stackedLayout.addWidget(page_1_widget)
-        self.stackedLayout.addWidget(page_2_widget)
+        self.Stack.setCurrentIndex(i)
+		
+def main():
 
-        # Add the combo box and the stacked layout to the top-level layout
-        layout.addWidget(self.pageCombo)
-        layout.addLayout(self.stackedLayout)
+   application = QApplication(sys.argv)
 
-    def switchPage(self):
+   ex = GUI_Background()
 
-        self.stackedLayout.setCurrentIndex(self.pageCombo.currentIndex())
-
-if __name__ == "__main__":
-
-    app = QApplication(sys.argv)
-    window = Window()
-    window.show()
-    sys.exit(app.exec_())
+   sys.exit(application.exec_())
+	
+if __name__ == '__main__':
+   main()
