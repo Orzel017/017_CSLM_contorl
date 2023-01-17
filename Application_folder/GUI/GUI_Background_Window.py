@@ -1,11 +1,11 @@
 """
-File name: "Main_Window.py"
+File name: "?.py"
 
 Contents: QMainWindow for overall application window -to hold contents. This is the background window
 
 Dates:
-Originally separated/organized: 12-21-2022
-Last modifed: 01-12-2023
+Originally created: 01-14-2023
+Last modifed: 01-17-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -20,26 +20,38 @@ window
 *Implement "Devices" meny bar actions -should be to list avaialble devices (info. about the DAQ, the ITC4001, and more)
 """
 
-########################################################################################## start imports ##############################################################################################
+######################################################################################## start package imports ########################################################################################
+
+import sys # import system-specific parameters and functions
 
 from PyQt5 import QtWidgets # import QtWidgets from PyQt5 for building the window
 
-from PyQt5.QtWidgets import qApp # import qApp for inner-app functionality (used for quitting the application while it is running)
+from PyQt5.QtWidgets import (QApplication, QListWidget, QHBoxLayout, QWidget, QStackedWidget, qApp, QMenuBar) # import submodules from PyQt5.QtWidgets
 
 from PyQt5 import QtCore # import QtCore for viewing on high-dpi resolution monitors
 
-from About_Window import Make_About_Window # import `Make_About_Window` from the "About_Window.py" file for displaying the About window accessed from the Help menu bar item
+from GUI_Window_Contents import Build_GUI_Constant_Contents
 
-# import Welcome_window
-# from Welcome_window import Setup_Welcome_Window # `Setup_Welcome_Window` from the "Welcome_Window.py" file for displaying the welcome user contents
 
-from Window_Contents import Setup_Main_Window_Contents # import `Setup_Main_Window_Contents` class from the file "Class_file.py" to setup and build the contents of the application
 
-# from Helper_Functions import display_welcome_window
 
-import Helper_Functions # import all functions within "Helper_Functions.py"
 
-######################################################################################### end imports #################################################################################################
+
+
+
+import os
+import inspect
+root_folder = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(root_folder)
+print(root_folder)
+
+
+sys.path.append("017_CLSM_Control/Application_folder")
+# from Application_folder.Extra_Windows import Make_About_Window # import `Make_About_Window` from the "About_Window.py" file for displaying the About window accessed from the Help menu bar item
+
+from GUI_Helper_Utilities import GUI_Helper_Functions
+
+########################################################################################## end package imports ########################################################################################
 
 # scaling issue
 """
@@ -51,33 +63,21 @@ QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) # e
 
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True) # use high-dpi icons across GUI
 
-################################################################################ start `Setup_Main_Window_Background`` class ##########################################################################
+class GUI_Window_Background(QtWidgets.QMainWindow):
 
-class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup_Main_Window_Background` using QMainWindow 
+    ################################################################################# start GUI_Window_Background functions ###########################################################################
 
-    def __init__(self, parent = None): # setup main window object? Is `parent = None` required?
+    # function one goes here
 
-        super().__init__(parent) # inheritance?
+    # ...
+    
+    ################################################################################# end GUI_Window_Background functions #############################################################################
 
-        ################################################################################### start main window functions ###############################################################################
+    def __init__(self): # setup main GUI window object? Is `parent = None` required?
 
-        def display_about_window(): # define `display_about_window` to be accessed from Help menu item
+        super(GUI_Window_Background, self).__init__() # inheritance?
 
-            self.Make_About_Window = Make_About_Window() # construct the about window from imported class Make_About_Window
-
-            self.Make_About_Window.show() # show the about window
-        
-        # space for other main window functions here
-
-        # more space here for the same
-        
-        ################################################################################### end main window functions #################################################################################
-
-        ############################################################################## start GUI main window prelims ##################################################################################
-
-        # LOCATION where old `.setCentralWidget()` display was for the main window contents
-
-        self.setCentralWidget(Setup_Main_Window_Contents(self)) # set the ?
+        ################################################################################## start main GUI window UI elements ##########################################################################
 
         # overall application dimensions
         gui_window_height = 650 # define the main window height. Old was 470
@@ -90,13 +90,15 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
         self.setMaximumSize(gui_window_width, gui_window_height) # set the main window max size
 
         # asthetics
-        self.setWindowTitle("mda_gui") # set the title of the main app window
+        self.setWindowTitle("mda_b017_gui") # set the title of the main app window
 
-        ################################################################################ end GUI main window prelims ##################################################################################
+        ################################################################################ end main GUI window UI elements ##############################################################################
 
         ########################################################################################## start menu bar #####################################################################################
 
         main_window_menu_bar = self.menuBar() # create the menu bar for the main app window
+
+        self.setMenuBar(main_window_menu_bar) # force set the menu bar for the background GUI window
         
         ####################################################################################### "File" menu bar item ##################################################################################
         file_menu_bar_item = main_window_menu_bar.addMenu("File") # add the "File" item to the main window's menu bar
@@ -142,12 +144,18 @@ class Setup_Main_Window_Background(QtWidgets.QMainWindow): # define class `Setup
 
         help_menu_bar_item.addAction(hep_menu_bar_about_sub_item) # add "About" action to the "Help" menu item
 
-        hep_menu_bar_about_sub_item.triggered.connect(display_about_window) # this connects clicking the "About" sub-item to display the about window
+        # hep_menu_bar_about_sub_item.triggered.connect(display_about_window) # this connects clicking the "About" sub-item to display the about window
 
         ############################################################################################ end menu bar #####################################################################################
 
-        ############################################################################### start return to general class code ############################################################################
+        ############################################################################################ end menu bar #####################################################################################
 
-        # Helper_Functions.display_window_contents(self) # display the welcome window contents
+        #################################################################################### start finalize GUI main window ###########################################################################
 
-        ################################################################################ end return to general class code #############################################################################
+        self.main_widget = Build_GUI_Constant_Contents() # initialize `Build_GUI_Constant_Contents()` object from "GUI_Window_Cotents.py"
+
+        self.setCentralWidget(self.main_widget) # designate central widget of GUI_Window_Background object
+
+        self.show() # show the main GUI window
+
+        ################################################################################### end finalize GUI main window ##############################################################################

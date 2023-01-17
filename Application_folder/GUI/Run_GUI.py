@@ -18,7 +18,7 @@ one packaged application avaialble from the desktop of a designated machine and 
 
 import sys # import system-specific parameters and functions
 
-from layout_base import GUI_Background # import `GUI_Background` from "layout_base.py" file
+from GUI_Background_Window import GUI_Window_Background # import `GUI_Background` from "layout_base.py" file
 
 from PyQt5 import QtWidgets # import QtWidgets for QApplication to build the whole application
 
@@ -30,7 +30,7 @@ if __name__ == "__main__": # check name to run main file
 
     application = QtWidgets.QApplication(sys.argv) # setup command line arguments under "application"
 
-    main_GUI_window = GUI_Background() # designate a "main_GUI_window" object
+    main_GUI_window = GUI_Window_Background() # designate a "main_GUI_window" object
 
     main_GUI_window.show() # display the main application window
 
