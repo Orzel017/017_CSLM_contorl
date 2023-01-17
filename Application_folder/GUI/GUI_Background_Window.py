@@ -1,5 +1,5 @@
 """
-File name: "?.py"
+File name: "GUI_Background_Window.py"
 
 Contents: QMainWindow for overall application window -to hold contents. This is the background window
 
@@ -22,34 +22,13 @@ window
 
 ######################################################################################## start package imports ########################################################################################
 
-import sys # import system-specific parameters and functions
-
 from PyQt5 import QtWidgets # import QtWidgets from PyQt5 for building the window
 
-from PyQt5.QtWidgets import (QApplication, QListWidget, QHBoxLayout, QWidget, QStackedWidget, qApp, QMenuBar) # import submodules from PyQt5.QtWidgets
+from PyQt5.QtWidgets import (qApp) # import submodule from PyQt5.QtWidgets
 
 from PyQt5 import QtCore # import QtCore for viewing on high-dpi resolution monitors
 
-from GUI_Window_Contents import Build_GUI_Constant_Contents
-
-
-
-
-
-
-
-
-import os
-import inspect
-root_folder = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(root_folder)
-print(root_folder)
-
-
-sys.path.append("017_CLSM_Control/Application_folder")
-# from Application_folder.Extra_Windows import Make_About_Window # import `Make_About_Window` from the "About_Window.py" file for displaying the About window accessed from the Help menu bar item
-
-from GUI_Helper_Utilities import GUI_Helper_Functions
+from GUI_Window_Contents import Build_GUI_Constant_Contents # first child contents of the main application window from "GUI_Window_Contents.py"
 
 ########################################################################################## end package imports ########################################################################################
 
@@ -64,6 +43,11 @@ QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) # e
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True) # use high-dpi icons across GUI
 
 class GUI_Window_Background(QtWidgets.QMainWindow):
+
+    """
+    This class sets up the background of the application. It contains the geometry of the application window, minor constant asthetic elements, and the menu bar. The `.setCentralWidget()` call
+    designates the main constant widget of the application (called from class `Build_GUI_Constant_Contents` in "GUI_Window_Contents.py").
+    """
 
     ################################################################################# start GUI_Window_Background functions ###########################################################################
 
