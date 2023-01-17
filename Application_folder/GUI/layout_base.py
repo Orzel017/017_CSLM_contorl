@@ -1,21 +1,25 @@
 """
-Made: 01-14-2023
+Made: 01-16-2023
 """
 
 import sys
 
-from PyQt5.QtWidgets import (QApplication, QComboBox, QFormLayout, QLineEdit, QStackedLayout, QVBoxLayout, QWidget, )
+from PyQt5.QtWidgets import (QApplication, QComboBox, QStackedLayout, QVBoxLayout, QWidget)
+
+import page_1, page_2
+from page_1 import page_1
+from page_2 import page_2
 
 class Window(QWidget):
 
-    def __init__(self):
+    def __init__(self, parent = None):
 
-        super().__init__()
+        super(Window, self).__init__(parent)
 
         self.setWindowTitle("Example")
 
         # Create a top-level layout
-        layout = QVBoxLayout()
+        layout = QVBoxLayout(self)
         self.setLayout(layout)
 
         # Create and connect the combo box to switch between pages
@@ -26,9 +30,12 @@ class Window(QWidget):
         # Create the stacked layout
         self.stackedLayout = QStackedLayout()
 
+        page_1_widget = page_1(self)
+        page_2_widget = page_2(self)
+
         # add pages to the stacked layout
-        self.stackedLayout.addWidget(self.page1)
-        self.stackedLayout.addWidget(self.page2)
+        self.stackedLayout.addWidget(page_1_widget)
+        self.stackedLayout.addWidget(page_2_widget)
 
         # Add the combo box and the stacked layout to the top-level layout
         layout.addWidget(self.pageCombo)
