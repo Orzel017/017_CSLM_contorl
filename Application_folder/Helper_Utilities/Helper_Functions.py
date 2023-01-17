@@ -1,11 +1,11 @@
 """
 File name: "Helper_Functions.py"
 
-Contents: multiple helper fuctions for use within multiple files (applications are currently displaying different windows only)
+Contents: multiple helper fuctions for use within multiple files
 
 Dates:
 Originally created: 12-30-2022
-Last modifed: 01-14-2023
+Last modifed: 01-17-2023
 Original author: MDA
 Last modified by: MDA
 
