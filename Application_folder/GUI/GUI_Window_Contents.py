@@ -69,11 +69,13 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
 
         # setup a QListWidget to display the available imaging options
 
-        self.left_items_list = QListWidget() # build a `QListWidget` for listing imaging options`
+        self.left_items_list = QListWidget() # build a `QListWidget` for listing imaging options
+
+        self.left_items_list.setFixedWidth(62)
 
         # adding items to the `QListWidget`
-        self.left_items_list.insertItem (0, "Item 1") # item 1: welcome window
-        self.left_items_list.insertItem (1, "Item 2") # item 2: XY-image (TODO: implemented but awaiting transition)
+        self.left_items_list.insertItem (0, "Welcome") # item 1: welcome window
+        self.left_items_list.insertItem (1, "XY-Image") # item 2: XY-image (TODO: implemented but awaiting transition)
         self.left_items_list.insertItem (2, "Item 3") # item 3: YZ-image (TODO: implemented but awaiting transition)
         self.left_items_list.insertItem (3, "Item 4") # item 4: XZ-image (TODO: implemented but awaiting transition)
         self.left_items_list.insertItem (4, "Item 5") # item 5: tiling image (TODO:)
