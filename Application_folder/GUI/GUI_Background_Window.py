@@ -38,7 +38,7 @@ from GUI_Window_Contents import Build_GUI_Constant_Contents # first child conten
 # the below two lines are from https://leomoon.com/journal/python/high-dpi-scaling-in-pyqt5/
 """
 
-QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) # enable highdpi scaling for applicaiton
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) # enable highdpi scaling for applicaton
 
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True) # use high-dpi icons across GUI
 

@@ -12,7 +12,7 @@ Last modified by: MDA
 Notes: This file sets up the first set of child Widget contents of the main application window
 
 TODO:
-*
+*Fix about window import issue
 """
 
 ######################################################################################## start package imports ########################################################################################
@@ -45,13 +45,17 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
     This class sets up the second-highest level Widgets of the application window. It builds the horizontal (QHBoxLayout) splitter and QStackedWidget for the lower-level widgets.
     """
 
-    def display_index_page(self, i):
+    ################################################################################### start temporary functions #####################################################################################
 
-        self.Stack.setCurrentIndex(i)
+    def display_index_page(self, i): # define the function to switch pages within the `QStackedLayout`
 
-    def __init__(self, parent = None): # inheritance?
+        self.Stack.setCurrentIndex(i) # switch to the new page index
+    
+    #################################################################################### end temporary functions ######################################################################################
 
-        super(Build_GUI_Constant_Contents, self).__init__(parent)
+    def __init__(self, parent = None): # setup first child GUI window object? Is `parent = None` required?
+
+        super(Build_GUI_Constant_Contents, self).__init__(parent) # inheritance?
 
         self.hbox = QHBoxLayout(self)
         self.setLayout(self.hbox)
