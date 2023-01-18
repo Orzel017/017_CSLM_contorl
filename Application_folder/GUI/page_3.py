@@ -2,7 +2,7 @@
 
 Made: 01-17-2023
 
-Last modified: 01-17-2023
+Last modified: 01-18-2023
 """
 
 # page 3 code for mock GUI re-work
@@ -14,4 +14,4 @@ def stack3UI(self):
     layout.addWidget(QLabel("subjects"))
     layout.addWidget(QCheckBox("Physics"))
     layout.addWidget(QCheckBox("Maths"))
-    self.stack3.setLayout(layout)
+    self.YZ_image_UI.setLayout(layout)

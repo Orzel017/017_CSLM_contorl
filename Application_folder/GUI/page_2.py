@@ -1,7 +1,7 @@
 """
 Made: 01-14-2023
 
-Last modifed: 01-17-2023
+Last modifed: 01-18-2023
 
 (Test) page 2
 """
@@ -15,4 +15,4 @@ def stack2UI(self):
     sex.addWidget(QRadioButton("Female"))
     layout.addRow(QLabel("Sex"),sex)
     layout.addRow("Date of Birth",QLineEdit()) 
-    self.stack2.setLayout(layout)
+    self.XY_image_UI.setLayout(layout)

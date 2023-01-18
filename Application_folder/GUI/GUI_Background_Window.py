@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally created: 01-14-2023
-Last modifed: 01-17-2023
+Last modifed: 01-18-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -24,7 +24,9 @@ window
 
 from PyQt5 import QtWidgets # import QtWidgets from PyQt5 for building the window
 
-from PyQt5.QtWidgets import (qApp) # import submodule from PyQt5.QtWidgets
+from PyQt5.QtWidgets import (qApp, QLabel) # import submodule from PyQt5.QtWidgets
+
+from PyQt5.QtGui import QFont # submodule from PyQt5.QtGui
 
 from PyQt5 import QtCore # import QtCore for viewing on high-dpi resolution monitors
 
@@ -132,7 +134,17 @@ class GUI_Window_Background(QtWidgets.QMainWindow):
 
         ############################################################################################ end menu bar #####################################################################################
 
-        ############################################################################################ end menu bar #####################################################################################
+        ######################################################################################## start status bar #####################################################################################
+
+        self.main_window_status_bar = self.statusBar() # initialize status bar object
+
+        self.temporary_permanent_status_message = QLabel("Permanent status message") # create a temporary status message
+
+        self.temporary_permanent_status_message.setFont(QFont("Times", 7)) # designate the temporary status message font size
+
+        self.main_window_status_bar.addPermanentWidget(self.temporary_permanent_status_message) # make the temporary status message permanent on the status bar
+
+        ######################################################################################## end status bar #######################################################################################
 
         #################################################################################### start finalize GUI main window ###########################################################################
 
