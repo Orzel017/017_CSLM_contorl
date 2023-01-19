@@ -1,23 +1,20 @@
+
 """
 File name: "Window_Contents.py"
-
 Contents: main window content (curently including scanning scripts -this will be changed later as they will be moved)
-
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 01-18-2023
+Last modifed: 01-19-2023
 Original author: MDA
 Last modified by: MDA
-
 Notes:
-
 TODO:
 *Move scanning scripts to other files (would they need to be changed to classes?)
 **This presents numerous issues with data handling and transfer from file to file
 """
 
 ############################################################################################## start imports ##########################################################################################
-import csv
+
 # NI-DAQmx API imports
 import nidaqmx # general API import
 
@@ -168,7 +165,7 @@ class Setup_Main_Window_Contents(QtWidgets.QWidget):#, **kwargs): # kwargs neede
                                                         "XY_scan max y driving voltage = " + str(float(xy_scan_y_voltage_max_qlineedit.text())) + "\n"
                                                         "XY_scan z-piezo driving voltage = " + str(float(xy_scan_z_piezo_voltage_qlineedit.text()))
                                                         )
-    ##############################################################################################################################################################################################################################################
+        
         # run XY scanning function
         def run_xy_scan_fnc(): # this fnc runs the xy_scan per the user-entered parameters in the xy_scan qlineedits
 
@@ -184,11 +181,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
             """
 
             ############################################################### begin scanning script #############################################################################################
-            
-            my_file = open("data_file.csv", "w", encoding="UTF8") # open the file in the write mode
-
-            writer = csv.writer(my_file) # make the writer?
-
+                
             ################################################################################## card 2 (AO) ########################################################################
 
             # naming the instrument
@@ -200,38 +193,31 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
             # defining the instrument (ni_9263)
             scan_galvo = test.DAQAnalogOutputs("name_two", scan_galvo_card_name, scan_galvo_ao_channels)
 
-            ############################################################################### def other variables ####################################################################
+            ############################################################################### def other variables #####################################################################
 
             ################### setting variales and array ####################
 
             # counter read time:
-            # scan_counter_acquisition_time = float(xy_scan_read_time_qlineedit.text())                          # note a reading time <0.05 s is likely too short
-            scan_counter_acquisition_time = 0.05
+            scan_counter_acquisition_time = float(xy_scan_read_time_qlineedit.text())                          # note a reading time <0.05 s is likely too short
 
             # def
             grid_size = int(xy_scan_resolution_qlineedit.text())
-            # grid_size = 3
             grid_size_x = grid_size_y = grid_size
 
             # def the initial driving voltage for the x-mirror
-            # initial_x_driving_voltage = round(float(xy_scan_x_voltage_min_qlineedit.text()), 2)
-            initial_x_driving_voltage = -0.1
+            initial_x_driving_voltage = round(float(xy_scan_x_voltage_min_qlineedit.text()), 2)
             # def the initial driving voltage for the y-mirror
-            # initial_y_driving_voltage = round(float(xy_scan_y_voltage_min_qlineedit.text()), 2)
-            initial_y_driving_voltage = -0.1
+            initial_y_driving_voltage = round(float(xy_scan_y_voltage_min_qlineedit.text()), 2)
 
-            # z_piezo_set_voltage = round(float(xy_scan_z_piezo_voltage_qlineedit.text()), 2)
-            z_piezo_set_voltage = 0.0
+            z_piezo_set_voltage = round(float(xy_scan_z_piezo_voltage_qlineedit.text()), 2)
 
             # setup parameter for the program to use based on defined variables
             x_driving_voltage_to_change = initial_x_driving_voltage
             y_driving_voltage_to_change = initial_y_driving_voltage
 
             # set desired end mirror voltages
-            # desired_end_x_mirror_voltage = round(float(xy_scan_x_voltage_max_qlineedit.text()), 2)
-            desired_end_x_mirror_voltage = 0.1
-            # desired_end_y_mirror_voltage = round(float(xy_scan_y_voltage_max_qlineedit.text()), 2)
-            desired_end_y_mirror_voltage = 0.1
+            desired_end_x_mirror_voltage = round(float(xy_scan_x_voltage_max_qlineedit.text()), 2)
+            desired_end_y_mirror_voltage = round(float(xy_scan_y_voltage_max_qlineedit.text()), 2)
 
             # def the internal stepping voltages based on user-entered settings above
             x_drive_voltage_step = ((np.absolute(initial_x_driving_voltage)) + (desired_end_x_mirror_voltage)) / grid_size_x
@@ -296,15 +282,6 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                 
                 counter_output_task.start() # this starts the counter NI-DAQmx task
                 task1.start() # this starts the hardware-based internal clock NI-DAQmx task
-
-                def get_counter_number():
-                    output_value = 0
-                    for counter_increment_variable in range(int(scan_counter_acquisition_time * 1000)): # this reads/lets the counter accumulate for the set time and returns value
-                        counter_value = task1.read()
-                        output_value += counter_value
-                        # print(output_value)
-                        
-                    return output_value
                                 
             ######################################################################## X and Y scanning #########################################################################
 
@@ -314,41 +291,21 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
                         ################## important section #################
 
-                        counter_number = get_counter_number()
-                        # print("counter_number = %s" % counter_number)
+                        for my_var_not_named_i in range(int(scan_counter_acquisition_time * 1000)): # this reads/lets the counter accumulate for the set time and returns value
+                            counter_value = task1.read()
+                            output_value += counter_value
 
                         if f % 2 != 0: # this loop populates the created xy_scan_data_array (the if else strucuture is present bc of the snaking scanning pattern)
-
-                            xy_scan_data_array[f][k] = counter_number - np.sum(xy_scan_data_array)
-
-                            # xy_scan_data_array[f][((-k) + 1)] = (output_value - np.sum(xy_scan_data_array)) # add counter result to data array                                                                              # saving!
-                            # print((output_value - np.sum(xy_scan_data_array)))
-                            # print(type((output_value - np.sum(xy_scan_data_array))))
-                            # thing = np.array([(output_value - np.sum(xy_scan_data_array))])
-                            # print(type(np.array([(output_value - np.sum(xy_scan_data_array))])))
-                            # print(type(thing))
-                            # print(xy_scan_data_array)
-                            # print((output_value - np.sum(xy_scan_data_array)))
-
-                            # writer.writerow([counter_number])                                                                                                                                                                          # csv
-                            # output_value == 0
-                            # counter_value == 0
+                            xy_scan_data_array[f][((-k) + 1)] = (output_value - np.sum(xy_scan_data_array)) # add counter result to data array                           # saving (082422)
+                            output_value == 0
+                            counter_value == 0
                         else:
-                            # if f == 0 and k == 0:
-                            #     xy_scan_data_array[0][0] = counter_number # add counter result to data array                                                                                                                  # saving!
-                            #     # writer.writerow([100000])                                                                                                                                                                        # csv
-                        # else:
-                            # xy_scan_data_array[f][k] = (output_value - np.sum(xy_scan_data_array)) # add counter result to data array                                                                                   # saving (082422)!
-                            xy_scan_data_array[f][k] = counter_number - np.sum(xy_scan_data_array)
-                            # print(output_value - np.sum(xy_scan_data_array)+1)
-                            # writer.writerow([output_value])                                                                                                                                                                        # csv
-
-                        # print("Column print: %s" % xy_scan_data_array)   
-                        # output_value = 0
-                        # counter_value = 0
-
-                        counter_number = 0
-                        # print("Supposed to be 0: %s" % counter_number)
+                            if f == 0 and k == 0:
+                                xy_scan_data_array[0][0] = output_value # add counter result to data array                                                      # saving
+                            else:
+                                xy_scan_data_array[f][k] = (output_value - np.sum(xy_scan_data_array)) # add counter result to data array                               # saving (082422)
+                        output_value = 0
+                        counter_value = 0
 
                         ############# end important section ############
 
@@ -372,12 +329,12 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
                     ##################### updating plot section ####################
                     # self.sc.axes.cla() # this does not seem to be needed
-
-                    # print("Row print: %s" % xy_scan_data_array)
-
+                    print("Array:")
+                    print(xy_scan_data_array)
+                    
                     self.sc.axes.pcolormesh(xy_scan_data_array, cmap = "pink")
-                    # self.sc.axes.set_xticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_x_driving_voltage, int((initial_x_driving_voltage + desired_end_x_mirror_voltage) / 2), desired_end_x_mirror_voltage])
-                    # self.sc.axes.set_yticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_y_driving_voltage, int((initial_y_driving_voltage + desired_end_y_mirror_voltage) / 2), desired_end_y_mirror_voltage])
+                    self.sc.axes.set_xticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_x_driving_voltage, int((initial_x_driving_voltage + desired_end_x_mirror_voltage) / 2), desired_end_x_mirror_voltage])
+                    self.sc.axes.set_yticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_y_driving_voltage, int((initial_y_driving_voltage + desired_end_y_mirror_voltage) / 2), desired_end_y_mirror_voltage])
                     self.sc.axes.xaxis.set_tick_params(labelsize = 6)
                     self.sc.axes.yaxis.set_tick_params(labelsize = 6)
 
@@ -402,38 +359,29 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
             scan_galvo.close() # this is where reeated scanning hinges on and needs to be re-implemented
 
             ############################################################### end scanning script #############################################################################################
-
-            my_file.close()
-            # my_file_output = np.genfromtxt("data_file.csv", delimiter = ",")
-            # print(my_file_output)
-            # fixed_shape = np.reshape(my_file_output, (grid_size, grid_size))
-
+            xy_scan_data_array[0][0] = xy_scan_data_array[-1][-1]
             ############################################### plotting XY scan data in plot ####################################################
             
             # self.sc.figure.clear() # is this needed after implementing live plot updating?
             self.sc.axes.cla()
 
-            xy_scan_data_array[0][0] = xy_scan_data_array[2][1]
-
-            print("Final data array: %s" % xy_scan_data_array)
-
             plot = self.sc.axes.pcolormesh(xy_scan_data_array, cmap = "pink")
-            # self.sc.axes.set_xticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_x_driving_voltage, int((initial_x_driving_voltage + desired_end_x_mirror_voltage) / 2), desired_end_x_mirror_voltage])
-            # self.sc.axes.set_yticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_y_driving_voltage, int((initial_y_driving_voltage + desired_end_y_mirror_voltage) / 2), desired_end_y_mirror_voltage])
+            self.sc.axes.set_xticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_x_driving_voltage, int((initial_x_driving_voltage + desired_end_x_mirror_voltage) / 2), desired_end_x_mirror_voltage])
+            self.sc.axes.set_yticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_y_driving_voltage, int((initial_y_driving_voltage + desired_end_y_mirror_voltage) / 2), desired_end_y_mirror_voltage])
             
-            self.xy_scan_plot_colorbar = self.sc.figure.colorbar(plot, ax = self.sc.axes)
-            self.xy_scan_plot_colorbar.formatter.set_powerlimits((0, 0))
+            # self.xy_scan_plot_colorbar = self.sc.figure.colorbar(plot, ax = self.sc.axes, pad = -2, shrink = 0.5, aspect = 15)
+            # self.xy_scan_plot_colorbar.formatter.set_powerlimits((0, 0))
             
             self.sc.axes.xaxis.set_tick_params(labelsize = 6)
             self.sc.axes.yaxis.set_tick_params(labelsize = 6)
-            self.xy_scan_plot_colorbar.ax.tick_params(labelsize = 6)
+            # self.xy_scan_plot_colorbar.ax.tick_params(labelsize = 3)
             self.sc.axes.set_xlabel("x_mirror_driving_voltage_(V)", fontsize = 6, labelpad = -2)
             self.sc.axes.set_ylabel("y_mirror_driving_voltage_(V)", fontsize = 6, labelpad = -9)
             self.sc.axes.set_title("XY_scan_%s_z-piezo@%d_microns" % (todays_date, int((z_piezo_set_voltage * 10))), fontsize = 6)
             self.sc.draw()
 
             most_recent_data_array = xy_scan_data_array # make temp holding global data_array the same as xy_scan_data_array
-##############################################################################################################################################################################################################################################
+
         # xy_scan resolution check then run fnc
         def xy_scan_resolution_validation_fnc():
 
@@ -460,31 +408,27 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         
         #################################### resolution checking ##################################
 
-            res_min_condition = 0 # set the min allowed resolution for scanning
+            res_min_condition = 20 # set the min allowed resolution for scanning
             res_max_condition = 2000 # set the max allowed resolution for scanning
 
             xy_scan_resolution_test_condition = False # define resolution validation bool for xy scan
 
             while xy_scan_resolution_test_condition is False: # this initiates checking the resolution parameter
-                xy_scan_resolution_test_condition == True
-                # print_XY_scan_parameters_fnc(self) # call the print user-entered parameters fnc
-                run_xy_scan_fnc() # call the run xy scan method fnc
-                break
 
-                # # checking for out of bounds of min and max conditions above
-                # # TODO: or negative or not a number or too large
-                # if int(xy_scan_resolution_qlineedit.text()) < res_min_condition or int(xy_scan_resolution_qlineedit.text()) > res_max_condition:
+                # checking for out of bounds of min and max conditions above
+                # TODO: or negative or not a number or too large
+                if int(xy_scan_resolution_qlineedit.text()) < res_min_condition or int(xy_scan_resolution_qlineedit.text()) > res_max_condition:
 
-                #     display_resolution_error_window_fnc() # call the error message pop-up window
-                #     break # exit the checking loop: failed
+                    display_resolution_error_window_fnc() # call the error message pop-up window
+                    break # exit the checking loop: failed
 
-                # # if parameter is in bounds; run scan
-                # elif int(xy_scan_resolution_qlineedit.text()) >= res_min_condition and int(xy_scan_resolution_qlineedit.text()) <= res_max_condition:
+                # if parameter is in bounds; run scan
+                elif int(xy_scan_resolution_qlineedit.text()) >= res_min_condition and int(xy_scan_resolution_qlineedit.text()) <= res_max_condition:
 
-                #     xy_scan_resolution_test_condition == True
-                #     print_XY_scan_parameters_fnc(self) # call the print user-entered parameters fnc
-                #     run_xy_scan_fnc() # call the run xy scan method fnc
-                #     break # exit the checking loop: passed
+                    xy_scan_resolution_test_condition == True
+                    print_XY_scan_parameters_fnc(self) # call the print user-entered parameters fnc
+                    run_xy_scan_fnc() # call the run xy scan method fnc
+                    break # exit the checking loop: passed
 
         ########### XZ scanning #############
         # print_XZ_scan_parameters_fnc
@@ -1032,7 +976,6 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         This creates a textbox located in the lower left hand corner of the GUI. It is set (parent) to the left_window. When any scan script is run the 
         parameters enterd by the user are collected from their respective QLineedits and then printed in a list to this QTextBox. This allows the user 
         select and copy the parameters they used quickly in order to save them to an external file as documentation of scans run.
-
         Room for improvement:
         1. The date (get from "todays_date" that is already implemented) could be added to the first line of any scans parameter printing fnc
         2. The info printed to this QTextBox could also and/or be saved to an external file for record/documentation
