@@ -200,17 +200,17 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
             # defining the instrument (ni_9263)
             scan_galvo = test.DAQAnalogOutputs("name_two", scan_galvo_card_name, scan_galvo_ao_channels)
 
-            ############################################################################### def other variables #####################################################################
+            ############################################################################### def other variables ####################################################################
 
             ################### setting variales and array ####################
 
             # counter read time:
             # scan_counter_acquisition_time = float(xy_scan_read_time_qlineedit.text())                          # note a reading time <0.05 s is likely too short
-            scan_counter_acquisition_time = 0.001
+            scan_counter_acquisition_time = 0.05
 
             # def
-            # grid_size = int(xy_scan_resolution_qlineedit.text())
-            grid_size = 500
+            grid_size = int(xy_scan_resolution_qlineedit.text())
+            # grid_size = 3
             grid_size_x = grid_size_y = grid_size
 
             # def the initial driving voltage for the x-mirror
@@ -296,6 +296,15 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                 
                 counter_output_task.start() # this starts the counter NI-DAQmx task
                 task1.start() # this starts the hardware-based internal clock NI-DAQmx task
+
+                def get_counter_number():
+                    output_value = 0
+                    for counter_increment_variable in range(int(scan_counter_acquisition_time * 1000)): # this reads/lets the counter accumulate for the set time and returns value
+                        counter_value = task1.read()
+                        output_value += counter_value
+                        # print(output_value)
+                        
+                    return output_value
                                 
             ######################################################################## X and Y scanning #########################################################################
 
@@ -305,32 +314,41 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
                         ################## important section #################
 
-                        for my_var_not_named_i in range(int(scan_counter_acquisition_time * 1000)): # this reads/lets the counter accumulate for the set time and returns value
-                            counter_value = task1.read()
-                            output_value += counter_value
+                        counter_number = get_counter_number()
+                        # print("counter_number = %s" % counter_number)
 
                         if f % 2 != 0: # this loop populates the created xy_scan_data_array (the if else strucuture is present bc of the snaking scanning pattern)
-                            xy_scan_data_array[f][((-k) + 1)] = (output_value - np.sum(xy_scan_data_array)) # add counter result to data array                                                                              # saving!
+
+                            xy_scan_data_array[f][k] = counter_number - np.sum(xy_scan_data_array)
+
+                            # xy_scan_data_array[f][((-k) + 1)] = (output_value - np.sum(xy_scan_data_array)) # add counter result to data array                                                                              # saving!
                             # print((output_value - np.sum(xy_scan_data_array)))
                             # print(type((output_value - np.sum(xy_scan_data_array))))
-                            thing = np.array([(output_value - np.sum(xy_scan_data_array))])
+                            # thing = np.array([(output_value - np.sum(xy_scan_data_array))])
                             # print(type(np.array([(output_value - np.sum(xy_scan_data_array))])))
                             # print(type(thing))
                             # print(xy_scan_data_array)
                             # print((output_value - np.sum(xy_scan_data_array)))
-                            writer.writerow([output_value])                                                                                                                                                                          # csv
-                            output_value == 0
-                            counter_value == 0
+
+                            # writer.writerow([counter_number])                                                                                                                                                                          # csv
+                            # output_value == 0
+                            # counter_value == 0
                         else:
-                            if f == 0 and k == 0:
-                                xy_scan_data_array[0][0] = output_value # add counter result to data array                                                                                                                  # saving!
-                                writer.writerow([100000])                                                                                                                                                                        # csv
-                            else:
-                                xy_scan_data_array[f][k] = (output_value - np.sum(xy_scan_data_array)) # add counter result to data array                                                                                   # saving (082422)!
-                                # print(output_value - np.sum(xy_scan_data_array)+1)
-                                writer.writerow([output_value])                                                                                                                                                                        # csv
-                        output_value = 0
-                        counter_value = 0
+                            # if f == 0 and k == 0:
+                            #     xy_scan_data_array[0][0] = counter_number # add counter result to data array                                                                                                                  # saving!
+                            #     # writer.writerow([100000])                                                                                                                                                                        # csv
+                        # else:
+                            # xy_scan_data_array[f][k] = (output_value - np.sum(xy_scan_data_array)) # add counter result to data array                                                                                   # saving (082422)!
+                            xy_scan_data_array[f][k] = counter_number - np.sum(xy_scan_data_array)
+                            # print(output_value - np.sum(xy_scan_data_array)+1)
+                            # writer.writerow([output_value])                                                                                                                                                                        # csv
+
+                        # print("Column print: %s" % xy_scan_data_array)   
+                        # output_value = 0
+                        # counter_value = 0
+
+                        counter_number = 0
+                        # print("Supposed to be 0: %s" % counter_number)
 
                         ############# end important section ############
 
@@ -354,6 +372,8 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
                     ##################### updating plot section ####################
                     # self.sc.axes.cla() # this does not seem to be needed
+
+                    # print("Row print: %s" % xy_scan_data_array)
 
                     self.sc.axes.pcolormesh(xy_scan_data_array, cmap = "pink")
                     # self.sc.axes.set_xticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_x_driving_voltage, int((initial_x_driving_voltage + desired_end_x_mirror_voltage) / 2), desired_end_x_mirror_voltage])
@@ -384,16 +404,20 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
             ############################################################### end scanning script #############################################################################################
 
             my_file.close()
-            my_file_output = np.genfromtxt("data_file.csv", delimiter = ",")
+            # my_file_output = np.genfromtxt("data_file.csv", delimiter = ",")
             # print(my_file_output)
-            fixed_shape = np.reshape(my_file_output, (grid_size, grid_size))
+            # fixed_shape = np.reshape(my_file_output, (grid_size, grid_size))
 
             ############################################### plotting XY scan data in plot ####################################################
             
             # self.sc.figure.clear() # is this needed after implementing live plot updating?
             self.sc.axes.cla()
 
-            plot = self.sc.axes.pcolormesh(fixed_shape, cmap = "pink")
+            xy_scan_data_array[0][0] = xy_scan_data_array[2][1]
+
+            print("Final data array: %s" % xy_scan_data_array)
+
+            plot = self.sc.axes.pcolormesh(xy_scan_data_array, cmap = "pink")
             # self.sc.axes.set_xticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_x_driving_voltage, int((initial_x_driving_voltage + desired_end_x_mirror_voltage) / 2), desired_end_x_mirror_voltage])
             # self.sc.axes.set_yticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_y_driving_voltage, int((initial_y_driving_voltage + desired_end_y_mirror_voltage) / 2), desired_end_y_mirror_voltage])
             
