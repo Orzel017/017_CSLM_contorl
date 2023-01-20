@@ -252,8 +252,8 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                     units = nidaqmx.constants.FrequencyUnits.HZ,
                     idle_state = nidaqmx.constants.Level.LOW,
                     initial_delay = 0.0,
-                    freq = 1000,
-                    duty_cycle = 0.50
+                    freq = 500,
+                    duty_cycle = 0.5
                     )
 
                 # cfg implict timing
@@ -273,7 +273,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
                 # cfg sample clk timing
                 task1.timing.cfg_samp_clk_timing(
-                    rate = 1000,
+                    rate = 500,
                     source = "/cDAQ1/Ctr1InternalOutput",
                     active_edge = nidaqmx.constants.Edge.RISING,
                     sample_mode = AcquisitionType.CONTINUOUS,
@@ -284,14 +284,14 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                 task1.start() # this starts the hardware-based internal clock NI-DAQmx task
                                 
             ######################################################################## X and Y scanning #########################################################################
-
-                for f in range(grid_size_y): # this loops for rows (y)
+                from tqdm import trange
+                for f in trange(grid_size_y): # this loops for rows (y)
 
                     for k in range(grid_size_x): # this loops for columns (x)
 
                         ################## important section #################
 
-                        for my_var_not_named_i in range(int(scan_counter_acquisition_time * 1000)): # this reads/lets the counter accumulate for the set time and returns value
+                        for my_var_not_named_i in range(int(scan_counter_acquisition_time * 500)): # this reads/lets the counter accumulate for the set time and returns value
                             counter_value = task1.read()
                             output_value += counter_value
 
@@ -329,8 +329,8 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
                     ##################### updating plot section ####################
                     # self.sc.axes.cla() # this does not seem to be needed
-                    print("Array:")
-                    print(xy_scan_data_array)
+                    # print("Array:")
+                    # print(xy_scan_data_array)
                     
                     self.sc.axes.pcolormesh(xy_scan_data_array, cmap = "pink")
                     self.sc.axes.set_xticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_x_driving_voltage, int((initial_x_driving_voltage + desired_end_x_mirror_voltage) / 2), desired_end_x_mirror_voltage])
