@@ -1,16 +1,13 @@
+
 """
 File name: "Window_Contents.py"
-
 Contents: main window content (curently including scanning scripts -this will be changed later as they will be moved)
-
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 01-12-2023
+Last modifed: 01-19-2023
 Original author: MDA
 Last modified by: MDA
-
 Notes:
-
 TODO:
 *Move scanning scripts to other files (would they need to be changed to classes?)
 **This presents numerous issues with data handling and transfer from file to file
@@ -223,8 +220,8 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
             desired_end_y_mirror_voltage = round(float(xy_scan_y_voltage_max_qlineedit.text()), 2)
 
             # def the internal stepping voltages based on user-entered settings above
-            x_drive_voltage_step = ((np.absolute(initial_x_driving_voltage)) + (desired_end_x_mirror_voltage)) / grid_size_x
-            y_drive_voltage_step = ((np.absolute(initial_y_driving_voltage)) + (desired_end_y_mirror_voltage)) / grid_size_y
+            x_drive_voltage_step = round(((np.absolute(initial_x_driving_voltage)) + (desired_end_x_mirror_voltage)) / grid_size_x, 5)
+            y_drive_voltage_step = round(((np.absolute(initial_y_driving_voltage)) + (desired_end_y_mirror_voltage)) / grid_size_y, 5)
 
             # create dataset to populate
             global xy_scan_data_array
@@ -255,8 +252,8 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                     units = nidaqmx.constants.FrequencyUnits.HZ,
                     idle_state = nidaqmx.constants.Level.LOW,
                     initial_delay = 0.0,
-                    freq = 1000,
-                    duty_cycle = 0.50
+                    freq = 500,
+                    duty_cycle = 0.5
                     )
 
                 # cfg implict timing
@@ -276,7 +273,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
                 # cfg sample clk timing
                 task1.timing.cfg_samp_clk_timing(
-                    rate = 1000,
+                    rate = 500,
                     source = "/cDAQ1/Ctr1InternalOutput",
                     active_edge = nidaqmx.constants.Edge.RISING,
                     sample_mode = AcquisitionType.CONTINUOUS,
@@ -287,8 +284,8 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                 task1.start() # this starts the hardware-based internal clock NI-DAQmx task
                                 
             ######################################################################## X and Y scanning #########################################################################
-
-                for f in range(grid_size_y): # this loops for rows (y)
+                from tqdm import trange
+                for f in trange(grid_size_y): # this loops for rows (y)
 
                     for k in range(grid_size_x): # this loops for columns (x)
 
@@ -317,6 +314,9 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                             if k < (grid_size_x - 1):
 
                                 x_driving_voltage_to_change += x_drive_voltage_step # increment drive voltage forwards
+
+                                x_driving_voltage_to_change = round(x_driving_voltage_to_change, 5)
+
                                 scan_galvo.voltage_cdaq1mod2ao0(x_driving_voltage_to_change) # step x motor
 
                             else:
@@ -325,6 +325,9 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                             if k < (grid_size_x - 1):
 
                                 x_driving_voltage_to_change -= x_drive_voltage_step # increment drive voltage backwards
+
+                                x_driving_voltage_to_change = round(x_driving_voltage_to_change, 5)
+
                                 scan_galvo.voltage_cdaq1mod2ao0(x_driving_voltage_to_change) # step x motor
 
                             else:
@@ -332,7 +335,9 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
 
                     ##################### updating plot section ####################
                     # self.sc.axes.cla() # this does not seem to be needed
-
+                    # print("Array:")
+                    # print(xy_scan_data_array)
+                    
                     self.sc.axes.pcolormesh(xy_scan_data_array, cmap = "pink")
                     self.sc.axes.set_xticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_x_driving_voltage, int((initial_x_driving_voltage + desired_end_x_mirror_voltage) / 2), desired_end_x_mirror_voltage])
                     self.sc.axes.set_yticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_y_driving_voltage, int((initial_y_driving_voltage + desired_end_y_mirror_voltage) / 2), desired_end_y_mirror_voltage])
@@ -349,6 +354,9 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                     if f < (grid_size_y - 1): # this loop prevents from scanning an upper undesired row
 
                         y_driving_voltage_to_change += y_drive_voltage_step # increment drive voltage
+
+                        y_driving_voltage_to_change = round(y_driving_voltage_to_change, 5)
+
                         scan_galvo.voltage_cdaq1mod2ao1(y_driving_voltage_to_change) # step y motor
 
                     else:
@@ -360,7 +368,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
             scan_galvo.close() # this is where reeated scanning hinges on and needs to be re-implemented
 
             ############################################################### end scanning script #############################################################################################
-
+            xy_scan_data_array[0][0] = xy_scan_data_array[-1][-1]
             ############################################### plotting XY scan data in plot ####################################################
             
             # self.sc.figure.clear() # is this needed after implementing live plot updating?
@@ -977,7 +985,6 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
         This creates a textbox located in the lower left hand corner of the GUI. It is set (parent) to the left_window. When any scan script is run the 
         parameters enterd by the user are collected from their respective QLineedits and then printed in a list to this QTextBox. This allows the user 
         select and copy the parameters they used quickly in order to save them to an external file as documentation of scans run.
-
         Room for improvement:
         1. The date (get from "todays_date" that is already implemented) could be added to the first line of any scans parameter printing fnc
         2. The info printed to this QTextBox could also and/or be saved to an external file for record/documentation
