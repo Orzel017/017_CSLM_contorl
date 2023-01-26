@@ -1,36 +1,59 @@
 """
 File name: "Welcome_page.py"
 
-Made: 01-14-2023
+Contents: welcome page UI elements
 
+Dates:
+Originally created: 01-14-202
 Last modifed: 01-26-2023
+Original author: MDA
+Last modified by: MDA
+
+Notes:
+
+TODO:
 
 """
 
-from PyQt5.QtWidgets import (QFrame, QVBoxLayout) # submodules from PyQt5.QtWidgets
+######################################################################################## start package imports ########################################################################################
+
+from PyQt5.QtWidgets import (QVBoxLayout, QFrame, QLabel) # submodules from PyQt5.QtWidgets
 
 from PyQt5.QtCore import Qt # Qt module from QtCore
 
-# Create the first page
+########################################################################################## end package imports ########################################################################################
 
-def build_welcome_page(self):
+def build_welcome_page(self): # define build_welcome_page to setup the welcome UI elements
 
-    ### create layout ###
+    ##################################################################################### start create layout #########################################################################################
 
-    self.layout = QVBoxLayout()
+    self.behind_layout = QVBoxLayout() # create a VBoxLayout
 
-    self.layout.setSpacing(0)
+    self.behind_layout.setSpacing(1) # control space between widgets
 
-    self.layout.setContentsMargins(0, 0, 0, 0)
+    self.behind_layout.setContentsMargins(0, 0, 0, 0) # control margin between widgets(for on background widget spacing)
 
-    ### end layout ###
+    ##################################################################################### end create layout ###########################################################################################
 
-    self.welcome_background_frame = QFrame()
+    # creating two QFrames
+    self.welcome_background_frame_top = QFrame() # create top
+    self.welcome_background_frame_bottom = QFrame() # create bottom
 
-    self.layout.addWidget(self.welcome_background_frame)
+    self.welcome_background_frame_top.setFixedHeight(500) # adjust height of top frame
 
-    self.welcome_background_frame.setStyleSheet("background-color: black") # temp set background color
+    # adding widgets to background QFrames
+    self.behind_layout.addWidget(self.welcome_background_frame_top) # top
+    self.behind_layout.addWidget(self.welcome_background_frame_bottom) # bottom
 
-    # self.welcome_background_frame.setParent(self) # designate the parent to higher level background widget
+    # frame edge styling
+    self.welcome_background_frame_top.setFrameShape(QFrame.StyledPanel) # top
+    self.welcome_background_frame_bottom.setFrameShape(QFrame.StyledPanel) # bottom
 
-    self.Welcome_page.setLayout(self.layout)
+    self.welcome_title_widget = QLabel("Welcome Page", self)
+
+    self.welcome_title_widget.move(200, 100)
+
+    # self.welcome_background_frame_top.setStyleSheet("background-color: black") # temp set background color
+    # self.welcome_background_frame_bottom.setStyleSheet("background-color: red") # temp set background color
+
+    self.Welcome_page.setLayout(self.behind_layout)
