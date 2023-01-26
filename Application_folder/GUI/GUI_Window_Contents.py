@@ -21,7 +21,7 @@ from PyQt5.QtWidgets import (QListWidget, QHBoxLayout, QWidget, QStackedWidget) 
 
 from PyQt5.QtCore import Qt # Qt module from QtCore
 
-import Welcome_page, page_2, page_3 # import subpages. More info for here to come
+import Welcome_Page, Galvo_Control_Page, XY_Scan_Page # import subpages. More info for here to come
 
 ########################################################################################## end package imports ########################################################################################
 
@@ -99,20 +99,20 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
         # setup a QStackedWidget to display the selected imaging UI elements
 
         self.Welcome_page = QWidget()
-        self.XY_image_UI = QWidget()
-        self.YZ_image_UI = QWidget()
+        self.Galvo_control_page = QWidget()
+        self.XY_scan_page = QWidget()
 
         # initialize all displayed options UI elements
-        Welcome_page.build_welcome_page(self)
-        page_2.stack2UI(self)
-        page_3.stack3UI(self)
+        Welcome_Page.build_welcome_page(self)
+        Galvo_Control_Page.build_galvo_control_page(self)
+        XY_Scan_Page.stack3UI(self)
 
         self.multi_item_display = QStackedWidget(self) # create the QStackedWidget
 
         # add all displayed options UIwidgets
         self.multi_item_display.addWidget(self.Welcome_page)
-        self.multi_item_display.addWidget(self.XY_image_UI)
-        self.multi_item_display.addWidget(self.YZ_image_UI)
+        self.multi_item_display.addWidget(self.Galvo_control_page)
+        self.multi_item_display.addWidget(self.XY_scan_page)
 
         ########################################################################### end right half main GUI window ####################################################################################
 

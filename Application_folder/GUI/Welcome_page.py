@@ -49,11 +49,13 @@ def build_welcome_page(self): # define build_welcome_page to setup the welcome U
     self.welcome_background_frame_top.setFrameShape(QFrame.StyledPanel) # top
     self.welcome_background_frame_bottom.setFrameShape(QFrame.StyledPanel) # bottom
 
-    self.welcome_title_widget = QLabel("Welcome Page", self)
+    self.welcome_title_widget = QLabel("Welcome Page") # create title widget
 
-    self.welcome_title_widget.move(200, 100)
+    self.welcome_title_widget.setParent(self.welcome_background_frame_top) # designate parent of title widget
+
+    self.welcome_title_widget.move(200, 100) # position the title
 
     # self.welcome_background_frame_top.setStyleSheet("background-color: black") # temp set background color
     # self.welcome_background_frame_bottom.setStyleSheet("background-color: red") # temp set background color
 
-    self.Welcome_page.setLayout(self.behind_layout)
+    self.Welcome_page.setLayout(self.behind_layout) # display welcome page UI elements
