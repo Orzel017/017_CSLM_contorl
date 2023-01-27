@@ -39,7 +39,9 @@ def build_camera_control_page(self): # define build_welcome_page to setup the ca
     self.camera_control_settings_left = QFrame() # create left
     self.camera_control_image_right = QFrame() # create right
 
-    self.camera_control_settings_left.setFixedWidth(150)
+    # manual dimensions
+    maintain_aspect_ratio_one_to_one_dimension = 691 # designate fixed dimension variable for image area to be square
+    self.camera_control_image_right.setFixedSize(maintain_aspect_ratio_one_to_one_dimension, maintain_aspect_ratio_one_to_one_dimension) # set fixed dimensions of image area
 
     # adding widgets to background QFrames
     self.behind_layout.addWidget(self.camera_control_settings_left) # left

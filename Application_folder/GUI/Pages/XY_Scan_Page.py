@@ -39,7 +39,9 @@ def build_xy_scan_page(self): # define build_welcome_page to setup the xy scan p
     self.xy_scan_input_left_side = QFrame() # create left
     self.xy_scan_output_right_side = QFrame() # create right
 
-    self.xy_scan_input_left_side.setFixedWidth(200)
+    # manual dimensions
+    maintain_aspect_ratio_one_to_one_dimension = 691 # designate fixed dimension variable for image area to be square
+    self.xy_scan_output_right_side.setFixedSize(maintain_aspect_ratio_one_to_one_dimension, maintain_aspect_ratio_one_to_one_dimension) # set fixed dimensions of image area
 
     # adding widgets to background QFrames
     self.behind_layout.addWidget(self.xy_scan_input_left_side) # left

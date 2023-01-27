@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally created: 01-14-2023
-Last modifed: 01-18-2023
+Last modifed: 01-27-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -24,7 +24,7 @@ window
 
 from PyQt5 import QtWidgets # import QtWidgets from PyQt5 for building the window
 
-from PyQt5.QtWidgets import (qApp, QLabel) # import submodule from PyQt5.QtWidgets
+from PyQt5.QtWidgets import (qApp, QLabel, QWidget) # import submodule from PyQt5.QtWidgets
 
 from PyQt5.QtGui import QFont # submodule from PyQt5.QtGui
 
@@ -40,7 +40,7 @@ from GUI_Window_Contents import Build_GUI_Constant_Contents # first child conten
 # the below two lines are from https://leomoon.com/journal/python/high-dpi-scaling-in-pyqt5/
 """
 
-QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) # enable highdpi scaling for applicaton
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) # enable high-dpi scaling for applicaton
 
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True) # use high-dpi icons across GUI
 
@@ -66,8 +66,8 @@ class GUI_Window_Background(QtWidgets.QMainWindow):
         ################################################################################## start main GUI window UI elements ##########################################################################
 
         # overall application dimensions
-        gui_window_height = 650 # define the main window height. Old was 470
-        gui_window_width = 1000 # define the main window width. Old was 800
+        gui_window_height = int(1000 / 1.3333333333333333333333333333333333333333) # define the main window height. Old was 470 (legacy GUI)
+        gui_window_width = 1000 + 50 # define the main window width. Old was 800 (legacy GUI)
 
         self.setGeometry(400, 200, gui_window_width, gui_window_height) # `.setgeometry()` function arguments run: x-coord, y-coord, width, height
 
@@ -158,7 +158,13 @@ class GUI_Window_Background(QtWidgets.QMainWindow):
 
         help_menu_bar_item.addAction(hep_menu_bar_about_sub_item) # add "About" action to the "Help" menu item
 
-        # hep_menu_bar_about_sub_item.triggered.connect(display_about_window) # this connects clicking the "About" sub-item to display the about window
+        import Extra_Windows.About_Window
+        from Extra_Windows import About_Window
+        # import About_Window
+        # hep_menu_bar_about_sub_item.triggered.connect(About_Window.make_about_window(self)) # this connects clicking the "About" sub-item to display the about window
+        # self.about_window = QWidget()
+        # About_Window.make_about_window(self)
+        # hep_menu_bar_about_sub_item.triggered.connect(About_Window.make_about_window) # this connects clicking the "About" sub-item to display the about window
 
         ############################################################################################ end menu bar #####################################################################################
 
