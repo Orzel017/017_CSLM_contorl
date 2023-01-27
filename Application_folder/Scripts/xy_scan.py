@@ -58,8 +58,8 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
     desired_end_y_mirror_voltage = round(float(xy_scan_y_voltage_max_qlineedit.text()), 2)
 
     # def the internal stepping voltages based on user-entered settings above
-    x_drive_voltage_step = ((np.absolute(initial_x_driving_voltage)) + (desired_end_x_mirror_voltage)) / grid_size_x
-    y_drive_voltage_step = ((np.absolute(initial_y_driving_voltage)) + (desired_end_y_mirror_voltage)) / grid_size_y
+    x_drive_voltage_step = round(((np.absolute(initial_x_driving_voltage)) + (desired_end_x_mirror_voltage)) / grid_size_x, 5
+    y_drive_voltage_step = round((np.absolute(initial_y_driving_voltage)) + (desired_end_y_mirror_voltage)) / grid_size_y, 5)
 
     # create dataset to populate
     global xy_scan_data_array
@@ -152,6 +152,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                     if k < (grid_size_x - 1):
 
                         x_driving_voltage_to_change += x_drive_voltage_step # increment drive voltage forwards
+                        x_driving_voltage_to_change = round(x_driving_voltage_to_change, 5)
                         scan_galvo.voltage_cdaq1mod2ao0(x_driving_voltage_to_change) # step x motor
 
                     else:
@@ -160,6 +161,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
                     if k < (grid_size_x - 1):
 
                         x_driving_voltage_to_change -= x_drive_voltage_step # increment drive voltage backwards
+                        x_driving_voltage_to_change = round(x_driving_voltage_to_change, 5)
                         scan_galvo.voltage_cdaq1mod2ao0(x_driving_voltage_to_change) # step x motor
 
                     else:
@@ -184,6 +186,7 @@ C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contri
             if f < (grid_size_y - 1): # this loop prevents from scanning an upper undesired row
 
                 y_driving_voltage_to_change += y_drive_voltage_step # increment drive voltage
+                y_driving_voltage_to_change = roun(y_driving_voltage_to_change, 5)
                 scan_galvo.voltage_cdaq1mod2ao1(y_driving_voltage_to_change) # step y motor
 
             else:
