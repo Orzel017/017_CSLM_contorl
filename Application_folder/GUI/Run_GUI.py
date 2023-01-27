@@ -5,7 +5,7 @@ Contents: brief lines to run the GUI/application
 
 Dates:
 Originally separated/organized: 12-22-2022
-Last modifed: 12-22-2022
+Last modifed: 01-17-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -18,7 +18,7 @@ one packaged application avaialble from the desktop of a designated machine and 
 
 import sys # import system-specific parameters and functions
 
-from Main_Window import Setup_Main_Window_Background # import `Setup_Main_Window_Background` class from "Main_Window" file
+from GUI_Background_Window import GUI_Window_Background # import `GUI_Background` from "layout_base.py" file
 
 from PyQt5 import QtWidgets # import QtWidgets for QApplication to build the whole application
 
@@ -30,9 +30,9 @@ if __name__ == "__main__": # check name to run main file
 
     application = QtWidgets.QApplication(sys.argv) # setup command line arguments under "application"
 
-    main_window = Setup_Main_Window_Background() # designate a "main_window" to the Parent class call
+    main_GUI_window = GUI_Window_Background() # designate a "main_GUI_window" object
 
-    main_window.show() # display the main application window
+    main_GUI_window.show() # display the main application window
 
     sys.exit(application.exec_()) # enter the main event look of the application. See https://doc.qt.io/qt-6/qapplication.html#exec for more info. on `.exec()`
 
