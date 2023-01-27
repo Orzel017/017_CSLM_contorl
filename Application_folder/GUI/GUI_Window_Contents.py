@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally created: 01-14-2023
-Last modifed: 01-26-2023
+Last modifed: 01-27-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -21,7 +21,7 @@ from PyQt5.QtWidgets import (QListWidget, QHBoxLayout, QWidget, QStackedWidget) 
 
 from PyQt5.QtCore import Qt # Qt module from QtCore
 
-import Welcome_Page, Galvo_Control_Page, XY_Scan_Page # import subpages. More info for here to come
+from Pages import Welcome_Page, Galvo_Control_Page, Camera_Control_Page, XY_Scan_Page # import subpages
 
 ########################################################################################## end package imports ########################################################################################
 
@@ -51,7 +51,7 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
 
     def display_index_page(self, i): # define the function to switch pages within the `QStackedLayout`
 
-        self.multi_item_display.setCurrentIndex(i) # switch to the new page index
+        self.multi_item_display.setCurrentIndex(i) # switcbuild_h to the new page index
     
     ################################## !!! ############################################# end temporary functions ################################################# !!! ################################
 
@@ -73,18 +73,16 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
 
         self.left_items_list = QListWidget() # build a `QListWidget` for listing imaging options
 
-        self.left_items_list.setFixedWidth(84) # control width of lest list
-
-        # print(self.left_items_list.size())
-        # print(self.left_items_list.pos().x())
+        self.left_items_list.setFixedWidth(96) # control width of left list
 
         # adding items to the `QListWidget`
         self.left_items_list.insertItem (0, "Welcome") # item 1: welcome window
         self.left_items_list.insertItem (1, "Galvo Control") # item 2: XY-image (TODO: implemented but awaiting transition)
-        self.left_items_list.insertItem (2, "XY-Image") # item 3: YZ-image (TODO: implemented but awaiting transition)
-        self.left_items_list.insertItem (3, "Item 4") # item 4: XZ-image (TODO: implemented but awaiting transition)
-        self.left_items_list.insertItem (4, "Item 5") # item 5: tiling image (TODO:)
-        self.left_items_list.insertItem (6, "Item 6") # item 6: Z-stack image (TODO:)
+        self.left_items_list.insertItem (2, "Camera Control") # item 2: Camera Control (TODO: implement ThorCam API)
+        self.left_items_list.insertItem (3, "XY-Image") # item 3: YZ-image (TODO: implemented but awaiting transition)
+        # self.left_items_list.insertItem (4, "Item 4") # item 4: XZ-image (TODO: implemented but awaiting transition)
+        # self.left_items_list.insertItem (5, "Item 5") # item 5: tiling image (TODO:)
+        # self.left_items_list.insertItem (6, "Item 6") # item 6: Z-stack image (TODO:)
 
         # permanently remove scroll bars from QListWidget
         self.left_items_list.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff) # vertical scroll bar
@@ -100,18 +98,21 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
 
         self.Welcome_page = QWidget()
         self.Galvo_control_page = QWidget()
+        self.Camera_control_page = QWidget()
         self.XY_scan_page = QWidget()
 
         # initialize all displayed options UI elements
         Welcome_Page.build_welcome_page(self)
         Galvo_Control_Page.build_galvo_control_page(self)
-        XY_Scan_Page.stack3UI(self)
+        Camera_Control_Page.build_camera_control_page(self)
+        XY_Scan_Page.build_xy_scan_page(self)
 
         self.multi_item_display = QStackedWidget(self) # create the QStackedWidget
 
         # add all displayed options UIwidgets
         self.multi_item_display.addWidget(self.Welcome_page)
         self.multi_item_display.addWidget(self.Galvo_control_page)
+        self.multi_item_display.addWidget(self.Camera_control_page)
         self.multi_item_display.addWidget(self.XY_scan_page)
 
         ########################################################################### end right half main GUI window ####################################################################################

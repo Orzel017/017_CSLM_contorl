@@ -29,32 +29,13 @@ def build_galvo_control_page(self):
 
     self.background_layout = QGridLayout() # create highest-level background layout as QGridLayout
 
-    # self.background_layout.setSpacing(1) # control space between widgets
+    self.background_layout.setSpacing(1) # control space between widgets
 
-    # self.background_layout.setContentsMargins(0, 0, 0, 0) # control margin between widgets(for on background widget spacing)
+    self.background_layout.setContentsMargins(0, 0, 0, 0) # control margin between widgets(for on background widget spacing)
 
     ################################################################################## end layout setup ###############################################################################################
 
     ################################################################################## start window setup #############################################################################################
-
-    # # left window
-    # self.left_window = QFrame()
-    # self.left_window.setFrameShape(QFrame.StyledPanel)
-    # # self.left_window.setFixedSize(400, 400)
-
-    # # right window
-    # self.right_window = QFrame()
-    # self.right_window.setFrameShape(QFrame.StyledPanel)
-    # # self.right_window.setFixedSize(300, 500)
-
-    # self.splitter1 = QSplitter(Qt.Horizontal)
-
-    # self.splitter1.addWidget(self.left_window)
-    # self.splitter1.addWidget(self.right_window)
-
-    # self.background_layout.addWidget(self.splitter1) # set layout and show window
-
-    # self.splitter1.setHandleWidth(1)
 
     self.upper_left_window = QFrame()
     self.upper_left_window.setFrameShape(QFrame.StyledPanel)
@@ -74,6 +55,12 @@ def build_galvo_control_page(self):
     self.background_layout.addWidget(self.lower_right_window, 1, 1)
 
     #################################################################################### end window setup #############################################################################################
+
+    ################################################################################ start upper left window ##########################################################################################
+
+    self.galvo_mirrors_individual_control_label = QLabel("Control both mirrors manually:")
+
+    ################################################################################ end upper left window ############################################################################################
 
     self.galvo_control_widget = QLabel("Galvo Control Page") # create label widget
 
