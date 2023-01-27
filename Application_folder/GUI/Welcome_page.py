@@ -5,7 +5,7 @@ Contents: welcome page UI elements
 
 Dates:
 Originally created: 01-14-202
-Last modifed: 01-26-2023
+Last modifed: 01-27-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -18,8 +18,6 @@ TODO:
 ######################################################################################## start package imports ########################################################################################
 
 from PyQt5.QtWidgets import (QVBoxLayout, QFrame, QLabel) # submodules from PyQt5.QtWidgets
-
-from PyQt5.QtCore import Qt # Qt module from QtCore
 
 ########################################################################################## end package imports ########################################################################################
 
@@ -35,6 +33,8 @@ def build_welcome_page(self): # define build_welcome_page to setup the welcome U
 
     ##################################################################################### end create layout ###########################################################################################
 
+    ######################################################################################## start frames #############################################################################################
+
     # creating two QFrames
     self.welcome_background_frame_top = QFrame() # create top
     self.welcome_background_frame_bottom = QFrame() # create bottom
@@ -49,6 +49,10 @@ def build_welcome_page(self): # define build_welcome_page to setup the welcome U
     self.welcome_background_frame_top.setFrameShape(QFrame.StyledPanel) # top
     self.welcome_background_frame_bottom.setFrameShape(QFrame.StyledPanel) # bottom
 
+    ######################################################################################### end frames ##############################################################################################
+
+    ###################################################################################### start contents #############################################################################################
+
     self.welcome_title_widget = QLabel("Welcome Page") # create title widget
 
     self.welcome_title_widget.setParent(self.welcome_background_frame_top) # designate parent of title widget
@@ -58,4 +62,10 @@ def build_welcome_page(self): # define build_welcome_page to setup the welcome U
     # self.welcome_background_frame_top.setStyleSheet("background-color: black") # temp set background color
     # self.welcome_background_frame_bottom.setStyleSheet("background-color: red") # temp set background color
 
+    ####################################################################################### end contents ##############################################################################################
+
+    ##################################################################################### start finalize page #########################################################################################
+
     self.Welcome_page.setLayout(self.behind_layout) # display welcome page UI elements
+
+    ##################################################################################### end finalize page ###########################################################################################
