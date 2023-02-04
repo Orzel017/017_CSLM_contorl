@@ -17,26 +17,21 @@ TODO:
 
 ######################################################################################## start package imports ########################################################################################
 
+import sys # generic sys module import
+
+import path # module for accessing parent folder directories
+
 from PyQt5.QtWidgets import (QHBoxLayout, QFrame, QLabel) # submodules from PyQt5.QtWidgets
 
 import matplotlib # generic Matplotlib import
 
 matplotlib.use("Qt5Agg") # tailor matplotlib package for use in PyQt5?
 
-import sys
-# print(sys.path)
-sys.path.insert(0, "C:\Users\Orzel017main\Desktop\CLSM_control_software_main\017_CLSM_control\Application_folder\GUI\Helper_Utilities")
-# import Helper_Utilities
+current_file_directory = path.Path(__file__).abspath() # access current file's directory in folder structure
 
-# import path
-# directory = path.Path(__file__).abspath()
-# sys.path.append(directory.parent.parent)
-# import GUI
-# from GUI.Helper_Utilities import Plotting_Setup
-# import Helper_Utilities
-# from Application_folder.GUI.Helper_Utilities import Plotting_Setup
-# import GUI
-# from GUI.Helper_Utilities import Plotting_Setup
+sys.path.append(current_file_directory.parent.parent.parent) # append triple parent of current file (in folder structure)
+
+from Helper_Utilities import Plotting_Setup # access Plotting_Setup file from parent directorie's subfolder
 
 ########################################################################################## end package imports ########################################################################################
 
@@ -82,15 +77,20 @@ def build_xy_scan_page(self): # define build_welcome_page to setup the xy scan p
 
     ####################################################################################### start plot area ###########################################################################################
 
+    plot_dimension_match_aspect_ratio = 6.88 # designtate fixed dimension variable for image area to be square based on set DPI -below
+
+    self.output_plot_area = Plotting_Setup.MatPlotLib_Canvas(self, canvas_width = plot_dimension_match_aspect_ratio, canvas_height = plot_dimension_match_aspect_ratio,
+                                                             canvas_dpi = 100) # create plot area from MatPlotLib_Canvas class
+
+    self.output_plot_area.move(1, 1) # adjust spacing to match output right QFrame
+
+    self.output_plot_area.setParent(self.xy_scan_output_right_side) # designate parent of plot area widget
+
+    # set sizes of initial axes labels
+    self.output_plot_area.axes.xaxis.set_tick_params(labelsize = 6) # x-axis
+    self.output_plot_area.axes.yaxis.set_tick_params(labelsize = 6) # y-axis
 
     ######################################################################################## end plot area ############################################################################################
-
-    plot_res = 5.42
-    # self.sc = Plotting_Setup.MplCanvas(self, canvas_width = plot_res, canvas_height = plot_res, canvas_dpi = 110)
-    # self.sc.move(400, 400)
-    # self.sc.setParent(self.xy_scan_output_left_side) # designate parent of plot area widget
-    # self.sc.axes.xaxis.set_tick_params(labelsize = 8)
-    # self.sc.axes.yaxis.set_tick_params(labelsize = 8)
 
     ####################################################################################### end contents ##############################################################################################
 

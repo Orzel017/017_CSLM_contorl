@@ -5,7 +5,7 @@ Contents: framework to build the plotting area (and Matplotlib Canvas)
 
 Dates:
 Originally separated/organized: 12-21-2022
-Last modifed: 01-12-2022
+Last modifed: 02-04-2022
 Original author: MDA
 Last modified by: MDA
 
@@ -19,35 +19,33 @@ TODO:
 
 ########################################################################################## start imports ##############################################################################################
 
-from datetime import date
+import matplotlib # generic MatPlotLib import
 
-# MatPlotLib plotting packages
-import matplotlib
-matplotlib.use("Qt5Agg")
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
-import matplotlib.pyplot as plt
+matplotlib.use("Qt5Agg") # tailor matplotlib package for use in PyQt5?
+
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg # tailor matplotlib package for use in PyQt5? A backend?
+
+import matplotlib.pyplot # import pyplot submodule
 
 ############################################################################################ end imports ##############################################################################################
 
 ########################################################################################### start prelims #############################################################################################
 
-get_todays_date = date.today() # this is used for creating the final plot's plot labels
-
-todays_date = get_todays_date.strftime("%m%d%Y") # this is used for creating the final plot's plot labels
+# prelims go here
 
 ############################################################################################ end prelims ##############################################################################################
 
-############################################################################### start MplCanvas class ##################################################################################################
-class MplCanvas(FigureCanvasQTAgg):
+########################################################################### start MatPlotLib_Canvas class #############################################################################################
+class MatPlotLib_Canvas(FigureCanvasQTAgg):
 
-    def __init__(self, parent = None, canvas_width = 26, canvas_height = 26, canvas_dpi = 1000):
+    def __init__(self, parent, canvas_width, canvas_height, canvas_dpi):
 
-        # fig = Figure(figsize = (width, height), dpi = dpi)
+        # fig = Figure(figsize = (width, height), dpi = dpi) # old
         
-        # self.axes = fig.add_subplot()
+        # self.axes = fig.add_subplot() # old
 
-        self.figure, self.axes = plt.subplots(figsize = (canvas_width, canvas_height), dpi = canvas_dpi, tight_layout = True)
+        self.figure, self.axes = matplotlib.pyplot.subplots(figsize = (canvas_width, canvas_height), dpi = canvas_dpi, tight_layout = True)
 
-        super(MplCanvas, self).__init__(self.figure)
+        super(MatPlotLib_Canvas, self).__init__(self.figure)
 
-################################################################################ end MplCanvas class ##################################################################################################
+############################################################################# end MatPlotLib_Canvas class #############################################################################################
