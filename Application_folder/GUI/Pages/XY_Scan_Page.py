@@ -13,6 +13,8 @@ Notes:
 
 TODO:
 *Fill UI elements from previous GUI
+*Save raw image data button needs to be setup
+*z-piezo API with ThorLabs driver needs to be setup
 """
 
 ######################################################################################## start package imports ########################################################################################
@@ -273,6 +275,33 @@ def build_xy_scan_page(self): # define build_welcome_page to setup the xy scan p
     self.take_xy_image_button.clicked.connect(GUI_Helper_Functions.print_hello_world) # temporary button print response
 
     # self.take_xy_image_button.clicked.connect(xy_scan_resolution_validation_fnc) # this framework is limited currently to only validating resolution
+
+    # save image data (function connection needs to be made) widget
+    self.save_raw_image_data_widget = QPushButton("Save raw image data below:", self) # create the save raw image data button
+
+    self.save_raw_image_data_widget.setParent(self.xy_scan_input_left_side) # set the "parent" bound of the save scan raw image data button
+
+    self.save_raw_image_data_widget.resize(148, 20) # resize the save raw image data button
+
+    self.save_raw_image_data_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 586) # set the position of the save raw image data button
+
+    self.save_raw_image_data_widget.clicked.connect(GUI_Helper_Functions.print_hello_world) # temporary button print response
+
+    # save raw image data qlineedit
+    self.save_raw_image_data_qlineedit = QLineEdit(self) # create the qlineedit to save raw image data
+
+    self.save_raw_image_data_qlineedit.setParent(self.xy_scan_input_left_side) # designate parent of the save raw image data qlineedit
+    
+    self.save_raw_image_data_qlineedit.resize(203, 20) # set the size of the save raw image data qlineedit
+
+    self.save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier, 627) # set the position of the save raw image data qlineedit
+
+    # save raw image data file extension label widget
+    self.save_raw_image_data_extension_label_widget = QLabel("\".npy\"", self) # create the save raw image data extension label widget
+
+    self.save_raw_image_data_extension_label_widget.setParent(self.xy_scan_input_left_side) # designate the parent of the save raw image data extension label widget
+
+    self.save_raw_image_data_extension_label_widget.move(control_widgets_left_justify_modifier + 204, 627) # set the position of the save raw image data extension label widget
 
     ########################################################################################## end control area #######################################################################################
 

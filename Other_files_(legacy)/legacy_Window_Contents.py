@@ -447,12 +447,3 @@ class Setup_Main_Window_Contents(QtWidgets.QWidget):#, **kwargs): # kwargs neede
         yz_scan_run_button.move(15 + yz_scan_widgets_left_x_justify, 215 + row_y_adjust + overall_y_adjust)
         yz_scan_run_button.clicked.connect(yz_scan_resolution_validation_fnc) # this framework is limited currently to only validating resolution
 
-####################################################################### context menu ######################################################################
-
-    def contextMenuEvent(self, event): # context (right-click) menu
-
-        cmenu = QMenu(self)
-        cmenuoneAct = cmenu.addAction("one")
-        cmenutwoAct = cmenu.addAction("two")
-        cmenuthreeAct = cmenu.addAction("three")
-        action = cmenu.exec_(self.mapToGlobal(event.pos()))
