@@ -75,6 +75,7 @@ def build_xy_scan_page(self): # define build_welcome_page to setup the xy scan p
 
     ###################################################################################### start contents #############################################################################################
 
+    # title widget
     self.title_widget = QLabel("Take XY Image:") # create title widget
 
     self.title_widget.setFont(QFont("Times", 8)) # adjust font size of title widget
@@ -83,11 +84,10 @@ def build_xy_scan_page(self): # define build_welcome_page to setup the xy scan p
 
     self.title_widget.move(82, 0) # position the title widget
 
+    # sudo-global variables
+    control_widgets_left_justify_modifier = 3 # left-justification
 
-    control_widgets_left_justify_modifier = 3
-
-    control_widgets_top_justify_modifier = 20
-    indiv_scan_labels_y_height = 25
+    control_widgets_top_justify_modifier = 20 # top-justification
 
     ######################################################################################### start control area ######################################################################################
 

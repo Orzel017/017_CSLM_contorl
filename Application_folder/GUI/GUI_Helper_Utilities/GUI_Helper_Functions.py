@@ -23,10 +23,6 @@ TODO:
 
 ############################################################################################ start functions ##########################################################################################
 
-def display_index_page(self):
-
-    self.Stack.setCurrentIndex()
-
 def print_hello_world(): # create simple "Hello world!" funciton for test repsonse in GUI
 
     print("Hello world!") # print "Hello world!"

@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally created: 01-14-2023
-Last modifed: 01-27-2023
+Last modifed: 02-05-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -17,7 +17,7 @@ TODO:
 
 ######################################################################################## start package imports ########################################################################################
 
-from PyQt5.QtWidgets import (QListWidget, QHBoxLayout, QWidget, QStackedWidget) # import submodules from PyQt5.QtWidgets
+from PyQt5.QtWidgets import (QListWidget, QHBoxLayout, QWidget, QStackedWidget, QMenu) # import submodules from PyQt5.QtWidgets
 
 from PyQt5.QtCore import Qt # Qt module from QtCore
 
@@ -25,35 +25,33 @@ from Pages import Welcome_Page, Galvo_Control_Page, Camera_Control_Page, XY_Scan
 
 ########################################################################################## end package imports ########################################################################################
 
-##################### attempts for about window imports below ##################################################
-
-import os
-import sys  # import system-specific parameters and functions
-import inspect
-root_folder = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(root_folder)
-# print(root_folder)
-
-sys.path.append("017_CLSM_Control/Application_folder")
-# from Application_folder.Extra_Windows import Make_About_Window # import `Make_About_Window` from the "About_Window.py" file for displaying the About window accessed from the Help menu bar item
-
-from GUI_Helper_Utilities import GUI_Helper_Functions
-
-##################### attempts for about window imports above ##################################################
-
 class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `parent = None` required?
 
     """
     This class sets up the second-highest level Widgets of the application window. It builds the horizontal (QHBoxLayout) splitter and QStackedWidget for the lower-level widgets.
     """
 
-    ######################################### !!! ##################################### start temporary functions ################################################ !!! ################################
+    #################################################################################### start content functions ######################################################################################
 
+    # function to change the displayed page
     def display_index_page(self, i): # define the function to switch pages within the `QStackedLayout`
 
-        self.multi_item_display.setCurrentIndex(i) # switcbuild_h to the new page index
+        self.multi_item_display.setCurrentIndex(i) # switch to the new page index
     
-    ################################## !!! ############################################# end temporary functions ################################################# !!! ################################
+    # function to create the context menu
+    def contextMenuEvent(self, event): # create context (right-click) menu for access throughout application
+
+        context_menu = QMenu(self) # create an instance of a context menu from `QMenu`
+        
+        context_menu_first_item = context_menu.addAction("One") # add the first item to the context menu
+
+        context_menu_second_item = context_menu.addAction("Two") # add the second item to the context menu
+
+        context_menu_third_item = context_menu.addAction("Three") # add the third item to the context menu
+
+        activate_context_menu = context_menu.exec_(self.mapToGlobal(event.pos())) # allow teh context menu to be access by right-click from accros the application
+    
+    ###################################################################################### end content functions ######################################################################################
 
     def __init__(self, parent = None): # setup first child GUI window object? Is `parent = None` required?
 
