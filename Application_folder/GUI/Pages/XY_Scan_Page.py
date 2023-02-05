@@ -5,7 +5,7 @@ Contents: UI elements to control Xy image taking
 
 Dates:
 Originally created: 01-17-2023
-Last modified: 02-04-2023
+Last modified: 02-05-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -138,48 +138,115 @@ def build_xy_scan_page(self): # define build_welcome_page to setup the xy scan p
     # xy_scan_read_time_qlineedit.resize(45, 15)
     # xy_scan_read_time_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
     
-    # minimum x driving voltage
-    self.minimum_x_driving_voltage_widget = QLabel("Min x Voltage:", self) # create minimum x driving voltage widget
+    # minimum x driving voltage widget
+    self.minimum_x_driving_voltage_widget = QLabel("Min x-voltage:", self) # create minimum x driving voltage widget
 
-    self.minimum_x_driving_voltage_widget.setParent(self.xy_scan_input_left_side)
-    self.minimum_x_driving_voltage_widget.move(xy_scan_widgets_left_x_justify, 90 + row_y_adjust + overall_y_adjust)
+    self.minimum_x_driving_voltage_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum x driving voltage widget
 
-    xy_scan_x_voltage_min_qlineedit = QLineEdit(self) # qclineedit
-    xy_scan_x_voltage_min_qlineedit.setParent(self.left_window)
-    xy_scan_x_voltage_min_qlineedit.move(50, 90 + row_y_adjust + overall_y_adjust)
-    xy_scan_x_voltage_min_qlineedit.resize(35, 15)
-    xy_scan_x_voltage_min_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
+    self.minimum_x_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 40) # position minimum x driving voltage widget
 
-    # xy_scan_x_voltage_max_widget = QLabel("x_V_max:", self) # widget
-    # xy_scan_x_voltage_max_widget.setParent(self.left_window)
-    # xy_scan_x_voltage_max_widget.move(xy_scan_widgets_left_x_justify, 115 + row_y_adjust + overall_y_adjust)
+    # minimum x driving voltage qlineedit
+    self.minimum_x_driving_voltage_qlineedit = QLineEdit(self) # create minimum x driving voltage qlineedit
 
-    # xy_scan_x_voltage_max_qlineedit = QLineEdit(self) # qclineedit
-    # xy_scan_x_voltage_max_qlineedit.setParent(self.left_window)
-    # xy_scan_x_voltage_max_qlineedit.move(55, 115 + row_y_adjust + overall_y_adjust)
-    # xy_scan_x_voltage_max_qlineedit.resize(30, 15)
-    # xy_scan_x_voltage_max_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
+    self.minimum_x_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of minimum x driving voltage qlineedit
 
-    # # y voltage (min and max)
-    # xy_scan_y_voltage_min_widget = QLabel("y_V_min:", self) # widget
-    # xy_scan_y_voltage_min_widget.setParent(self.left_window)
-    # xy_scan_y_voltage_min_widget.move(xy_scan_widgets_left_x_justify, 140 + row_y_adjust + overall_y_adjust)
+    self.minimum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 42) # position minimum x driving voltage qlineedit
 
-    # xy_scan_y_voltage_min_qlineedit = QLineEdit(self) # qclineedit
-    # xy_scan_y_voltage_min_qlineedit.setParent(self.left_window)
-    # xy_scan_y_voltage_min_qlineedit.move(50, 140 + row_y_adjust + overall_y_adjust)
-    # xy_scan_y_voltage_min_qlineedit.resize(35, 15)
-    # xy_scan_y_voltage_min_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
+    self.minimum_x_driving_voltage_qlineedit.resize(40, 15) # set size of minimum x driving voltage qlineedit
 
-    # xy_scan_y_voltage_max_widget = QLabel("y_V_max:", self) # widget
-    # xy_scan_y_voltage_max_widget.setParent(self.left_window)
-    # xy_scan_y_voltage_max_widget.move(xy_scan_widgets_left_x_justify, 165 + row_y_adjust + overall_y_adjust)
+    self.minimum_x_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
-    # xy_scan_y_voltage_max_qlineedit = QLineEdit(self) # qclineedit
-    # xy_scan_y_voltage_max_qlineedit.setParent(self.left_window)
-    # xy_scan_y_voltage_max_qlineedit.move(55, 165 + row_y_adjust + overall_y_adjust)
-    # xy_scan_y_voltage_max_qlineedit.resize(30, 15)
-    # xy_scan_y_voltage_max_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
+    # minimum x driving voltage unit label widget
+    self.minimum_x_driving_voltage_unit_label_widget = QLabel("volts", self) # create minimum x driving voltage unit label widget
+
+    self.minimum_x_driving_voltage_unit_label_widget.setFont(QFont("Times", 8)) # adjust font size of minimum x driving voltage unit label widget
+
+    self.minimum_x_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum x driving voltage unit label widget
+
+    self.minimum_x_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 42) # position minimum x driving voltage unit label widget
+
+    # maximum x driving voltage widget
+    self.maximum_x_driving_voltage_widget = QLabel("Max x-voltage:", self) # create maximum x driving voltage widget
+
+    self.maximum_x_driving_voltage_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum x driving voltage widget
+
+    self.maximum_x_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 65) # position maximum x driving voltage widget
+
+    # maximum x driving voltage qlineedit
+    self.maximum_x_driving_voltage_qlineedit = QLineEdit(self) # create maximum x driving voltage qlineedit
+
+    self.maximum_x_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of maximum x driving voltage qlineedit
+
+    self.maximum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 67) # position maximum x driving voltage qlineedit
+
+    self.maximum_x_driving_voltage_qlineedit.resize(40, 15) # set size of maximum x driving voltage qlineedit
+
+    self.maximum_x_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
+
+    # maximum x driving voltage unit label widget
+    self.maximum_x_driving_voltage_unit_label_widget = QLabel("volts", self) # create maximum x driving voltage unit label widget
+
+    self.maximum_x_driving_voltage_unit_label_widget.setFont(QFont("Times", 8)) # adjust font size of maximum x driving voltage unit label widget
+
+    self.maximum_x_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum x driving voltage unit label widget
+
+    # position maximum x driving voltage unit label widget
+    self.maximum_x_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 67)
+
+    # minimum x driving voltage widget
+    self.minimum_y_driving_voltage_widget = QLabel("Min y-voltage:", self) # create minimum y driving voltage widget
+
+    self.minimum_y_driving_voltage_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum y driving voltage widget
+
+    self.minimum_y_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 93) # position minimum y driving voltage widget
+
+    # minimum y driving voltage qlineedit
+    self.minimum_y_driving_voltage_qlineedit = QLineEdit(self) # create minimum y driving voltage qlineedit
+
+    self.minimum_y_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of minimum y driving voltage qlineedit
+
+    self.minimum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 95) # position minimum y driving voltage qlineedit
+
+    self.minimum_y_driving_voltage_qlineedit.resize(40, 15) # set size of minimum y driving voltage qlineedit
+
+    self.minimum_y_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
+
+    # minimum y driving voltage unit label widget
+    self.minimum_y_driving_voltage_unit_label_widget = QLabel("volts", self) # create minimum y driving voltage unit label widget
+
+    self.minimum_y_driving_voltage_unit_label_widget.setFont(QFont("Times", 8)) # adjust font size of minimum y driving voltage unit label widget
+
+    self.minimum_y_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum y driving voltage unit label widget
+
+    self.minimum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 95) # position minimum y driving voltage unit label widget
+
+    # maximum y driving voltage widget
+    self.maximum_y_driving_voltage_widget = QLabel("Max y-voltage:", self) # create maximum y driving voltage widget
+
+    self.maximum_y_driving_voltage_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum y driving voltage widget
+
+    self.maximum_y_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 118) # position maximum y driving voltage widget
+
+    # maximum y driving voltage qlineedit
+    self.maximum_y_driving_voltage_qlineedit = QLineEdit(self) # create maximum y driving voltage qlineedit
+
+    self.maximum_y_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of maximum y driving voltage qlineedit
+
+    self.maximum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 120) # position maximum x driving voltage qlineedit
+
+    self.maximum_y_driving_voltage_qlineedit.resize(40, 15) # set size of maximum y driving voltage qlineedit
+
+    self.maximum_y_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
+
+    # maximum y driving voltage unit label widget
+    self.maximum_y_driving_voltage_unit_label_widget = QLabel("volts", self) # create maximum y driving voltage unit label widget
+
+    self.maximum_y_driving_voltage_unit_label_widget.setFont(QFont("Times", 8)) # adjust font size of maximum y driving voltage unit label widget
+
+    self.maximum_y_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum y driving voltage unit label widget
+
+    # position maximum y driving voltage unit label widget
+    self.maximum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 120)
 
     ########################################################################################## end control area #######################################################################################
 
