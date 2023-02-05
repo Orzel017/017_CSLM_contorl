@@ -23,7 +23,7 @@ import path # module for accessing parent folder directories
 
 import PyQt5 # generic PyQt5 module import
 
-from PyQt5.QtWidgets import (QHBoxLayout, QFrame, QLabel, QLineEdit) # submodules from PyQt5.QtWidgets
+from PyQt5.QtWidgets import (QHBoxLayout, QFrame, QLabel, QLineEdit, QPushButton) # submodules from PyQt5.QtWidgets
 
 from PyQt5.QtGui import QFont # submodule from PyQt5.QtGui
 
@@ -36,6 +36,8 @@ current_file_directory = path.Path(__file__).abspath() # access current file's d
 sys.path.append(current_file_directory.parent.parent.parent) # append triple parent of current file (in folder structure)
 
 from Helper_Utilities import Plotting_Setup # access Plotting_Setup file from parent directorie's subfolder
+
+from GUI_Helper_Utilities import GUI_Helper_Functions # access GUI_Helper_Functions from parent directorie's subfolder
 
 ########################################################################################## end package imports ########################################################################################
 
@@ -247,6 +249,30 @@ def build_xy_scan_page(self): # define build_welcome_page to setup the xy scan p
 
     # position maximum y driving voltage unit label widget
     self.maximum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 120)
+
+    # # z piezo
+    # xy_scan_z_piezo_voltage_widget = QLabel("z_V:", self) # widget
+    # xy_scan_z_piezo_voltage_widget.setParent(self.left_window)
+    # xy_scan_z_piezo_voltage_widget.move(xy_scan_widgets_left_x_justify, 190 + row_y_adjust + overall_y_adjust)
+
+    # xy_scan_z_piezo_voltage_qlineedit = QLineEdit(self) # qclineedit
+    # xy_scan_z_piezo_voltage_qlineedit.setParent(self.left_window)
+    # xy_scan_z_piezo_voltage_qlineedit.move(30, 190 + row_y_adjust + overall_y_adjust)
+    # xy_scan_z_piezo_voltage_qlineedit.resize(55, 15)
+    # xy_scan_z_piezo_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
+
+    # run take xy image button
+    self.take_xy_image_button = QPushButton("Run\nXY image", self) # create a button to take xy image
+
+    self.take_xy_image_button.setParent(self.xy_scan_input_left_side) # designate parent of take xy image button
+
+    self.take_xy_image_button.resize(60, 40) # set size of the take xy image button
+
+    self.take_xy_image_button.move(control_widgets_left_justify_modifier + 79, control_widgets_top_justify_modifier + 628)
+
+    self.take_xy_image_button.clicked.connect(GUI_Helper_Functions.print_hello_world) # temporary button print response
+
+    # self.take_xy_image_button.clicked.connect(xy_scan_resolution_validation_fnc) # this framework is limited currently to only validating resolution
 
     ########################################################################################## end control area #######################################################################################
 
