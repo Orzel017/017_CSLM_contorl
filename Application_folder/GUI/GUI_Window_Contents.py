@@ -21,7 +21,7 @@ from PyQt5.QtWidgets import (QListWidget, QHBoxLayout, QWidget, QStackedWidget, 
 
 from PyQt5.QtCore import Qt # Qt module from QtCore
 
-from Pages import Welcome_Page, Galvo_Control_Page, Camera_Control_Page, XY_Scan_Page # import subpages
+from Pages import Welcome_Page, Galvo_Control_Page, Camera_Control_Page, XY_Scan_Page, Spectroscopy_Page # import subpages
 
 ########################################################################################## end package imports ########################################################################################
 
@@ -75,12 +75,12 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
 
         # adding items to the `QListWidget`
         self.left_items_list.insertItem (0, "Welcome") # item 1: welcome window
-        self.left_items_list.insertItem (1, "Galvo Control") # item 2: XY-image (TODO: implemented but awaiting transition)
+        self.left_items_list.insertItem (1, "Galvo Control") # item 2: galvo control (TODO: implement)
         self.left_items_list.insertItem (2, "Camera Control") # item 2: Camera Control (TODO: implement ThorCam API)
-        self.left_items_list.insertItem (3, "XY-Image") # item 3: YZ-image (TODO: implemented but awaiting transition)
-        # self.left_items_list.insertItem (4, "Item 4") # item 4: XZ-image (TODO: implemented but awaiting transition)
-        # self.left_items_list.insertItem (5, "Item 5") # item 5: tiling image (TODO:)
-        # self.left_items_list.insertItem (6, "Item 6") # item 6: Z-stack image (TODO:)
+        self.left_items_list.insertItem (3, "XY-Image") # item 3: XY-image (TODO: implemented but awaiting transition)
+        # self.left_items_list.insertItem (4, "XZ-Image") # item 4: XZ-image (TODO: implemented but awaiting transition)
+        # self.left_items_list.insertItem (5, "YZ-Image") # item 5: YZ-image (TODO: implemented but awaiting transition)
+        self.left_items_list.insertItem (6, "Specroscopy") # item 6: spectrometer interface (TODO: implement using Seabreeze API)
 
         # permanently remove scroll bars from QListWidget
         self.left_items_list.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff) # vertical scroll bar
@@ -92,33 +92,40 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
 
         ############################################################################### start right half main GUI window ##############################################################################
 
-        # setup a QStackedWidget to display the selected imaging UI elements
+        # initialize instances of each page to be displayed as `QWidget` objects
+        self.Welcome_page = QWidget() # welcome page
+        self.Galvo_control_page = QWidget() # galvo control page
+        self.Camera_control_page = QWidget() # camera control page
+        self.XY_scan_page = QWidget() # XY image page
+        # space here for XZ # XZ image page
+        # space here for YZ # YZ image page
+        self.Spectroscopy_page = QWidget() # spectroscopy page
 
-        self.Welcome_page = QWidget()
-        self.Galvo_control_page = QWidget()
-        self.Camera_control_page = QWidget()
-        self.XY_scan_page = QWidget()
-
-        # initialize all displayed options UI elements
-        Welcome_Page.build_welcome_page(self)
-        Galvo_Control_Page.build_galvo_control_page(self)
-        Camera_Control_Page.build_camera_control_page(self)
-        XY_Scan_Page.build_xy_scan_page(self)
+        # build all (to be) displayed pages UI elements
+        Welcome_Page.build_welcome_page(self) # welcome page
+        Galvo_Control_Page.build_galvo_control_page(self) # galvo control page
+        Camera_Control_Page.build_camera_control_page(self) # camera control page
+        XY_Scan_Page.build_xy_scan_page(self) # XY image page
+        # space here for XZ # XZ image page
+        # space here for YZ # YZ image page
+        Spectroscopy_Page.build_spectroscopy_page(self) # spectroscopy page
 
         self.multi_item_display = QStackedWidget(self) # create the QStackedWidget
 
         # add all displayed options UIwidgets
-        self.multi_item_display.addWidget(self.Welcome_page)
-        self.multi_item_display.addWidget(self.Galvo_control_page)
-        self.multi_item_display.addWidget(self.Camera_control_page)
-        self.multi_item_display.addWidget(self.XY_scan_page)
+        self.multi_item_display.addWidget(self.Welcome_page) # welcome page
+        self.multi_item_display.addWidget(self.Galvo_control_page) # galvo control page
+        self.multi_item_display.addWidget(self.Camera_control_page) # camera control page
+        self.multi_item_display.addWidget(self.XY_scan_page) # XY image page
+        # space for XZ # XZ image page
+        # space for YZ # YZ image page
+        self.multi_item_display.addWidget(self.Spectroscopy_page) # spectroscopy page
 
         ########################################################################### end right half main GUI window ####################################################################################
 
         ####################################################################### start to finalize the overall layout strucutre ########################################################################
 
         # complete the second-highest level GUI layout
-
         self.hbox.addWidget(self.left_items_list) # add the QListWidget
 
         self.hbox.addWidget(self.multi_item_display) # add the QStackWidget

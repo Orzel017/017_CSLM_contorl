@@ -1,11 +1,11 @@
 """
-File name: "Welcome_page.py"
+File name: "Welcome_Page.py"
 
 Contents: welcome page UI elements
 
 Dates:
 Originally created: 01-14-202
-Last modifed: 01-27-2023
+Last modifed: 02-05-2023
 Original author: MDA
 Last modified by: MDA
 
