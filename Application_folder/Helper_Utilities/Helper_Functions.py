@@ -99,9 +99,9 @@ from Scripts import xy_scan_script # access run_xy_scan_script from parent direc
 #                                                 )
 
 # xy_scan resolution check then run fnc
-def start_xy_image():
+def start_xy_image(self):
 
-    xy_scan_script.run_xy_scan_script()
+    xy_scan_script.run_xy_scan_script(self)
 
 #     self.sc.axes.cla()
 

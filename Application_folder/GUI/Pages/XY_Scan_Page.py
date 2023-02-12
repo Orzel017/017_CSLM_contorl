@@ -45,292 +45,313 @@ from GUI_Helper_Utilities import GUI_Helper_Functions # access GUI_Helper_Functi
 
 ########################################################################################## end package imports ########################################################################################
 
-def build_xy_scan_page(self): # define build_welcome_page to setup the xy scan page UI elements
+class test_class:
 
-    ##################################################################################### start create layout #########################################################################################
+    # def __init__(self, test_var, parent = None):
 
-    self.behind_layout = QHBoxLayout() # create a QHBoxLayout
+    #     # self.output_plot_area = test_var
+    #     self.test_var = test_var
 
-    self.behind_layout.setSpacing(1) # control space between widgets
+    def build_xy_scan_page(self): # define build_welcome_page to setup the xy scan page UI elements
+        # self.rand = 2
+        # print(self.rand)
+        # self.rand = 5
 
-    self.behind_layout.setContentsMargins(0, 0, 0, 0) # control margin between widgets(for on background widget spacing)
+        ##################################################################################### start create layout #########################################################################################
 
-    ##################################################################################### end create layout ###########################################################################################
+        self.behind_layout = QHBoxLayout() # create a QHBoxLayout
 
-    ######################################################################################## start frames #############################################################################################
+        self.behind_layout.setSpacing(1) # control space between widgets
 
-    # creating two QFrames
-    self.xy_scan_input_left_side = QFrame() # create left
-    self.xy_scan_output_right_side = QFrame() # create right
+        self.behind_layout.setContentsMargins(0, 0, 0, 0) # control margin between widgets(for on background widget spacing)
 
-    # manual dimensions
-    maintain_aspect_ratio_one_to_one_dimension = 691 # designate fixed dimension variable for image area to be square
-    self.xy_scan_output_right_side.setFixedSize(maintain_aspect_ratio_one_to_one_dimension, maintain_aspect_ratio_one_to_one_dimension) # set fixed dimensions of image area
+        ##################################################################################### end create layout ###########################################################################################
 
-    # adding widgets to background QFrames
-    self.behind_layout.addWidget(self.xy_scan_input_left_side) # left
-    self.behind_layout.addWidget(self.xy_scan_output_right_side) # right
+        ######################################################################################## start frames #############################################################################################
 
-    # frame edge styling
-    self.xy_scan_input_left_side.setFrameShape(QFrame.StyledPanel) # top
-    self.xy_scan_output_right_side.setFrameShape(QFrame.StyledPanel) # bottom
+        # creating two QFrames
+        self.xy_scan_input_left_side = QFrame() # create left
+        self.xy_scan_output_right_side = QFrame() # create right
 
-    ######################################################################################### end frames ##############################################################################################
+        # manual dimensions
+        maintain_aspect_ratio_one_to_one_dimension = 691 # designate fixed dimension variable for image area to be square
+        self.xy_scan_output_right_side.setFixedSize(maintain_aspect_ratio_one_to_one_dimension, maintain_aspect_ratio_one_to_one_dimension) # set fixed dimensions of image area
 
-    ###################################################################################### start contents #############################################################################################
+        # adding widgets to background QFrames
+        self.behind_layout.addWidget(self.xy_scan_input_left_side) # left
+        self.behind_layout.addWidget(self.xy_scan_output_right_side) # right
 
-    # title widget
-    self.title_widget = QLabel("Take XY Image:") # create title widget
+        # frame edge styling
+        self.xy_scan_input_left_side.setFrameShape(QFrame.StyledPanel) # top
+        self.xy_scan_output_right_side.setFrameShape(QFrame.StyledPanel) # bottom
 
-    self.title_widget.setFont(QFont("Times", 8)) # adjust font size of title widget
+        ######################################################################################### end frames ##############################################################################################
 
-    self.title_widget.setParent(self.xy_scan_input_left_side) # designate parent of title widget
+        ###################################################################################### start contents #############################################################################################
 
-    self.title_widget.move(82, 0) # position the title widget
+        # title widget
+        self.title_widget = QLabel("Take XY Image:") # create title widget
 
-    # sudo-global variables
-    control_widgets_left_justify_modifier = 3 # left-justification
+        self.title_widget.setFont(QFont("Times", 8)) # adjust font size of title widget
 
-    control_widgets_top_justify_modifier = 20 # top-justification
+        self.title_widget.setParent(self.xy_scan_input_left_side) # designate parent of title widget
 
-    ######################################################################################### start control area ######################################################################################
+        self.title_widget.move(82, 0) # position the title widget
 
-    # resolution widget
-    self.resolution_widget = QLabel("Resolution:", self) # create resolution widget
+        # sudo-global variables
+        control_widgets_left_justify_modifier = 3 # left-justification
 
-    self.resolution_widget.setFont(QFont("Times", 8)) # adjust font size of resolution widget
+        control_widgets_top_justify_modifier = 20 # top-justification
 
-    self.resolution_widget.setParent(self.xy_scan_input_left_side) # designate parent of resolution widget
+        ######################################################################################### start control area ######################################################################################
 
-    self.resolution_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier) # position resolution widget
+        # resolution widget
+        self.resolution_widget = QLabel("Resolution:", self) # create resolution widget
 
-    # resolution QLineEdit
-    self.resolution_qlineedit = QLineEdit(self) # create resolution qlineedit
+        self.resolution_widget.setFont(QFont("Times", 8)) # adjust font size of resolution widget
 
-    self.resolution_qlineedit.setParent(self.xy_scan_input_left_side) # designate parent of resolution qlineedit
+        self.resolution_widget.setParent(self.xy_scan_input_left_side) # designate parent of resolution widget
 
-    self.resolution_qlineedit.move(control_widgets_left_justify_modifier + 60, control_widgets_top_justify_modifier) # position resolution qlineedit
+        self.resolution_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier) # position resolution widget
 
-    self.resolution_qlineedit.resize(40, 15) # resize resolution qlineedit
+        # resolution QLineEdit
+        self.resolution_qlineedit = QLineEdit(self) # create resolution qlineedit
 
-    self.resolution_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
+        self.resolution_qlineedit.setParent(self.xy_scan_input_left_side) # designate parent of resolution qlineedit
 
-    # pixels widget
-    self.pixels_widget = QLabel("pixels", self) # create resolution widget
+        self.resolution_qlineedit.move(control_widgets_left_justify_modifier + 60, control_widgets_top_justify_modifier) # position resolution qlineedit
 
-    self.pixels_widget.setFont(QFont("Times", 8)) # adjust font size of resolution widget
+        self.resolution_qlineedit.resize(40, 15) # resize resolution qlineedit
 
-    self.pixels_widget.setParent(self.xy_scan_input_left_side) # designate parent of resolution widget
+        self.resolution_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
-    self.pixels_widget.move(control_widgets_left_justify_modifier + 105, control_widgets_top_justify_modifier) # position resolution widget
+        # pixels widget
+        self.pixels_widget = QLabel("pixels", self) # create resolution widget
 
-    # resolution disclaimer widget
-    self.resolution_disclaimer_widget = QLabel("Note: aspect ratio is 1:1", self) # create resolution widget
+        self.pixels_widget.setFont(QFont("Times", 8)) # adjust font size of resolution widget
 
-    self.resolution_disclaimer_widget.setFont(QFont("Times", 8)) # adjust font size of resolution widget
+        self.pixels_widget.setParent(self.xy_scan_input_left_side) # designate parent of resolution widget
 
-    self.resolution_disclaimer_widget.setParent(self.xy_scan_input_left_side) # designate parent of resolution widget
+        self.pixels_widget.move(control_widgets_left_justify_modifier + 105, control_widgets_top_justify_modifier) # position resolution widget
 
-    self.resolution_disclaimer_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 15) # position resolution widget
+        # resolution disclaimer widget
+        self.resolution_disclaimer_widget = QLabel("Note: aspect ratio is 1:1", self) # create resolution widget
 
-    # # read time
-    # xy_scan_read_time_widget = QLabel("APD_t:", self) # widget
-    # xy_scan_read_time_widget.setParent(self.left_window)
-    # xy_scan_read_time_widget.move(xy_scan_widgets_left_x_justify, 65 + row_y_adjust + overall_y_adjust)
+        self.resolution_disclaimer_widget.setFont(QFont("Times", 8)) # adjust font size of resolution widget
 
-    # xy_scan_read_time_qlineedit = QLineEdit(self) # qclineedit
-    # xy_scan_read_time_qlineedit.setParent(self.left_window)
-    # xy_scan_read_time_qlineedit.move(40, 65 + row_y_adjust + overall_y_adjust)
-    # xy_scan_read_time_qlineedit.resize(45, 15)
-    # xy_scan_read_time_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
-    
-    # minimum x driving voltage widget
-    self.minimum_x_driving_voltage_widget = QLabel("Min x-voltage:", self) # create minimum x driving voltage widget
+        self.resolution_disclaimer_widget.setParent(self.xy_scan_input_left_side) # designate parent of resolution widget
 
-    self.minimum_x_driving_voltage_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum x driving voltage widget
+        self.resolution_disclaimer_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 15) # position resolution widget
 
-    self.minimum_x_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 40) # position minimum x driving voltage widget
+        # # read time
+        # xy_scan_read_time_widget = QLabel("APD_t:", self) # widget
+        # xy_scan_read_time_widget.setParent(self.left_window)
+        # xy_scan_read_time_widget.move(xy_scan_widgets_left_x_justify, 65 + row_y_adjust + overall_y_adjust)
 
-    # minimum x driving voltage qlineedit
-    self.minimum_x_driving_voltage_qlineedit = QLineEdit(self) # create minimum x driving voltage qlineedit
+        # xy_scan_read_time_qlineedit = QLineEdit(self) # qclineedit
+        # xy_scan_read_time_qlineedit.setParent(self.left_window)
+        # xy_scan_read_time_qlineedit.move(40, 65 + row_y_adjust + overall_y_adjust)
+        # xy_scan_read_time_qlineedit.resize(45, 15)
+        # xy_scan_read_time_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
+        
+        # minimum x driving voltage widget
+        self.minimum_x_driving_voltage_widget = QLabel("Min x-voltage:", self) # create minimum x driving voltage widget
 
-    self.minimum_x_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of minimum x driving voltage qlineedit
+        self.minimum_x_driving_voltage_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum x driving voltage widget
 
-    self.minimum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 42) # position minimum x driving voltage qlineedit
+        self.minimum_x_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 40) # position minimum x driving voltage widget
 
-    self.minimum_x_driving_voltage_qlineedit.resize(40, 15) # set size of minimum x driving voltage qlineedit
+        # minimum x driving voltage qlineedit
+        self.minimum_x_driving_voltage_qlineedit = QLineEdit(self) # create minimum x driving voltage qlineedit
 
-    self.minimum_x_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
+        self.minimum_x_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of minimum x driving voltage qlineedit
 
-    # minimum x driving voltage unit label widget
-    self.minimum_x_driving_voltage_unit_label_widget = QLabel("volts", self) # create minimum x driving voltage unit label widget
+        self.minimum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 42) # position minimum x driving voltage qlineedit
 
-    self.minimum_x_driving_voltage_unit_label_widget.setFont(QFont("Times", 8)) # adjust font size of minimum x driving voltage unit label widget
+        self.minimum_x_driving_voltage_qlineedit.resize(40, 15) # set size of minimum x driving voltage qlineedit
 
-    self.minimum_x_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum x driving voltage unit label widget
+        self.minimum_x_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
-    self.minimum_x_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 42) # position minimum x driving voltage unit label widget
+        # minimum x driving voltage unit label widget
+        self.minimum_x_driving_voltage_unit_label_widget = QLabel("volts", self) # create minimum x driving voltage unit label widget
 
-    # maximum x driving voltage widget
-    self.maximum_x_driving_voltage_widget = QLabel("Max x-voltage:", self) # create maximum x driving voltage widget
+        self.minimum_x_driving_voltage_unit_label_widget.setFont(QFont("Times", 8)) # adjust font size of minimum x driving voltage unit label widget
 
-    self.maximum_x_driving_voltage_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum x driving voltage widget
+        self.minimum_x_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum x driving voltage unit label widget
 
-    self.maximum_x_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 65) # position maximum x driving voltage widget
+        self.minimum_x_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 42) # position minimum x driving voltage unit label widget
 
-    # maximum x driving voltage qlineedit
-    self.maximum_x_driving_voltage_qlineedit = QLineEdit(self) # create maximum x driving voltage qlineedit
+        # maximum x driving voltage widget
+        self.maximum_x_driving_voltage_widget = QLabel("Max x-voltage:", self) # create maximum x driving voltage widget
 
-    self.maximum_x_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of maximum x driving voltage qlineedit
+        self.maximum_x_driving_voltage_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum x driving voltage widget
 
-    self.maximum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 67) # position maximum x driving voltage qlineedit
+        self.maximum_x_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 65) # position maximum x driving voltage widget
 
-    self.maximum_x_driving_voltage_qlineedit.resize(40, 15) # set size of maximum x driving voltage qlineedit
+        # maximum x driving voltage qlineedit
+        self.maximum_x_driving_voltage_qlineedit = QLineEdit(self) # create maximum x driving voltage qlineedit
 
-    self.maximum_x_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
+        self.maximum_x_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of maximum x driving voltage qlineedit
 
-    # maximum x driving voltage unit label widget
-    self.maximum_x_driving_voltage_unit_label_widget = QLabel("volts", self) # create maximum x driving voltage unit label widget
+        self.maximum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 67) # position maximum x driving voltage qlineedit
 
-    self.maximum_x_driving_voltage_unit_label_widget.setFont(QFont("Times", 8)) # adjust font size of maximum x driving voltage unit label widget
+        self.maximum_x_driving_voltage_qlineedit.resize(40, 15) # set size of maximum x driving voltage qlineedit
 
-    self.maximum_x_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum x driving voltage unit label widget
+        self.maximum_x_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
-    # position maximum x driving voltage unit label widget
-    self.maximum_x_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 67)
+        # maximum x driving voltage unit label widget
+        self.maximum_x_driving_voltage_unit_label_widget = QLabel("volts", self) # create maximum x driving voltage unit label widget
 
-    # minimum x driving voltage widget
-    self.minimum_y_driving_voltage_widget = QLabel("Min y-voltage:", self) # create minimum y driving voltage widget
+        self.maximum_x_driving_voltage_unit_label_widget.setFont(QFont("Times", 8)) # adjust font size of maximum x driving voltage unit label widget
 
-    self.minimum_y_driving_voltage_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum y driving voltage widget
+        self.maximum_x_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum x driving voltage unit label widget
 
-    self.minimum_y_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 93) # position minimum y driving voltage widget
+        # position maximum x driving voltage unit label widget
+        self.maximum_x_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 67)
 
-    # minimum y driving voltage qlineedit
-    self.minimum_y_driving_voltage_qlineedit = QLineEdit(self) # create minimum y driving voltage qlineedit
+        # minimum x driving voltage widget
+        self.minimum_y_driving_voltage_widget = QLabel("Min y-voltage:", self) # create minimum y driving voltage widget
 
-    self.minimum_y_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of minimum y driving voltage qlineedit
+        self.minimum_y_driving_voltage_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum y driving voltage widget
 
-    self.minimum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 95) # position minimum y driving voltage qlineedit
+        self.minimum_y_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 93) # position minimum y driving voltage widget
 
-    self.minimum_y_driving_voltage_qlineedit.resize(40, 15) # set size of minimum y driving voltage qlineedit
+        # minimum y driving voltage qlineedit
+        self.minimum_y_driving_voltage_qlineedit = QLineEdit(self) # create minimum y driving voltage qlineedit
 
-    self.minimum_y_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
+        self.minimum_y_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of minimum y driving voltage qlineedit
 
-    # minimum y driving voltage unit label widget
-    self.minimum_y_driving_voltage_unit_label_widget = QLabel("volts", self) # create minimum y driving voltage unit label widget
+        self.minimum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 95) # position minimum y driving voltage qlineedit
 
-    self.minimum_y_driving_voltage_unit_label_widget.setFont(QFont("Times", 8)) # adjust font size of minimum y driving voltage unit label widget
+        self.minimum_y_driving_voltage_qlineedit.resize(40, 15) # set size of minimum y driving voltage qlineedit
 
-    self.minimum_y_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum y driving voltage unit label widget
+        self.minimum_y_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
-    self.minimum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 95) # position minimum y driving voltage unit label widget
+        # minimum y driving voltage unit label widget
+        self.minimum_y_driving_voltage_unit_label_widget = QLabel("volts", self) # create minimum y driving voltage unit label widget
 
-    # maximum y driving voltage widget
-    self.maximum_y_driving_voltage_widget = QLabel("Max y-voltage:", self) # create maximum y driving voltage widget
+        self.minimum_y_driving_voltage_unit_label_widget.setFont(QFont("Times", 8)) # adjust font size of minimum y driving voltage unit label widget
 
-    self.maximum_y_driving_voltage_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum y driving voltage widget
+        self.minimum_y_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum y driving voltage unit label widget
 
-    self.maximum_y_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 118) # position maximum y driving voltage widget
+        self.minimum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 95) # position minimum y driving voltage unit label widget
 
-    # maximum y driving voltage qlineedit
-    self.maximum_y_driving_voltage_qlineedit = QLineEdit(self) # create maximum y driving voltage qlineedit
+        # maximum y driving voltage widget
+        self.maximum_y_driving_voltage_widget = QLabel("Max y-voltage:", self) # create maximum y driving voltage widget
 
-    self.maximum_y_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of maximum y driving voltage qlineedit
+        self.maximum_y_driving_voltage_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum y driving voltage widget
 
-    self.maximum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 120) # position maximum x driving voltage qlineedit
+        self.maximum_y_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 118) # position maximum y driving voltage widget
 
-    self.maximum_y_driving_voltage_qlineedit.resize(40, 15) # set size of maximum y driving voltage qlineedit
+        # maximum y driving voltage qlineedit
+        self.maximum_y_driving_voltage_qlineedit = QLineEdit(self) # create maximum y driving voltage qlineedit
 
-    self.maximum_y_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
+        self.maximum_y_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of maximum y driving voltage qlineedit
 
-    # maximum y driving voltage unit label widget
-    self.maximum_y_driving_voltage_unit_label_widget = QLabel("volts", self) # create maximum y driving voltage unit label widget
+        self.maximum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 120) # position maximum x driving voltage qlineedit
 
-    self.maximum_y_driving_voltage_unit_label_widget.setFont(QFont("Times", 8)) # adjust font size of maximum y driving voltage unit label widget
+        self.maximum_y_driving_voltage_qlineedit.resize(40, 15) # set size of maximum y driving voltage qlineedit
 
-    self.maximum_y_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum y driving voltage unit label widget
+        self.maximum_y_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
-    # position maximum y driving voltage unit label widget
-    self.maximum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 120)
+        # maximum y driving voltage unit label widget
+        self.maximum_y_driving_voltage_unit_label_widget = QLabel("volts", self) # create maximum y driving voltage unit label widget
 
-    # # z piezo
-    # xy_scan_z_piezo_voltage_widget = QLabel("z_V:", self) # widget
-    # xy_scan_z_piezo_voltage_widget.setParent(self.left_window)
-    # xy_scan_z_piezo_voltage_widget.move(xy_scan_widgets_left_x_justify, 190 + row_y_adjust + overall_y_adjust)
+        self.maximum_y_driving_voltage_unit_label_widget.setFont(QFont("Times", 8)) # adjust font size of maximum y driving voltage unit label widget
 
-    # xy_scan_z_piezo_voltage_qlineedit = QLineEdit(self) # qclineedit
-    # xy_scan_z_piezo_voltage_qlineedit.setParent(self.left_window)
-    # xy_scan_z_piezo_voltage_qlineedit.move(30, 190 + row_y_adjust + overall_y_adjust)
-    # xy_scan_z_piezo_voltage_qlineedit.resize(55, 15)
-    # xy_scan_z_piezo_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
+        self.maximum_y_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum y driving voltage unit label widget
 
-    # run take xy image button
-    self.take_xy_image_button = QPushButton("Run\nXY image", self) # create a button to take xy image
+        # position maximum y driving voltage unit label widget
+        self.maximum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 120)
 
-    self.take_xy_image_button.setParent(self.xy_scan_input_left_side) # designate parent of take xy image button
+        # # z piezo
+        # xy_scan_z_piezo_voltage_widget = QLabel("z_V:", self) # widget
+        # xy_scan_z_piezo_voltage_widget.setParent(self.left_window)
+        # xy_scan_z_piezo_voltage_widget.move(xy_scan_widgets_left_x_justify, 190 + row_y_adjust + overall_y_adjust)
 
-    self.take_xy_image_button.resize(60, 40) # set size of the take xy image button
+        # xy_scan_z_piezo_voltage_qlineedit = QLineEdit(self) # qclineedit
+        # xy_scan_z_piezo_voltage_qlineedit.setParent(self.left_window)
+        # xy_scan_z_piezo_voltage_qlineedit.move(30, 190 + row_y_adjust + overall_y_adjust)
+        # xy_scan_z_piezo_voltage_qlineedit.resize(55, 15)
+        # xy_scan_z_piezo_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
 
-    self.take_xy_image_button.move(control_widgets_left_justify_modifier + 79, control_widgets_top_justify_modifier + 628)
+        # run take xy image button
+        self.take_xy_image_button = QPushButton("Run\nXY image", self) # create a button to take xy image
 
-    self.take_xy_image_button.clicked.connect(Helper_Functions.start_xy_image) # start the xy scan process by calling the resolution validation function
-    # this framework is limited currently to only validating resolution
+        self.take_xy_image_button.setParent(self.xy_scan_input_left_side) # designate parent of take xy image button
 
-    # save image data (function connection needs to be made) widget
-    self.save_raw_image_data_widget = QPushButton("Save raw image data below:", self) # create the save raw image data button
+        self.take_xy_image_button.resize(60, 40) # set size of the take xy image button
 
-    self.save_raw_image_data_widget.setParent(self.xy_scan_input_left_side) # set the "parent" bound of the save scan raw image data button
+        self.take_xy_image_button.move(control_widgets_left_justify_modifier + 79, control_widgets_top_justify_modifier + 628)
 
-    self.save_raw_image_data_widget.resize(148, 20) # resize the save raw image data button
+        self.take_xy_image_button.clicked.connect(Helper_Functions.start_xy_image) # start the xy scan process by calling the resolution validation function
+        # this framework is limited currently to only validating resolution
 
-    self.save_raw_image_data_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 586) # set the position of the save raw image data button
+        # save image data (function connection needs to be made) widget
+        self.save_raw_image_data_widget = QPushButton("Save raw image data below:", self) # create the save raw image data button
 
-    self.save_raw_image_data_widget.clicked.connect(GUI_Helper_Functions.print_hello_world) # temporary button print response
+        self.save_raw_image_data_widget.setParent(self.xy_scan_input_left_side) # set the "parent" bound of the save scan raw image data button
 
-    # save raw image data qlineedit
-    self.save_raw_image_data_qlineedit = QLineEdit(self) # create the qlineedit to save raw image data
+        self.save_raw_image_data_widget.resize(148, 20) # resize the save raw image data button
 
-    self.save_raw_image_data_qlineedit.setParent(self.xy_scan_input_left_side) # designate parent of the save raw image data qlineedit
-    
-    self.save_raw_image_data_qlineedit.resize(203, 20) # set the size of the save raw image data qlineedit
+        self.save_raw_image_data_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 586) # set the position of the save raw image data button
 
-    self.save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier, 627) # set the position of the save raw image data qlineedit
+        self.save_raw_image_data_widget.clicked.connect(GUI_Helper_Functions.print_hello_world) # temporary button print response
 
-    # save raw image data file extension label widget
-    self.save_raw_image_data_extension_label_widget = QLabel("\".npy\"", self) # create the save raw image data extension label widget
+        # save raw image data qlineedit
+        self.save_raw_image_data_qlineedit = QLineEdit(self) # create the qlineedit to save raw image data
 
-    self.save_raw_image_data_extension_label_widget.setParent(self.xy_scan_input_left_side) # designate the parent of the save raw image data extension label widget
+        self.save_raw_image_data_qlineedit.setParent(self.xy_scan_input_left_side) # designate parent of the save raw image data qlineedit
+        
+        self.save_raw_image_data_qlineedit.resize(203, 20) # set the size of the save raw image data qlineedit
 
-    self.save_raw_image_data_extension_label_widget.move(control_widgets_left_justify_modifier + 204, 627) # set the position of the save raw image data extension label widget
+        self.save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier, 627) # set the position of the save raw image data qlineedit
 
-    ########################################################################################## end control area #######################################################################################
+        # save raw image data file extension label widget
+        self.save_raw_image_data_extension_label_widget = QLabel("\".npy\"", self) # create the save raw image data extension label widget
 
-    ####################################################################################### start plot area ###########################################################################################
+        self.save_raw_image_data_extension_label_widget.setParent(self.xy_scan_input_left_side) # designate the parent of the save raw image data extension label widget
 
-    plot_dimension_match_aspect_ratio = 6.88 # designtate fixed dimension variable for image area to be square based on set DPI -below
+        self.save_raw_image_data_extension_label_widget.move(control_widgets_left_justify_modifier + 204, 627) # set the position of the save raw image data extension label widget
 
-    # self.output_plot_area = plot
-    self.output_plot_area = Plotting_Setup.MatPlotLib_Canvas(self, canvas_width = plot_dimension_match_aspect_ratio, canvas_height = plot_dimension_match_aspect_ratio,
-                                                             canvas_dpi = 100) # create plot area from MatPlotLib_Canvas class
+        ########################################################################################## end control area #######################################################################################
 
-    self.output_plot_area.move(1, 1) # adjust spacing to match output right QFrame
+        ####################################################################################### start plot area ###########################################################################################
 
-    self.output_plot_area.setParent(self.xy_scan_output_right_side) # designate parent of plot area widget
+        plot_dimension_match_aspect_ratio = 6.88 # designtate fixed dimension variable for image area to be square based on set DPI -below
 
-    # set sizes of initial axes labels
-    self.output_plot_area.axes.xaxis.set_tick_params(labelsize = 6) # x-axis
-    self.output_plot_area.axes.yaxis.set_tick_params(labelsize = 6) # y-axis
+        # self.output_plot_area = plot
+        self.output_plot_area = Plotting_Setup.MatPlotLib_Canvas(self, canvas_width = plot_dimension_match_aspect_ratio, canvas_height = plot_dimension_match_aspect_ratio,
+                                                                canvas_dpi = 100) # create plot area from MatPlotLib_Canvas class
 
-    ######################################################################################## end plot area ############################################################################################
+        self.output_plot_area.move(1, 1) # adjust spacing to match output rixght QFrame
 
-    ####################################################################################### end contents ##############################################################################################
+        self.output_plot_area.setParent(self.xy_scan_output_right_side) # designate parent of plot area widget
 
-    ##################################################################################### start finalize page #########################################################################################
+        # set sizes of initial axes labels
+        # self.output_plot_area.axes.xaxis.set_tick_params(labelsize = 6) # x-axis
+        # self.output_plot_area.axes.yaxis.set_tick_params(labelsize = 6) # y-axis
 
-    self.XY_scan_page.setLayout(self.behind_layout) # display xy scan page UI elements
+        # def do_something_to_plot(self):
+        #     self.self.output_plot_area.axes.cla() # clear plot area
+        #     self.output_plot_area.axes.plot([1, 1], [2, 2])
 
-    ##################################################################################### end finalize page ###########################################################################################
+        # print(self.rand)
 
-# def do_something_to_plot(parent = build_xy_scan_page):
-    # build_xy_scan_page.self.output_plot_area.axes.cla() # clear plot area
+        ######################################################################################## end plot area ############################################################################################
+
+        ####################################################################################### end contents ##############################################################################################
+
+        ##################################################################################### start finalize page #########################################################################################
+
+        self.XY_scan_page.setLayout(self.behind_layout) # display xy scan page UI elements
+
+        ##################################################################################### end finalize page ###########################################################################################
+
+# class child(test_class):
+
+#     def do_something_to_plot(self):
+#         print("do_something_to_plot")
+#         self.output_plot_area.axes.cla() # clear plot area
+#         # print(rand)
+#         print("method finished")

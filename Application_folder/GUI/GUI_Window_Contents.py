@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally created: 01-14-2023
-Last modifed: 02-05-2023
+Last modifed: 02-12-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -105,7 +105,7 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
         Welcome_Page.build_welcome_page(self) # welcome page
         Galvo_Control_Page.build_galvo_control_page(self) # galvo control page
         Camera_Control_Page.build_camera_control_page(self) # camera control page
-        XY_Scan_Page.build_xy_scan_page(self) # XY image page
+        XY_Scan_Page.test_class.build_xy_scan_page(self) # XY image page
         # space here for XZ # XZ image page
         # space here for YZ # YZ image page
         Spectroscopy_Page.build_spectroscopy_page(self) # spectroscopy page

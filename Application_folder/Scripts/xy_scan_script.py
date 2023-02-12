@@ -45,7 +45,7 @@ from GUI.Pages import XY_Scan_Page
 ########################################################################################## end package imports ########################################################################################
 
 # creating the function to take and xy iamge based on user parameters
-def run_xy_scan_script(): # define the function/script 
+def run_xy_scan_script(self): # define the function/script 
 
     # setting up NI-DAQmx tasks for hardware control
     with nidaqmx.Task() as internal_clock_task, nidaqmx.Task() as input_counter_task, nidaqmx.Task() as x_mirror_task, nidaqmx.Task() as y_mirror_task:
@@ -239,7 +239,7 @@ def run_xy_scan_script(): # define the function/script
     
 #     # self.sc.figure.clear() # is this needed after implementing live plot updating?
     # self.output_plot_area.axes.cla()
-    # XY_Scan_Page.do_something_to_plot()
+    # XY_Scan_Page.child.do_something_to_plot(self)
 
     # plot = self.output_plot_area.axes.pcolormesh(data_array, cmap = "pink")
 #     self.sc.axes.set_xticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_x_driving_voltage, int((initial_x_driving_voltage + desired_end_x_mirror_voltage) / 2), desired_end_x_mirror_voltage])
