@@ -310,6 +310,7 @@ def build_xy_scan_page(self): # define build_welcome_page to setup the xy scan p
 
     plot_dimension_match_aspect_ratio = 6.88 # designtate fixed dimension variable for image area to be square based on set DPI -below
 
+    # self.output_plot_area = plot
     self.output_plot_area = Plotting_Setup.MatPlotLib_Canvas(self, canvas_width = plot_dimension_match_aspect_ratio, canvas_height = plot_dimension_match_aspect_ratio,
                                                              canvas_dpi = 100) # create plot area from MatPlotLib_Canvas class
 
@@ -330,3 +331,6 @@ def build_xy_scan_page(self): # define build_welcome_page to setup the xy scan p
     self.XY_scan_page.setLayout(self.behind_layout) # display xy scan page UI elements
 
     ##################################################################################### end finalize page ###########################################################################################
+
+# def do_something_to_plot(parent = build_xy_scan_page):
+    # build_xy_scan_page.self.output_plot_area.axes.cla() # clear plot area
