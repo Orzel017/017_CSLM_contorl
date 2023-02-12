@@ -26,159 +26,152 @@ TODO:
 
 """
 
-# run XY scanning function
-def run_xy_scan_script(): # this fnc runs the xy_scan per the user-entered parameters in the xy_scan qlineedits
+######################################################################################## start package imports ########################################################################################
 
-    print("Hello world!")
+import nidaqmx # import National Instruments (NI) DAQmx API package
 
-#     ############################################################### begin scanning script #############################################################################################
+import numpy # import numpy package
+
+########################################################################################## end package imports ########################################################################################
+
+# creating the function to take and xy iamge based on user parameters
+def run_xy_scan_script(): # define the function/script 
+
+    print("started")
+
+    # setting up NI-DAQmx tasks for hardware control
+    with nidaqmx.Task() as internal_clock_task, nidaqmx.Task() as input_counter_task, nidaqmx.Task() as x_mirror_task, nidaqmx.Task() as y_mirror_task:
+
+        """
+        1. the `internal_clock_task` sets up and controls the internal hardware-based clock within the cDAQ device (from the NI-9402 module)
+        2. the `input_counter_task` is for taking digital input from the physical counter on the NI-9402 module
+        3. the `x_mirror_task` controls the driving of the x-mirror within the galvo unit (based on the NI-9263 module)
+        4. the `y_mirror_task` controls the driving of the y-mirror within the galvo unit (based on the NI-9263 module)
+        """
+
+        ################################################################ start setting up the internal hardware clock for paired counting #############################################################
+
+        # setting up a digital pulse train channel on the NI-9402 module using `add_co_pulse_chan_freq`
+        internal_clock_task.co_channels.add_co_pulse_chan_freq(
+                                                                counter = "cDAQ1Mod1/ctr1", # designate the physical channel to be used for setting up the digital pulse train
+
+                                                                name_to_assign_to_channel = "internal_clock_task_digital_pulse_train", # give a name to the digtial pulse train channel
+
+                                                                units = nidaqmx.constants.FrequencyUnits.HZ, # set the units for the remaining input arguments to be in Hertz
+
+                                                                idle_state = nidaqmx.constants.Level.LOW, # designate the idle state of the digital pulse train channel to logic low
+
+                                                                initial_delay = 0.0, # incorporate a zero inital delay to the digitla pusle train
+
+                                                                freq = 1000, # set the frequency of pulses
+
+                                                                duty_cycle = 0.9 # set the duty cycle of pulses
+                                                                )
+
+        # cfg implict timing
+        internal_clock_task.timing.cfg_implicit_timing(
+                                                    sample_mode = nidaqmx.constants.AcquisitionType.FINITE,
+                                                    samps_per_chan = 10000000
+                                                    )
+
+        ################################################################# end setting up the internal hardware clock for paired counting ##############################################################
+
+        ########################################################################### start setting up the counting channel #############################################################################
+
+        # adding count egdes chan
+        input_counter_task.ci_channels.add_ci_count_edges_chan(
+                                                counter = "cDAQ1Mod1/ctr0",
+                                                name_to_assign_to_channel = "",
+                                                edge = nidaqmx.constants.Edge.RISING,
+                                                initial_count = 0,
+                                                count_direction = nidaqmx.constants.CountDirection.COUNT_UP)
+
+        # cfg sample clk timing
+        input_counter_task.timing.cfg_samp_clk_timing(
+                                        rate = 10000000,
+                                        source = "/cDAQ1/Ctr1InternalOutput",
+                                        active_edge = nidaqmx.constants.Edge.RISING,
+                                        sample_mode = nidaqmx.constants.AcquisitionType.FINITE,
+                                        samps_per_chan = 10000000
+                                        )
         
-#     ################################################################################## card 2 (AO) ########################################################################
+        ############################################################################ end setting up the counting channel ##############################################################################
 
-#     # naming the instrument
-#     scan_galvo_card_name = "cDAQ1Mod2"
+        internal_clock_task.start() # this starts the counter NI-DAQmx task
+        input_counter_task.start() # this starts the hardware-based internal clock NI-DAQmx task
 
-#     # dictionary of analog output channels
-#     scan_galvo_ao_channels = {f'{scan_galvo_card_name}/ao{i}': i for i in range(4)}
+        x_mirror_task.ao_channels.add_ao_voltage_chan("cDAQ1Mod2/ao0")
+        y_mirror_task.ao_channels.add_ao_voltage_chan("cDAQ1Mod2/ao1")
+        x_mirror_task.start()
+        y_mirror_task.start()
 
-#     # defining the instrument (ni_9263)
-#     scan_galvo = test.DAQAnalogOutputs("name_two", scan_galvo_card_name, scan_galvo_ao_channels)
+        grid_size = 3
+        data_array = numpy.zeros((grid_size, grid_size))
+        initial_x_driving_voltage = -0.25
+        initial_y_driving_voltage = -0.35
+        desired_end_x_mirror_voltage = 0.35
+        desired_end_y_mirror_voltage = 0.25
+        x_driving_voltage_to_change = round(initial_x_driving_voltage, 5)
+        y_driving_voltage_to_change = round(initial_y_driving_voltage, 5)
+        x_drive_voltage_step = round(((numpy.absolute(initial_x_driving_voltage)) + (desired_end_x_mirror_voltage)) / grid_size, 5)
+        y_drive_voltage_step = round(((numpy.absolute(initial_y_driving_voltage)) + (desired_end_y_mirror_voltage)) / grid_size, 5)
 
-#     ############################################################################### def other variables #####################################################################
+        x_mirror_task.write(0.0)
+        y_mirror_task.write(0.0)
+        output_value = 0
 
-#     ################### setting variales and array ####################
+        for f in range(grid_size): # rows
+            for k in range(grid_size): # columns
 
-#     # counter read time:
-#     scan_counter_acquisition_time = float(xy_scan_read_time_qlineedit.text())                          # note a reading time <0.05 s is likely too short
+                counter_value = input_counter_task.read(6)[-1]
+                output_value += counter_value
+                if f % 2 != 0: # this loop populates the created xy_scan_data_array (the if else strucuture is present bc of the snaking scanning pattern)
+                    data_array[f][((-k) + 1)] = (output_value - numpy.sum(data_array)) # add counter result to data array
+                    output_value == 0
+                    counter_value == 0
+                else:
+                    if f == 0 and k == 0:
+                        data_array[0][0] = output_value # add counter result to data array
+                    else:
+                        data_array[f][k] = (output_value - numpy.sum(data_array)) # add counter result to data array
+                output_value = 0
+                counter_value = 0
 
-#     # def
-#     grid_size = int(xy_scan_resolution_qlineedit.text())
-#     grid_size_x = grid_size_y = grid_size
+                if f % 2 == 0: # this loop adjusts for sweeping back and forth along each alternating row
+                    if k < (grid_size - 1):
+                        x_driving_voltage_to_change += x_drive_voltage_step # increment drive voltage forwards
+                        x_driving_voltage_to_change = round(x_driving_voltage_to_change, 3)
+                        x_mirror_task.write(x_driving_voltage_to_change)
+                    else:
+                        break
+                else:
+                    if k < (grid_size - 1):
+                        x_driving_voltage_to_change -= x_drive_voltage_step # increment drive voltage backwards
+                        x_driving_voltage_to_change = round(x_driving_voltage_to_change, 3)
+                        x_mirror_task.write(x_driving_voltage_to_change)
+                    else:
+                        break
 
-#     # def the initial driving voltage for the x-mirror
-#     initial_x_driving_voltage = round(float(xy_scan_x_voltage_min_qlineedit.text()), 2)
-#     # def the initial driving voltage for the y-mirror
-#     initial_y_driving_voltage = round(float(xy_scan_y_voltage_min_qlineedit.text()), 2)
+            if f < (grid_size - 1): # this loop prevents from scanning an upper undesired row
+                y_driving_voltage_to_change += y_drive_voltage_step # increment drive voltage
+                y_mirror_task.write(y_driving_voltage_to_change)
+            else:
+                break
 
-#     z_piezo_set_voltage = round(float(xy_scan_z_piezo_voltage_qlineedit.text()), 2)
+        internal_clock_task.stop()
+        input_counter_task.stop()
+        x_mirror_task.stop()
+        y_mirror_task.stop()
+    
+    print("finished")
 
-#     # setup parameter for the program to use based on defined variables
-#     x_driving_voltage_to_change = initial_x_driving_voltage
-#     y_driving_voltage_to_change = initial_y_driving_voltage
 
-#     # set desired end mirror voltages
-#     desired_end_x_mirror_voltage = round(float(xy_scan_x_voltage_max_qlineedit.text()), 2)
-#     desired_end_y_mirror_voltage = round(float(xy_scan_y_voltage_max_qlineedit.text()), 2)
 
-#     # def the internal stepping voltages based on user-entered settings above
-#     x_drive_voltage_step = round(((np.absolute(initial_x_driving_voltage)) + (desired_end_x_mirror_voltage)) / grid_size_x, 5
-#     y_drive_voltage_step = round((np.absolute(initial_y_driving_voltage)) + (desired_end_y_mirror_voltage)) / grid_size_y, 5)
 
-#     # create dataset to populate
-#     global xy_scan_data_array
-#     xy_scan_data_array = np.zeros((grid_size_x, grid_size_y))
-#     global most_recent_data_array
-#     most_recent_data_array = np.zeros((grid_size_x, grid_size_y))
 
-#     # initializing variables to store read counter info.
-#     output_value = 0
-#     counter_value = 0
 
-#     ################### resetting position of mirrors ####################
 
-#     scan_galvo.voltage_cdaq1mod2ao0(initial_x_driving_voltage) # this is for the x-mirror
 
-#     scan_galvo.voltage_cdaq1mod2ao1(initial_y_driving_voltage) # this is for the y-mirror
-
-#     scan_galvo.voltage_cdaq1mod2ao2(z_piezo_set_voltage) # setting the z_piezo to z_piezo_set_voltage microns
-
-#     ########################################################### setting up NI-DAQmx tasks and channels for counting ########################################################
-
-#     with nidaqmx.Task() as task1, nidaqmx.Task() as counter_output_task: # this defines 2 NI-DAQmx tasks (one for the counter and one for the counter's clock)
-
-#         # adding dig pulse train chan
-#         counter_output_task.co_channels.add_co_pulse_chan_freq(
-#             counter = "cDAQ1Mod1/ctr1",
-#             name_to_assign_to_channel = "",
-#             units = nidaqmx.constants.FrequencyUnits.HZ,
-#             idle_state = nidaqmx.constants.Level.LOW,
-#             initial_delay = 0.0,
-#             freq = 1000,
-#             duty_cycle = 0.50
-#             )
-
-#         # cfg implict timing
-#         counter_output_task.timing.cfg_implicit_timing(
-#             sample_mode = AcquisitionType.CONTINUOUS,
-#             samps_per_chan = 1000000
-#             )
-
-#         # adding count egdes chan
-#         task1.ci_channels.add_ci_count_edges_chan(
-#             counter = "cDAQ1Mod1/ctr0",
-#             name_to_assign_to_channel = "",
-#             edge = nidaqmx.constants.Edge.RISING,
-#             initial_count = 0,
-#             count_direction = nidaqmx.constants.CountDirection.COUNT_UP
-#             )
-
-#         # cfg sample clk timing
-#         task1.timing.cfg_samp_clk_timing(
-#             rate = 1000,
-#             source = "/cDAQ1/Ctr1InternalOutput",
-#             active_edge = nidaqmx.constants.Edge.RISING,
-#             sample_mode = AcquisitionType.CONTINUOUS,
-#             samps_per_chan = 1000000
-#             )
-        
-#         counter_output_task.start() # this starts the counter NI-DAQmx task
-#         task1.start() # this starts the hardware-based internal clock NI-DAQmx task
-                        
-#     ######################################################################## X and Y scanning #########################################################################
-
-#         for f in range(grid_size_y): # this loops for rows (y)
-
-#             for k in range(grid_size_x): # this loops for columns (x)
-
-#                 ################## important section #################
-
-#                 for my_var_not_named_i in range(int(scan_counter_acquisition_time * 1000)): # this reads/lets the counter accumulate for the set time and returns value
-#                     counter_value = task1.read()
-#                     output_value += counter_value
-
-#                 if f % 2 != 0: # this loop populates the created xy_scan_data_array (the if else strucuture is present bc of the snaking scanning pattern)
-#                     xy_scan_data_array[f][((-k) + 1)] = (output_value - np.sum(xy_scan_data_array)) # add counter result to data array                           # saving (082422)
-#                     output_value == 0
-#                     counter_value == 0
-#                 else:
-#                     if f == 0 and k == 0:
-#                         xy_scan_data_array[0][0] = output_value # add counter result to data array                                                      # saving
-#                     else:
-#                         xy_scan_data_array[f][k] = (output_value - np.sum(xy_scan_data_array)) # add counter result to data array                               # saving (082422)
-#                 output_value = 0
-#                 counter_value = 0
-
-#                 ############# end important section ############
-
-#                 if f % 2 == 0: # this loop adjusts for sweeping back and forth along each alternating row
-
-#                     if k < (grid_size_x - 1):
-
-#                         x_driving_voltage_to_change += x_drive_voltage_step # increment drive voltage forwards
-#                         x_driving_voltage_to_change = round(x_driving_voltage_to_change, 5)
-#                         scan_galvo.voltage_cdaq1mod2ao0(x_driving_voltage_to_change) # step x motor
-
-#                     else:
-#                         break
-#                 else:
-#                     if k < (grid_size_x - 1):
-
-#                         x_driving_voltage_to_change -= x_drive_voltage_step # increment drive voltage backwards
-#                         x_driving_voltage_to_change = round(x_driving_voltage_to_change, 5)
-#                         scan_galvo.voltage_cdaq1mod2ao0(x_driving_voltage_to_change) # step x motor
-
-#                     else:
-#                         break
 
 #             ##################### updating plot section ####################
 #             # self.sc.axes.cla() # this does not seem to be needed
@@ -205,8 +198,8 @@ def run_xy_scan_script(): # this fnc runs the xy_scan per the user-entered param
 #             else:
 #                 break
 
-#         counter_output_task.stop() # this stops the counter NI-DAQmx task - free-ing the reserved cDAQ card resources
-#         task1.stop() # this stops the hardware-based internal clock NI-DAQmx task - free-ing the reserved cDAQ card resources
+#         internal_clock_task.stop() # this stops the counter NI-DAQmx task - free-ing the reserved cDAQ card resources
+#         input_counter_task.stop() # this stops the hardware-based internal clock NI-DAQmx task - free-ing the reserved cDAQ card resources
 
 #     scan_galvo.close() # this is where reeated scanning hinges on and needs to be re-implemented
 
