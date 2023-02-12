@@ -5,7 +5,7 @@ Contents: UI elements to control Xy image taking
 
 Dates:
 Originally created: 01-17-2023
-Last modified: 02-05-2023
+Last modified: 02-12-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -38,6 +38,8 @@ current_file_directory = path.Path(__file__).abspath() # access current file's d
 sys.path.append(current_file_directory.parent.parent.parent) # append triple parent of current file (in folder structure)
 
 from Helper_Utilities import Plotting_Setup # access Plotting_Setup file from parent directorie's subfolder
+
+from Helper_Utilities import Helper_Functions # access Helper_Functions file from parent directorie's subfolder
 
 from GUI_Helper_Utilities import GUI_Helper_Functions # access GUI_Helper_Functions from parent directorie's subfolder
 
@@ -272,9 +274,8 @@ def build_xy_scan_page(self): # define build_welcome_page to setup the xy scan p
 
     self.take_xy_image_button.move(control_widgets_left_justify_modifier + 79, control_widgets_top_justify_modifier + 628)
 
-    self.take_xy_image_button.clicked.connect(GUI_Helper_Functions.print_hello_world) # temporary button print response
-
-    # self.take_xy_image_button.clicked.connect(xy_scan_resolution_validation_fnc) # this framework is limited currently to only validating resolution
+    self.take_xy_image_button.clicked.connect(Helper_Functions.start_xy_image) # start the xy scan process by calling the resolution validation function
+    # this framework is limited currently to only validating resolution
 
     # save image data (function connection needs to be made) widget
     self.save_raw_image_data_widget = QPushButton("Save raw image data below:", self) # create the save raw image data button

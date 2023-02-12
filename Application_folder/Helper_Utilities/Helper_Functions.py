@@ -5,7 +5,7 @@ Contents: multiple helper fuctions for use within multiple files
 
 Dates:
 Originally created: 12-30-2022
-Last modifed: 01-17-2023
+Last modifed: 02-12-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -17,290 +17,276 @@ TODO:
 
 ############################################################################################## start imports ##########################################################################################
 
-# imports below are only from other files within application_folder
-from Welcome_window import Setup_Welcome_Window # import `Setup_Welcome_Window` from "Welcome_window"
+import sys # generic sys module import
 
-from Window_Contents import Setup_Main_Window_Contents # import `Setup_Main_Window_Contents` from "Window_Contents"
+import path # module for accessing parent folder directories
+
+current_file_directory = path.Path(__file__).abspath() # access current file's directory in folder structure
+
+sys.path.append(current_file_directory.parent.parent.parent) # append parent of current file (in folder structure)
+
+from Scripts import xy_scan_script # access run_xy_scan_script from parent directory's subfolder
 
 ############################################################################################# end imports #############################################################################################
+# # display invalid resolution error window fnc
+# def display_resolution_error_window_fnc(): # this fnc calls the "Make_Error_Window" class to display an eror message indicating user input is not validated
+#     self.Make_Error_Window = Make_Error_Window()
+#     self.Make_Error_Window.show()
 
-def display_welcome_window(self): # define display_welcome_window to display the welcome window contents on the Main_Window
+# # display invalid saving address error window fnc   
+# def display_save_address_length_error_window_fnc(): # this fnc calls the "Make_Error_Window" class to display an eror message indicating user input is not validated
+#     self.Make_Error_Window_2 = Make_Error_Window_2()
+#     self.Make_Error_Window_2.show()
 
-    # print("display welcome called")                                                                                                                                       # temporary print statement
+# # save most recent scan data fnc
+# def save_scan_data_fnc(): # this fnc works for any scanning script
 
-    self.welcome_window_contents = Setup_Welcome_Window(parent = None) # designate welcome_window_contents by calling `Setup_Welcome_Window()`
+#     """
+#     How this works/applies to each scanning script:
+#     In any scanning script (XY, XZ, and YZ), a data_array is created according to the user-specified grid_size. It is a Numpy array of zeros that will be
+#     populated throughout the scanning program as it progresses. At the same time of that data-array created a global variable called "most_recent_data_array"
+#     is created and is then set to the same size matching the scan-specific data_array. At the end of the scanning scipt this temporary data array is matched to
+#     the scan's specific data array, value for value. Now "most_recent-data_array" is called (since it is defined to be Global) below for saving. This
+#     """
 
-    self.setCentralWidget(self.welcome_window_contents) # dispaly welcome window contents by setting the central widget
+#     saving_scan_error_bool = False # setting up a bool value for error checking below
 
-    # print("welcome displayed (?)")                                                                                                                                        # temporary print statement
+#     print("save_scan_data_fnc called")                                               # delete later
+#     print("@address :" + save_scan_data_qlineedit.text())                                               # delete later
 
-def display_window_contents(self): # define display_window_contents to display the main window contents on the Main_Window
+#     # while loop for error checking if address to save data at has length > 0
+#     while saving_scan_error_bool is False:
 
-    # print("display window contents called")                                                                                                                               # temporary print statement
+#         if len(str(save_scan_data_qlineedit.text())) == 0: # checking if length of specified saving address is > 0
 
-    self.main_window_contents = Setup_Main_Window_Contents(parent = None) # designated the main window contents by calling `Setup_Main_Window_Contents()`
+#             # print("EXCEPTION!")                                                       # safe to delete
+#             display_save_address_length_error_window_fnc()                              # fix to new window. Only a test now
+#             break # condition remains False; not saved; exit
 
-    self.setCentralWidget(self.main_window_contents) # display main window contents by setting the central widget
+#         elif len(str(save_scan_data_qlineedit.text())) > 0: # checking the length of the specified address is greater than 0
 
-    # print("window contents displayed (?)")                                                                                                                                # temporary print statement
+#             saving_scan_error_bool == True # adjusting the value of the current bool to True
+#             address_to_save_scan_data_at = save_scan_data_qlineedit.text() # creating a variable as the specified (now error-checked) address
+#             np.save(str(address_to_save_scan_data_at), most_recent_data_array) # saving the correct data array
+#             print("saved")
+#             break # data has been successfully save; so exit checking loop
 
-# display invalid resolution error window fnc
-def display_resolution_error_window_fnc(): # this fnc calls the "Make_Error_Window" class to display an eror message indicating user input is not validated
-    self.Make_Error_Window = Make_Error_Window()
-    self.Make_Error_Window.show()
+# # print/display XY scan parameters fnc
+# def print_XY_scan_parameters_fnc(self, parent = Setup_Main_Window_Contents): # this fnc does...
 
-# display invalid saving address error window fnc   
-def display_save_address_length_error_window_fnc(): # this fnc calls the "Make_Error_Window" class to display an eror message indicating user input is not validated
-    self.Make_Error_Window_2 = Make_Error_Window_2()
-    self.Make_Error_Window_2.show()
+#     # print("XY_SCAN PARAMETERS/INFO: ", end = "")                                    # this prints to the terminal
+#     # print("XY_scan resolution = %d, " % int(xy_scan_resolution_qlineedit.text()), end = "")
+#     # print("XY_scan counter read time = %2f, " % round(float(xy_scan_read_time_qlineedit.text()), 2), end = "")
+#     # print("XY_scan min x driving voltage = %2f, " % float(xy_scan_x_voltage_min_qlineedit.text()), end = "")
+#     # print("XY_scan max x driving voltage = %2f, " % float(xy_scan_x_voltage_max_qlineedit.text()), end = "")
+#     # print("XY_scan min y driving voltage = %2f, " % float(xy_scan_y_voltage_min_qlineedit.text()), end = "")
+#     # print("XY_scan max y driving voltage = %2f, " % float(xy_scan_y_voltage_max_qlineedit.text()), end = "")
+#     # print("XY_scan z-piezo driving voltage = %2f." % float(xy_scan_z_piezo_voltage_qlineedit.text()))
 
-# save most recent scan data fnc
-def save_scan_data_fnc(): # this fnc works for any scanning script
+#     # need to clear text box first
+#     parameters_dsiplay_text_box.clear()
 
-    """
-    How this works/applies to each scanning script:
-    In any scanning script (XY, XZ, and YZ), a data_array is created according to the user-specified grid_size. It is a Numpy array of zeros that will be
-    populated throughout the scanning program as it progresses. At the same time of that data-array created a global variable called "most_recent_data_array"
-    is created and is then set to the same size matching the scan-specific data_array. At the end of the scanning scipt this temporary data array is matched to
-    the scan's specific data array, value for value. Now "most_recent-data_array" is called (since it is defined to be Global) below for saving. This
-    """
-
-    saving_scan_error_bool = False # setting up a bool value for error checking below
-
-    print("save_scan_data_fnc called")                                               # delete later
-    print("@address :" + save_scan_data_qlineedit.text())                                               # delete later
-
-    # while loop for error checking if address to save data at has length > 0
-    while saving_scan_error_bool is False:
-
-        if len(str(save_scan_data_qlineedit.text())) == 0: # checking if length of specified saving address is > 0
-
-            # print("EXCEPTION!")                                                       # safe to delete
-            display_save_address_length_error_window_fnc()                              # fix to new window. Only a test now
-            break # condition remains False; not saved; exit
-
-        elif len(str(save_scan_data_qlineedit.text())) > 0: # checking the length of the specified address is greater than 0
-
-            saving_scan_error_bool == True # adjusting the value of the current bool to True
-            address_to_save_scan_data_at = save_scan_data_qlineedit.text() # creating a variable as the specified (now error-checked) address
-            np.save(str(address_to_save_scan_data_at), most_recent_data_array) # saving the correct data array
-            print("saved")
-            break # data has been successfully save; so exit checking loop
-
-# print/display XY scan parameters fnc
-def print_XY_scan_parameters_fnc(self, parent = Setup_Main_Window_Contents): # this fnc does...
-
-    # print("XY_SCAN PARAMETERS/INFO: ", end = "")                                    # this prints to the terminal
-    # print("XY_scan resolution = %d, " % int(xy_scan_resolution_qlineedit.text()), end = "")
-    # print("XY_scan counter read time = %2f, " % round(float(xy_scan_read_time_qlineedit.text()), 2), end = "")
-    # print("XY_scan min x driving voltage = %2f, " % float(xy_scan_x_voltage_min_qlineedit.text()), end = "")
-    # print("XY_scan max x driving voltage = %2f, " % float(xy_scan_x_voltage_max_qlineedit.text()), end = "")
-    # print("XY_scan min y driving voltage = %2f, " % float(xy_scan_y_voltage_min_qlineedit.text()), end = "")
-    # print("XY_scan max y driving voltage = %2f, " % float(xy_scan_y_voltage_max_qlineedit.text()), end = "")
-    # print("XY_scan z-piezo driving voltage = %2f." % float(xy_scan_z_piezo_voltage_qlineedit.text()))
-
-    # need to clear text box first
-    parameters_dsiplay_text_box.clear()
-
-    # this prints to the QTextBox in the left_window. The output of the user-selected scan parameters is printed below
-    parameters_dsiplay_text_box.setPlainText(
-                                                "XY_SCAN PARAMETERS/INFO:\n"
-                                                "XY_scan resolution = " + str(int(xy_scan_resolution_qlineedit.text())) + "\n"
-                                                "XY_scan counter read time = " + str(float(xy_scan_read_time_qlineedit.text())) + "\n"
-                                                "XY_scan min x driving voltage = " + str(float(xy_scan_x_voltage_min_qlineedit.text())) + "\n"
-                                                "XY_scan max x driving voltage = " + str(float(xy_scan_x_voltage_max_qlineedit.text())) + "\n"
-                                                "XY_scan min y driving voltage = " + str(float(xy_scan_y_voltage_min_qlineedit.text())) + "\n"
-                                                "XY_scan max y driving voltage = " + str(float(xy_scan_y_voltage_max_qlineedit.text())) + "\n"
-                                                "XY_scan z-piezo driving voltage = " + str(float(xy_scan_z_piezo_voltage_qlineedit.text()))
-                                                )
+#     # this prints to the QTextBox in the left_window. The output of the user-selected scan parameters is printed below
+#     parameters_dsiplay_text_box.setPlainText(
+#                                                 "XY_SCAN PARAMETERS/INFO:\n"
+#                                                 "XY_scan resolution = " + str(int(xy_scan_resolution_qlineedit.text())) + "\n"
+#                                                 "XY_scan counter read time = " + str(float(xy_scan_read_time_qlineedit.text())) + "\n"
+#                                                 "XY_scan min x driving voltage = " + str(float(xy_scan_x_voltage_min_qlineedit.text())) + "\n"
+#                                                 "XY_scan max x driving voltage = " + str(float(xy_scan_x_voltage_max_qlineedit.text())) + "\n"
+#                                                 "XY_scan min y driving voltage = " + str(float(xy_scan_y_voltage_min_qlineedit.text())) + "\n"
+#                                                 "XY_scan max y driving voltage = " + str(float(xy_scan_y_voltage_max_qlineedit.text())) + "\n"
+#                                                 "XY_scan z-piezo driving voltage = " + str(float(xy_scan_z_piezo_voltage_qlineedit.text()))
+#                                                 )
 
 # xy_scan resolution check then run fnc
-def xy_scan_resolution_validation_fnc():
+def start_xy_image():
 
-    self.sc.axes.cla()
+    xy_scan_script.run_xy_scan_script()
 
-    # the try-except frameworks are used to refresh the plotted figures -removing the color bars associated with a previous plotted data
-    try:
-        self.xy_scan_plot_colorbar.remove()
+#     self.sc.axes.cla()
 
-    except (AttributeError, ValueError):
-        pass
+#     # the try-except frameworks are used to refresh the plotted figures -removing the color bars associated with a previous plotted data
+#     try:
+#         self.xy_scan_plot_colorbar.remove()
 
-    try:
-        self.yz_scan_plot_colorbar.remove()
+#     except (AttributeError, ValueError):
+#         pass
 
-    except (AttributeError, ValueError):
-        pass
+#     try:
+#         self.yz_scan_plot_colorbar.remove()
 
-    try:
-        self.xz_scan_plot_colorbar.remove()
+#     except (AttributeError, ValueError):
+#         pass
+
+#     try:
+#         self.xz_scan_plot_colorbar.remove()
     
-    except (AttributeError, ValueError):
-        pass
+#     except (AttributeError, ValueError):
+#         pass
 
-#################################### resolution checking ##################################
+# #################################### resolution checking ##################################
 
-    res_min_condition = 20 # set the min allowed resolution for scanning
-    res_max_condition = 2000 # set the max allowed resolution for scanning
+#     res_min_condition = 20 # set the min allowed resolution for scanning
+#     res_max_condition = 2000 # set the max allowed resolution for scanning
 
-    xy_scan_resolution_test_condition = False # define resolution validation bool for xy scan
+#     xy_scan_resolution_test_condition = False # define resolution validation bool for xy scan
 
-    while xy_scan_resolution_test_condition is False: # this initiates checking the resolution parameter
+#     while xy_scan_resolution_test_condition is False: # this initiates checking the resolution parameter
 
-        # checking for out of bounds of min and max conditions above
-        # TODO: or negative or not a number or too large
-        if int(xy_scan_resolution_qlineedit.text()) < res_min_condition or int(xy_scan_resolution_qlineedit.text()) > res_max_condition:
+#         # checking for out of bounds of min and max conditions above
+#         # TODO: or negative or not a number or too large
+#         if int(xy_scan_resolution_qlineedit.text()) < res_min_condition or int(xy_scan_resolution_qlineedit.text()) > res_max_condition:
 
-            display_resolution_error_window_fnc() # call the error message pop-up window
-            break # exit the checking loop: failed
+#             display_resolution_error_window_fnc() # call the error message pop-up window
+#             break # exit the checking loop: failed
 
-        # if parameter is in bounds; run scan
-        elif int(xy_scan_resolution_qlineedit.text()) >= res_min_condition and int(xy_scan_resolution_qlineedit.text()) <= res_max_condition:
+#         # if parameter is in bounds; run scan
+#         elif int(xy_scan_resolution_qlineedit.text()) >= res_min_condition and int(xy_scan_resolution_qlineedit.text()) <= res_max_condition:
 
-            xy_scan_resolution_test_condition == True
-            print_XY_scan_parameters_fnc(self) # call the print user-entered parameters fnc
-            run_xy_scan_fnc() # call the run xy scan method fnc
-            break # exit the checking loop: passed
+#             xy_scan_resolution_test_condition == True
+#             print_XY_scan_parameters_fnc(self) # call the print user-entered parameters fnc
+#             run_xy_scan_fnc() # call the run xy scan method fnc
+#             break # exit the checking loop: passed
 
-# print_XZ_scan_parameters_fnc
-def print_XZ_scan_parameters_fnc(self, parent = Setup_Main_Window_Contents): # this fnc does...
+# # print_XZ_scan_parameters_fnc
+# def print_XZ_scan_parameters_fnc(self, parent = Setup_Main_Window_Contents): # this fnc does...
 
-    # print("XZ_SCAN PARAMETERS/INFO: ", end = "")                                    # this prints to the terminal
-    # print("XZ_scan resolution = %d, " % int(xz_scan_resolution_qlineedit.text()), end = "")
-    # print("XZ_scan counter read time = %2f, " % round(float(xz_scan_read_time_qlineedit.text()), 2), end = "")
-    # print("XZ_scan min x driving voltage = %2f, " % float(xz_scan_x_voltage_min_qlineedit.text()), end = "")
-    # print("XZ_scan max x driving voltage = %2f, " % float(xz_scan_x_voltage_max_qlineedit.text()), end = "")
-    # print("XZ_scan y driving voltage = %2f, " % float(xz_scan_y_voltage_qlineedit.text()), end = "")
-    # print("XZ_scan z-piezo min driving voltage = %2f, " % float(xz_scan_z_piezo_min_voltage_qlineedit.text()), end = "")
-    # print("XZ_scan z-piezo max driving voltage = %2f." % float(xz_scan_z_piezo_max_voltage_qlineedit.text()))
+#     # print("XZ_SCAN PARAMETERS/INFO: ", end = "")                                    # this prints to the terminal
+#     # print("XZ_scan resolution = %d, " % int(xz_scan_resolution_qlineedit.text()), end = "")
+#     # print("XZ_scan counter read time = %2f, " % round(float(xz_scan_read_time_qlineedit.text()), 2), end = "")
+#     # print("XZ_scan min x driving voltage = %2f, " % float(xz_scan_x_voltage_min_qlineedit.text()), end = "")
+#     # print("XZ_scan max x driving voltage = %2f, " % float(xz_scan_x_voltage_max_qlineedit.text()), end = "")
+#     # print("XZ_scan y driving voltage = %2f, " % float(xz_scan_y_voltage_qlineedit.text()), end = "")
+#     # print("XZ_scan z-piezo min driving voltage = %2f, " % float(xz_scan_z_piezo_min_voltage_qlineedit.text()), end = "")
+#     # print("XZ_scan z-piezo max driving voltage = %2f." % float(xz_scan_z_piezo_max_voltage_qlineedit.text()))
 
 
-    # need to clear text box first
-    self.parameters_dsiplay_text_box.clear()
+#     # need to clear text box first
+#     self.parameters_dsiplay_text_box.clear()
 
-    # this prints to the QTextBox in the left_window. The output of the user-selected scan parameters is printed below
-    self.parameters_dsiplay_text_box.setPlainText(
-                                                "XZ_SCAN PARAMETERS/INFO:\n"
-                                                "XZ_scan resolution = " + str(int(xz_scan_resolution_qlineedit.text())) + "\n"
-                                                "XZ_scan counter read time = " + str(float(xz_scan_read_time_qlineedit.text())) + "\n"
-                                                "XZ_scan min x driving voltage = " + str(float(xz_scan_x_voltage_min_qlineedit.text())) + "\n"
-                                                "XZ_scan max x driving voltage = " + str(float(xz_scan_x_voltage_max_qlineedit.text())) + "\n"
-                                                "XZ_scan y driving voltage = " + str(float(xz_scan_y_voltage_qlineedit.text())) + "\n"
-                                                "XZ_scan z-piezo min driving voltage = " + str(float(xz_scan_z_piezo_min_voltage_qlineedit.text())) + "\n"
-                                                "XZ_scan z-piezo max driving voltage = " + str(float(xz_scan_z_piezo_max_voltage_qlineedit.text()))
-                                                )
+#     # this prints to the QTextBox in the left_window. The output of the user-selected scan parameters is printed below
+#     self.parameters_dsiplay_text_box.setPlainText(
+#                                                 "XZ_SCAN PARAMETERS/INFO:\n"
+#                                                 "XZ_scan resolution = " + str(int(xz_scan_resolution_qlineedit.text())) + "\n"
+#                                                 "XZ_scan counter read time = " + str(float(xz_scan_read_time_qlineedit.text())) + "\n"
+#                                                 "XZ_scan min x driving voltage = " + str(float(xz_scan_x_voltage_min_qlineedit.text())) + "\n"
+#                                                 "XZ_scan max x driving voltage = " + str(float(xz_scan_x_voltage_max_qlineedit.text())) + "\n"
+#                                                 "XZ_scan y driving voltage = " + str(float(xz_scan_y_voltage_qlineedit.text())) + "\n"
+#                                                 "XZ_scan z-piezo min driving voltage = " + str(float(xz_scan_z_piezo_min_voltage_qlineedit.text())) + "\n"
+#                                                 "XZ_scan z-piezo max driving voltage = " + str(float(xz_scan_z_piezo_max_voltage_qlineedit.text()))
+#                                                 )
 
-# xz_scan resolution check then run fnc
-def xz_scan_resolution_validation_fnc():
+# # xz_scan resolution check then run fnc
+# def xz_scan_resolution_validation_fnc():
 
-    self.sc.axes.cla()
+#     self.sc.axes.cla()
 
-    try:
-        self.xz_scan_plot_colorbar.remove()
+#     try:
+#         self.xz_scan_plot_colorbar.remove()
 
-    except (AttributeError, ValueError):
-        pass
+#     except (AttributeError, ValueError):
+#         pass
 
-    try:
-        self.yz_scan_plot_colorbar.remove()
+#     try:
+#         self.yz_scan_plot_colorbar.remove()
 
-    except (AttributeError, ValueError):
-        pass
+#     except (AttributeError, ValueError):
+#         pass
     
-    try:
-        self.xy_scan_plot_colorbar.remove()
+#     try:
+#         self.xy_scan_plot_colorbar.remove()
     
-    except (AttributeError, ValueError):
-        pass
+#     except (AttributeError, ValueError):
+#         pass
 
-    res_min_condition = 20 # set the min allowed resolution for scanning
-    res_max_condition = 900 # set the max allowed resolution for scanning
+#     res_min_condition = 20 # set the min allowed resolution for scanning
+#     res_max_condition = 900 # set the max allowed resolution for scanning
 
-    xz_scan_resolution_test_condition = False # define resolution validation bool for xz scan
+#     xz_scan_resolution_test_condition = False # define resolution validation bool for xz scan
 
-    while xz_scan_resolution_test_condition is False: # this initiates checking the resolution parameter
+#     while xz_scan_resolution_test_condition is False: # this initiates checking the resolution parameter
 
-        # checking for out of bounds of min and max conditions above
-        if int(xz_scan_resolution_qlineedit.text()) < res_min_condition or int(xz_scan_resolution_qlineedit.text()) > res_max_condition: # TODO: or negative or not a number or too large
+#         # checking for out of bounds of min and max conditions above
+#         if int(xz_scan_resolution_qlineedit.text()) < res_min_condition or int(xz_scan_resolution_qlineedit.text()) > res_max_condition: # TODO: or negative or not a number or too large
 
-            display_resolution_error_window_fnc() # call the error message pop-up window
-            break # exit the checking loop: failed
+#             display_resolution_error_window_fnc() # call the error message pop-up window
+#             break # exit the checking loop: failed
 
-        # if parameter is in bounds; run scan
-        elif int(xz_scan_resolution_qlineedit.text()) >= res_min_condition and int(xz_scan_resolution_qlineedit.text()) <= res_max_condition:
+#         # if parameter is in bounds; run scan
+#         elif int(xz_scan_resolution_qlineedit.text()) >= res_min_condition and int(xz_scan_resolution_qlineedit.text()) <= res_max_condition:
 
-            xz_scan_resolution_test_condition == True
-            print_XZ_scan_parameters_fnc(self) # call the print user-entered parameters fnc
-            run_xz_scan_fnc() # call the run xz scan method fnc
-            break # exit the checking loop: passed
+#             xz_scan_resolution_test_condition == True
+#             print_XZ_scan_parameters_fnc(self) # call the print user-entered parameters fnc
+#             run_xz_scan_fnc() # call the run xz scan method fnc
+#             break # exit the checking loop: passed
 
-# print_YZ_scan_parameters_fnc
-def print_YZ_scan_parameters_fnc(self, parent = Setup_Main_Window_Contents): # this fnc does...
+# # print_YZ_scan_parameters_fnc
+# def print_YZ_scan_parameters_fnc(self, parent = Setup_Main_Window_Contents): # this fnc does...
 
-    # print("YZ_SCAN PARAMETERS/INFO: ", end = "")
-    # print("YZ_scan resolution = %d, " % int(yz_scan_resolution_qlineedit.text()), end = "")
-    # print("YZ_scan counter read time = %2f, " % round(float(yz_scan_read_time_qlineedit.text()), 2), end = "")
-    # print("YZ_scan min Y driving voltage = %2f, " % float(yz_scan_y_voltage_min_qlineedit.text()), end = "")
-    # print("YZ_scan max Y driving voltage = %2f, " % float(yz_scan_y_voltage_max_qlineedit.text()), end = "")
-    # print("YZ_scan X driving voltage = %2f, " % float(yz_scan_x_voltage_qlineedit.text()), end = "")
-    # print("YZ_scan z-piezo min driving voltage = %2f, " % float(yz_scan_z_piezo_min_voltage_qlineedit.text()), end = "")
-    # print("YZ_scan z-piezo max driving voltage = %2f." % float(yz_scan_z_piezo_max_voltage_qlineedit.text()))
+#     # print("YZ_SCAN PARAMETERS/INFO: ", end = "")
+#     # print("YZ_scan resolution = %d, " % int(yz_scan_resolution_qlineedit.text()), end = "")
+#     # print("YZ_scan counter read time = %2f, " % round(float(yz_scan_read_time_qlineedit.text()), 2), end = "")
+#     # print("YZ_scan min Y driving voltage = %2f, " % float(yz_scan_y_voltage_min_qlineedit.text()), end = "")
+#     # print("YZ_scan max Y driving voltage = %2f, " % float(yz_scan_y_voltage_max_qlineedit.text()), end = "")
+#     # print("YZ_scan X driving voltage = %2f, " % float(yz_scan_x_voltage_qlineedit.text()), end = "")
+#     # print("YZ_scan z-piezo min driving voltage = %2f, " % float(yz_scan_z_piezo_min_voltage_qlineedit.text()), end = "")
+#     # print("YZ_scan z-piezo max driving voltage = %2f." % float(yz_scan_z_piezo_max_voltage_qlineedit.text()))
 
-    # need to clear text box first
-    self.parameters_dsiplay_text_box.clear()
+#     # need to clear text box first
+#     self.parameters_dsiplay_text_box.clear()
 
-    # this prints to the QTextBox in the left_window. The output of the user-selected scan parameters is printed below
-    self.parameters_dsiplay_text_box.setPlainText(
-                "YZ_SCAN PARAMETERS/INFO:\n"
-                "YZ_scan resolution = " + str(int(yz_scan_resolution_qlineedit.text())) + "\n"
-                "YZ_scan counter read time = " + str(float(yz_scan_read_time_qlineedit.text())) + "\n"
-                "YZ_scan min Y driving voltage = " + str(float(yz_scan_y_voltage_min_qlineedit.text())) + "\n"
-                "YZ_scan max Y driving voltage = " + str(float(yz_scan_y_voltage_max_qlineedit.text())) + "\n"
-                "YZ_scan X driving voltage = " + str(float(yz_scan_x_voltage_qlineedit.text())) + "\n'"
-                "YZ_scan z-piezo min driving voltage = " + str(float(yz_scan_z_piezo_min_voltage_qlineedit.text())) + "\n"
-                "YZ_scan z-piezo max driving voltage = " + str(float(yz_scan_z_piezo_max_voltage_qlineedit.text()))
-                                                )
+#     # this prints to the QTextBox in the left_window. The output of the user-selected scan parameters is printed below
+#     self.parameters_dsiplay_text_box.setPlainText(
+#                 "YZ_SCAN PARAMETERS/INFO:\n"
+#                 "YZ_scan resolution = " + str(int(yz_scan_resolution_qlineedit.text())) + "\n"
+#                 "YZ_scan counter read time = " + str(float(yz_scan_read_time_qlineedit.text())) + "\n"
+#                 "YZ_scan min Y driving voltage = " + str(float(yz_scan_y_voltage_min_qlineedit.text())) + "\n"
+#                 "YZ_scan max Y driving voltage = " + str(float(yz_scan_y_voltage_max_qlineedit.text())) + "\n"
+#                 "YZ_scan X driving voltage = " + str(float(yz_scan_x_voltage_qlineedit.text())) + "\n'"
+#                 "YZ_scan z-piezo min driving voltage = " + str(float(yz_scan_z_piezo_min_voltage_qlineedit.text())) + "\n"
+#                 "YZ_scan z-piezo max driving voltage = " + str(float(yz_scan_z_piezo_max_voltage_qlineedit.text()))
+#                                                 )
 
-# yz_scan resolution check then run fnc
-def yz_scan_resolution_validation_fnc():
+# # yz_scan resolution check then run fnc
+# def yz_scan_resolution_validation_fnc():
 
-    self.sc.axes.cla()
+#     self.sc.axes.cla()
 
-    try:
-        self.yz_scan_plot_colorbar.remove()
+#     try:
+#         self.yz_scan_plot_colorbar.remove()
 
-    except (AttributeError, ValueError):
-        pass
+#     except (AttributeError, ValueError):
+#         pass
     
-    try:
-        self.xy_scan_plot_colorbar.remove()
+#     try:
+#         self.xy_scan_plot_colorbar.remove()
     
-    except (AttributeError, ValueError):
-        pass
+#     except (AttributeError, ValueError):
+#         pass
         
-    try:
-        self.xz_scan_plot_colorbar.remove()
+#     try:
+#         self.xz_scan_plot_colorbar.remove()
     
-    except (AttributeError, ValueError):
-        pass
+#     except (AttributeError, ValueError):
+#         pass
 
-    res_min_condition = 20 # set the min allowed resolution for scanning
-    res_max_condition = 900 # set the max allowed resolution for scanning
+#     res_min_condition = 20 # set the min allowed resolution for scanning
+#     res_max_condition = 900 # set the max allowed resolution for scanning
 
-    yz_scan_resolution_test_condition = False # define resolution validation bool for yz scan
+#     yz_scan_resolution_test_condition = False # define resolution validation bool for yz scan
 
-    while yz_scan_resolution_test_condition is False: # this initiates checking the resolution parameter
+#     while yz_scan_resolution_test_condition is False: # this initiates checking the resolution parameter
 
-        # checking for out of bounds of min and max conditions above
-        if int(yz_scan_resolution_qlineedit.text()) < res_min_condition or int(yz_scan_resolution_qlineedit.text()) > res_max_condition: # TODO: or negative or not a number or too large
+#         # checking for out of bounds of min and max conditions above
+#         if int(yz_scan_resolution_qlineedit.text()) < res_min_condition or int(yz_scan_resolution_qlineedit.text()) > res_max_condition: # TODO: or negative or not a number or too large
 
-            display_resolution_error_window_fnc() # call the error message pop-up window
-            break # exit the checking loop: failed
+#             display_resolution_error_window_fnc() # call the error message pop-up window
+#             break # exit the checking loop: failed
 
-        # if parameter is in bounds; run scan
-        elif int(yz_scan_resolution_qlineedit.text()) >= res_min_condition and int(yz_scan_resolution_qlineedit.text()) <= res_max_condition:
+#         # if parameter is in bounds; run scan
+#         elif int(yz_scan_resolution_qlineedit.text()) >= res_min_condition and int(yz_scan_resolution_qlineedit.text()) <= res_max_condition:
 
-            yz_scan_resolution_test_condition == True
-            print_YZ_scan_parameters_fnc(self) # call the print user-entered parameters fnc
-            run_yz_scan_fnc() # call the run yz scan method fnc
-            break # exit the checking loop: passed
+#             yz_scan_resolution_test_condition == True
+#             print_YZ_scan_parameters_fnc(self) # call the print user-entered parameters fnc
+#             run_yz_scan_fnc() # call the run yz scan method fnc
+#             break # exit the checking loop: passed

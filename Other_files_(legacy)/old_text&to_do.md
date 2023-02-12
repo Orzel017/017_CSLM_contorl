@@ -92,3 +92,18 @@ This software opens automatically when the cDAQ device is connected to this comp
 cDAQ chasis (there are four available slots)
 3. The second module in the cDAQ chasis (the NI-9263 module) is called "mod2" following in suit
 -->
+
+
+02-12-2023
+Old xy scanning comments
+"""
+    This runs X and Y only scan. It currently creates and then populates a user defined size numpy array according to a set counter acquisition time and a motor
+step voltage setting. Additionally, the initial driving voltage for the X and Y motors can be set according to the desired scanning range. This scanning program runs in a snake
+pattern, it scan the first row left to right, moves up one row, 
+then scans right to left and continues. Alternatives would be scanning left to right, and resetting the position of the laser on the next higher row and scanning again left 
+to right OR scanning in a "circular" patter either CW or CCW from outside to inside or inside to outside. The chosen method was picked for simplicity of understanding. The 
+scanning loops are present within NI-DAQmx tasks to speed up the program. Starting and stopping a NI-DAQmx task repeatedly slows down the program dramatically. So, the 
+counter and hardware clock task are started once, then the scanning program is run, and then the counter and clock tasks are closed -un-reserving the hardware resources. 
+This cell uses the "DAQAnalogOutputs" function from a written class file at:
+C:/Users/lukin2dmaterials/miniconda3/envs/qcodes/Lib/site-packages/qcodes_contrib_drivers/drivers/NationalInstruments/class_file. Slashes are reversed to run
+"""
