@@ -42,10 +42,15 @@ sys.path.append(current_file_directory.parent.parent.parent) # append triple par
 
 from GUI.Pages import XY_Scan_Page
 
+from GUI import GUI_Window_Contents
+
 ########################################################################################## end package imports ########################################################################################
 
+def run_xy_scan_script():
+    return 4
+
 # creating the function to take and xy iamge based on user parameters
-def run_xy_scan_script(self): # define the function/script 
+def run_xy_scan_script_two(): # define the function/script 
 
     # setting up NI-DAQmx tasks for hardware control
     with nidaqmx.Task() as internal_clock_task, nidaqmx.Task() as input_counter_task, nidaqmx.Task() as x_mirror_task, nidaqmx.Task() as y_mirror_task:
@@ -241,6 +246,8 @@ def run_xy_scan_script(self): # define the function/script
     # self.output_plot_area.axes.cla()
     # XY_Scan_Page.child.do_something_to_plot(self)
 
+    # GUI_Window_Contents.Build_GUI_Constant_Contents.temp_plot_area.axes.pcolormesh(data_array, cmap = "pink")
+
     # plot = self.output_plot_area.axes.pcolormesh(data_array, cmap = "pink")
 #     self.sc.axes.set_xticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_x_driving_voltage, int((initial_x_driving_voltage + desired_end_x_mirror_voltage) / 2), desired_end_x_mirror_voltage])
 #     self.sc.axes.set_yticks(np.arange(0, grid_size + 10, grid_size / 2), [initial_y_driving_voltage, int((initial_y_driving_voltage + desired_end_y_mirror_voltage) / 2), desired_end_y_mirror_voltage])
@@ -257,3 +264,4 @@ def run_xy_scan_script(self): # define the function/script
     # self.output_plot_area.draw()
 
 #     most_recent_data_array = xy_scan_data_array # make temp holding global data_array the same as xy_scan_data_array
+    return data_array

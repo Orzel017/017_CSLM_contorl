@@ -25,7 +25,7 @@ current_file_directory = path.Path(__file__).abspath() # access current file's d
 
 sys.path.append(current_file_directory.parent.parent.parent) # append parent of current file (in folder structure)
 
-from Scripts import xy_scan_script # access run_xy_scan_script from parent directory's subfolder
+from Scripts import STOP_xy_scan_script # access run_xy_scan_script from parent directory's subfolder
 
 ############################################################################################# end imports #############################################################################################
 # # display invalid resolution error window fnc
@@ -99,9 +99,11 @@ from Scripts import xy_scan_script # access run_xy_scan_script from parent direc
 #                                                 )
 
 # xy_scan resolution check then run fnc
-def start_xy_image(self):
+def start_xy_image():
 
-    xy_scan_script.run_xy_scan_script(self)
+    function_output = STOP_xy_scan_script.run_xy_scan_script()
+
+    return function_output
 
 #     self.sc.axes.cla()
 

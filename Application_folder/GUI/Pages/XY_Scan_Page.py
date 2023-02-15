@@ -5,7 +5,7 @@ Contents: UI elements to control Xy image taking
 
 Dates:
 Originally created: 01-17-2023
-Last modified: 02-12-2023
+Last modified: 02-14-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -47,15 +47,7 @@ from GUI_Helper_Utilities import GUI_Helper_Functions # access GUI_Helper_Functi
 
 class test_class:
 
-    # def __init__(self, test_var, parent = None):
-
-    #     # self.output_plot_area = test_var
-    #     self.test_var = test_var
-
     def build_xy_scan_page(self): # define build_welcome_page to setup the xy scan page UI elements
-        # self.rand = 2
-        # print(self.rand)
-        # self.rand = 5
 
         ##################################################################################### start create layout #########################################################################################
 
@@ -324,7 +316,7 @@ class test_class:
         self.output_plot_area = Plotting_Setup.MatPlotLib_Canvas(self, canvas_width = plot_dimension_match_aspect_ratio, canvas_height = plot_dimension_match_aspect_ratio,
                                                                 canvas_dpi = 100) # create plot area from MatPlotLib_Canvas class
 
-        self.output_plot_area.move(1, 1) # adjust spacing to match output rixght QFrame
+        self.output_plot_area.move(1, 1) # adjust spacing to match output right QFrame
 
         self.output_plot_area.setParent(self.xy_scan_output_right_side) # designate parent of plot area widget
 
@@ -347,11 +339,3 @@ class test_class:
         self.XY_scan_page.setLayout(self.behind_layout) # display xy scan page UI elements
 
         ##################################################################################### end finalize page ###########################################################################################
-
-# class child(test_class):
-
-#     def do_something_to_plot(self):
-#         print("do_something_to_plot")
-#         self.output_plot_area.axes.cla() # clear plot area
-#         # print(rand)
-#         print("method finished")
