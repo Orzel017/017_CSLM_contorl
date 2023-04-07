@@ -5,7 +5,7 @@ Contents: UI elements to control Xy image taking
 
 Dates:
 Originally created: 01-17-2023
-Last modified: 03-08-2023
+Last modified: 04-07-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -50,6 +50,9 @@ from GUI_Helper_Utilities import GUI_Helper_Functions # access GUI_Helper_Functi
 ########################################################################################## end package imports ########################################################################################
 
 class test_class:
+
+    def __init__(self):
+        self.output_plot_area = output_plot_area
 
     def print_hello():
         print("Hello world!")
@@ -157,7 +160,7 @@ class test_class:
             input_counter_task.start() # start the input_counter_task
 
             # setup the data array for populating with image data
-            array_size = 3 # designate the array size for the completed image data
+            array_size = 300 # designate the array size for the completed image data
             data_array = numpy.zeros((array_size, array_size)) # create an empty data array according to `array_size`
 
             initial_x_driving_voltage = -0.15
@@ -175,8 +178,8 @@ class test_class:
             output_value = 0
 
             ################################################################################ end script prelimaries #######################################################################################
-
-            for f in range(array_size): # rows
+            from tqdm import trange
+            for f in trange(array_size): # rows
 
                 for k in range(array_size): # columns
 
@@ -222,9 +225,15 @@ class test_class:
         
         # test_class.build_xy_scan_page.self.output_plot_area.axes.pcolormesh(data_array, cmap = "inferno") # plot the data array
         # self.output_plot_area.axes.pcolormesh(data_array, cmap = "inferno") # plot the data array
+        # output_plot_area.axes.pcolormesh(data_array, cmap = "inferno") # plot the data array
+
         output_plot_area.axes.pcolormesh(data_array, cmap = "inferno") # plot the data array
+        output_plot_area.figure.canvas.draw()
+        output_plot_area.figure.canvas.flush_events() # this line is very important
 
         print("finished")
+
+        # print(data_array)
 
     def build_xy_scan_page(self, parent = None): # define build_welcome_page to setup the xy scan page UI elements
 
@@ -496,12 +505,13 @@ class test_class:
         plot_dimension_match_aspect_ratio = 6.88 # designtate fixed dimension variable for image area to be square based on set DPI -below
 
         # self.output_plot_area = plot
-        self.output_plot_area = Plotting_Setup.MatPlotLib_Canvas(self, canvas_width = plot_dimension_match_aspect_ratio, canvas_height = plot_dimension_match_aspect_ratio,
+        global output_plot_area
+        output_plot_area = Plotting_Setup.MatPlotLib_Canvas(self, canvas_width = plot_dimension_match_aspect_ratio, canvas_height = plot_dimension_match_aspect_ratio,
                                                                 canvas_dpi = 100) # create plot area from MatPlotLib_Canvas class
 
-        self.output_plot_area.move(1, 1) # adjust spacing to match output right QFrame
+        output_plot_area.move(1, 1) # adjust spacing to match output right QFrame
 
-        self.output_plot_area.setParent(self.xy_scan_output_right_side) # designate parent of plot area widget
+        output_plot_area.setParent(self.xy_scan_output_right_side) # designate parent of plot area widget
 
         ######################################################################################## end plot area ############################################################################################
 

@@ -6,7 +6,7 @@ Contents: scannign script for taking an xy image
 Dates:
 File originally made during summer 2022
 File originally transitioned to new GUI: 01-14-202
-Last modifed: 02-12-2023
+Last modifed: 04-7-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -221,7 +221,7 @@ def run_xy_scan_script_two(): # define the function/script
 #             self.sc.axes.set_ylabel("y_mirror_driving_voltage_(V)", fontsize = 6, labelpad = -9)
 
 #             self.sc.figure.canvas.draw()
-#             self.sc.figure.canvas.flush_events() #this line is very important
+#             self.sc.figure.canvas.flush_events() # this line is very important
 #             ##################### updating plot section ####################
 
 #             if f < (grid_size_y - 1): # this loop prevents from scanning an upper undesired row
