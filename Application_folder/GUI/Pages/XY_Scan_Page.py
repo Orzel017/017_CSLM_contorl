@@ -5,7 +5,7 @@ Contents: UI elements to control Xy image taking
 
 Dates:
 Originally created: 01-17-2023
-Last modified: 04-07-2023
+Last modified: 04-08-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -22,6 +22,8 @@ TODO:
 import sys # generic sys module import
 
 import path # module for accessing parent folder directories
+
+from tqdm import trange # import trange function for progress bars during development
 
 import PyQt5 # generic PyQt5 module import
 
@@ -51,11 +53,16 @@ from GUI_Helper_Utilities import GUI_Helper_Functions # access GUI_Helper_Functi
 
 class test_class:
 
-    def __init__(self):
-        self.output_plot_area = output_plot_area
+    def __init__(self): # what is this?
 
-    def print_hello():
-        print("Hello world!")
+        # define variables for use in entire class (all [2] functions)
+        self.output_plot_area = output_plot_area # define output_plot_area
+        self.resolution_qlineedit = resolution_qlineedit # define resolution_qlineedit
+        self.minimum_x_driving_voltage_qlineedit = minimum_x_driving_voltage_qlineedit # define minimum_x_driving_voltage_qlineedit
+        self.maximum_x_driving_voltage_qlineedit = maximum_x_driving_voltage_qlineedit # define maximum_x_driving_voltage_qlineedit
+        self.minimum_y_driving_voltage_qlineedit = minimum_y_driving_voltage_qlineedit # define minimum_y_driving_voltage_qlineedit
+        self.maximum_y_driving_voltage_qlineedit = maximum_y_driving_voltage_qlineedit # define maximum_y_driving_voltage_qlineedit
+        self.save_raw_image_data_qlineedit = save_raw_image_data_qlineedit # define save_raw_image_data_qlineedit
 
     # creating the function to take and xy iamge based on user parameters
     def run_xy_scan_script(self, parent = None): # define the function/script 
@@ -104,7 +111,7 @@ class test_class:
                                                                     duty_cycle = 0.9 # set the duty cycle of pulses
                                                                     )
 
-            # configuring the sampling of the digital pulse train using `cfg_implicit_timing``
+            # configuring the sampling of the digital pulse train using `cfg_implicit_timing`
             internal_clock_task.timing.cfg_implicit_timing(
                                                             sample_mode = nidaqmx.constants.AcquisitionType.FINITE, # setting the acquisition mode to a finite number of samples
 
@@ -160,80 +167,98 @@ class test_class:
             input_counter_task.start() # start the input_counter_task
 
             # setup the data array for populating with image data
-            array_size = 300 # designate the array size for the completed image data
+            
+            array_size = int(resolution_qlineedit.text()) # designate the array size based on user qlineedit input for the completed image data
             data_array = numpy.zeros((array_size, array_size)) # create an empty data array according to `array_size`
 
-            initial_x_driving_voltage = -0.15
-            initial_y_driving_voltage = -0.15
-            desired_end_x_mirror_voltage = 0.15
-            desired_end_y_mirror_voltage = 0.15
+            # gather voltage data (to later be changed to distance data -requiring a formula) from user-input for driving galvo mirrors
+            initial_x_driving_voltage = round(float(minimum_x_driving_voltage_qlineedit.text()), 3)
+            initial_y_driving_voltage = round(float(minimum_y_driving_voltage_qlineedit.text()), 3)
+            desired_end_x_mirror_voltage = round(float(maximum_x_driving_voltage_qlineedit.text()), 3)
+            desired_end_y_mirror_voltage = round(float(maximum_y_driving_voltage_qlineedit.text()), 3)
 
+            # setting desired stepping voltages for driving the galvo mirrors
             x_driving_voltage_to_change = round(initial_x_driving_voltage, 5)
             y_driving_voltage_to_change = round(initial_y_driving_voltage, 5)
             x_drive_voltage_step = round(((numpy.absolute(initial_x_driving_voltage)) + (desired_end_x_mirror_voltage)) / array_size, 5)
             y_drive_voltage_step = round(((numpy.absolute(initial_y_driving_voltage)) + (desired_end_y_mirror_voltage)) / array_size, 5)
 
+            # zero-galvo section (to later be implemented via another script)
             x_mirror_task.write(0.0)
             y_mirror_task.write(0.0)
+
             output_value = 0
 
             ################################################################################ end script prelimaries #######################################################################################
-            from tqdm import trange
-            for f in trange(array_size): # rows
 
-                for k in range(array_size): # columns
+            for f in trange(array_size): # loop/iterate over the desired number of rows
+                
+                for k in range(array_size): # loop/iterate over the desired number of columns
 
                     counter_value = input_counter_task.read(6)[-1]
+
                     output_value += counter_value
+
                     if f % 2 != 0: # this loop populates the created xy_scan_data_array (the if else strucuture is present bc of the snaking scanning pattern)
+
                         data_array[f][((-k) + 1)] = (output_value - numpy.sum(data_array)) # add counter result to data array
+
                         output_value == 0
                         counter_value == 0
+
                     else:
                         if f == 0 and k == 0:
                             data_array[0][0] = output_value # add counter result to data array
+
                         else:
                             data_array[f][k] = (output_value - numpy.sum(data_array)) # add counter result to data array
+                        
                     output_value = 0
                     counter_value = 0
 
                     if f % 2 == 0: # this loop adjusts for sweeping back and forth along each alternating row
+
                         if k < (array_size - 1):
+
                             x_driving_voltage_to_change += x_drive_voltage_step # increment drive voltage forwards
                             x_driving_voltage_to_change = round(x_driving_voltage_to_change, 3)
                             x_mirror_task.write(x_driving_voltage_to_change)
+
                         else:
                             break
+
                     else:
                         if k < (array_size - 1):
+
                             x_driving_voltage_to_change -= x_drive_voltage_step # increment drive voltage backwards
                             x_driving_voltage_to_change = round(x_driving_voltage_to_change, 3)
                             x_mirror_task.write(x_driving_voltage_to_change)
+
                         else:
                             break
 
                 if f < (array_size - 1): # this loop prevents from scanning an upper undesired row
+
                     y_driving_voltage_to_change += y_drive_voltage_step # increment drive voltage
                     y_mirror_task.write(y_driving_voltage_to_change)
+
                 else:
                     break
+            
+            # stopping the NI-DAQmx tasks (all of them used above)
+            internal_clock_task.stop() # stop the internal clock task within the cDAQ module
+            input_counter_task.stop() # stop the input counter task -cease collecting data even though input voltage stream is always available
 
-            internal_clock_task.stop()
-            input_counter_task.stop()
-            x_mirror_task.stop()
-            y_mirror_task.stop()
-        
-        # test_class.build_xy_scan_page.self.output_plot_area.axes.pcolormesh(data_array, cmap = "inferno") # plot the data array
-        # self.output_plot_area.axes.pcolormesh(data_array, cmap = "inferno") # plot the data array
-        # output_plot_area.axes.pcolormesh(data_array, cmap = "inferno") # plot the data array
+            x_mirror_task.stop() # stop the x-mirror task
+            y_mirror_task.stop() # stop the y-mirror task
 
-        output_plot_area.axes.pcolormesh(data_array, cmap = "inferno") # plot the data array
-        output_plot_area.figure.canvas.draw()
-        output_plot_area.figure.canvas.flush_events() # this line is very important
+        # plot the completed data array
 
-        print("finished")
+        output_plot_area.axes.pcolormesh(data_array, cmap = "inferno") # plot the data array -using the defined colormap
+        output_plot_area.figure.canvas.draw() # draw the actual figure
+        output_plot_area.figure.canvas.flush_events() # this line is very important and serves what purpose? This was the crux of one of the first versions of live-plotting
 
-        # print(data_array)
+        print("finished") # testing print line
 
     def build_xy_scan_page(self, parent = None): # define build_welcome_page to setup the xy scan page UI elements
 
@@ -295,15 +320,17 @@ class test_class:
         self.resolution_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier) # position resolution widget
 
         # resolution QLineEdit
-        self.resolution_qlineedit = QLineEdit(self) # create resolution qlineedit
+        global resolution_qlineedit # set gloabl qlineedit widget for use in other function on this page
 
-        self.resolution_qlineedit.setParent(self.xy_scan_input_left_side) # designate parent of resolution qlineedit
+        resolution_qlineedit = QLineEdit(self) # create resolution qlineedit
 
-        self.resolution_qlineedit.move(control_widgets_left_justify_modifier + 60, control_widgets_top_justify_modifier) # position resolution qlineedit
+        resolution_qlineedit.setParent(self.xy_scan_input_left_side) # designate parent of resolution qlineedit
 
-        self.resolution_qlineedit.resize(40, 15) # resize resolution qlineedit
+        resolution_qlineedit.move(control_widgets_left_justify_modifier + 60, control_widgets_top_justify_modifier) # position resolution qlineedit
 
-        self.resolution_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
+        resolution_qlineedit.resize(40, 15) # resize resolution qlineedit
+
+        resolution_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
         # pixels widget
         self.pixels_widget = QLabel("pixels", self) # create resolution widget
@@ -342,15 +369,17 @@ class test_class:
         self.minimum_x_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 40) # position minimum x driving voltage widget
 
         # minimum x driving voltage qlineedit
-        self.minimum_x_driving_voltage_qlineedit = QLineEdit(self) # create minimum x driving voltage qlineedit
+        global minimum_x_driving_voltage_qlineedit
 
-        self.minimum_x_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of minimum x driving voltage qlineedit
+        minimum_x_driving_voltage_qlineedit = QLineEdit(self) # create minimum x driving voltage qlineedit
 
-        self.minimum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 42) # position minimum x driving voltage qlineedit
+        minimum_x_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of minimum x driving voltage qlineedit
 
-        self.minimum_x_driving_voltage_qlineedit.resize(40, 15) # set size of minimum x driving voltage qlineedit
+        minimum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 42) # position minimum x driving voltage qlineedit
 
-        self.minimum_x_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
+        minimum_x_driving_voltage_qlineedit.resize(40, 15) # set size of minimum x driving voltage qlineedit
+
+        minimum_x_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
         # minimum x driving voltage unit label widget
         self.minimum_x_driving_voltage_unit_label_widget = QLabel("volts", self) # create minimum x driving voltage unit label widget
@@ -369,15 +398,17 @@ class test_class:
         self.maximum_x_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 65) # position maximum x driving voltage widget
 
         # maximum x driving voltage qlineedit
-        self.maximum_x_driving_voltage_qlineedit = QLineEdit(self) # create maximum x driving voltage qlineedit
+        global maximum_x_driving_voltage_qlineedit
 
-        self.maximum_x_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of maximum x driving voltage qlineedit
+        maximum_x_driving_voltage_qlineedit = QLineEdit(self) # create maximum x driving voltage qlineedit
 
-        self.maximum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 67) # position maximum x driving voltage qlineedit
+        maximum_x_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of maximum x driving voltage qlineedit
 
-        self.maximum_x_driving_voltage_qlineedit.resize(40, 15) # set size of maximum x driving voltage qlineedit
+        maximum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 67) # position maximum x driving voltage qlineedit
 
-        self.maximum_x_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
+        maximum_x_driving_voltage_qlineedit.resize(40, 15) # set size of maximum x driving voltage qlineedit
+
+        maximum_x_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
         # maximum x driving voltage unit label widget
         self.maximum_x_driving_voltage_unit_label_widget = QLabel("volts", self) # create maximum x driving voltage unit label widget
@@ -397,15 +428,17 @@ class test_class:
         self.minimum_y_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 93) # position minimum y driving voltage widget
 
         # minimum y driving voltage qlineedit
-        self.minimum_y_driving_voltage_qlineedit = QLineEdit(self) # create minimum y driving voltage qlineedit
+        global minimum_y_driving_voltage_qlineedit
 
-        self.minimum_y_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of minimum y driving voltage qlineedit
+        minimum_y_driving_voltage_qlineedit = QLineEdit(self) # create minimum y driving voltage qlineedit
 
-        self.minimum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 95) # position minimum y driving voltage qlineedit
+        minimum_y_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of minimum y driving voltage qlineedit
 
-        self.minimum_y_driving_voltage_qlineedit.resize(40, 15) # set size of minimum y driving voltage qlineedit
+        minimum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 95) # position minimum y driving voltage qlineedit
 
-        self.minimum_y_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
+        minimum_y_driving_voltage_qlineedit.resize(40, 15) # set size of minimum y driving voltage qlineedit
+
+        minimum_y_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
         # minimum y driving voltage unit label widget
         self.minimum_y_driving_voltage_unit_label_widget = QLabel("volts", self) # create minimum y driving voltage unit label widget
@@ -424,15 +457,17 @@ class test_class:
         self.maximum_y_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 118) # position maximum y driving voltage widget
 
         # maximum y driving voltage qlineedit
-        self.maximum_y_driving_voltage_qlineedit = QLineEdit(self) # create maximum y driving voltage qlineedit
+        global maximum_y_driving_voltage_qlineedit
 
-        self.maximum_y_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of maximum y driving voltage qlineedit
+        maximum_y_driving_voltage_qlineedit = QLineEdit(self) # create maximum y driving voltage qlineedit
 
-        self.maximum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 120) # position maximum x driving voltage qlineedit
+        maximum_y_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of maximum y driving voltage qlineedit
 
-        self.maximum_y_driving_voltage_qlineedit.resize(40, 15) # set size of maximum y driving voltage qlineedit
+        maximum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 120) # position maximum x driving voltage qlineedit
 
-        self.maximum_y_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
+        maximum_y_driving_voltage_qlineedit.resize(40, 15) # set size of maximum y driving voltage qlineedit
+
+        maximum_y_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
         # maximum y driving voltage unit label widget
         self.maximum_y_driving_voltage_unit_label_widget = QLabel("volts", self) # create maximum y driving voltage unit label widget
@@ -483,13 +518,15 @@ class test_class:
         self.save_raw_image_data_widget.clicked.connect(GUI_Helper_Functions.print_hello_world) # temporary button print response
 
         # save raw image data qlineedit
-        self.save_raw_image_data_qlineedit = QLineEdit(self) # create the qlineedit to save raw image data
+        global save_raw_image_data_qlineedit
 
-        self.save_raw_image_data_qlineedit.setParent(self.xy_scan_input_left_side) # designate parent of the save raw image data qlineedit
+        save_raw_image_data_qlineedit = QLineEdit(self) # create the qlineedit to save raw image data
+
+        save_raw_image_data_qlineedit.setParent(self.xy_scan_input_left_side) # designate parent of the save raw image data qlineedit
         
-        self.save_raw_image_data_qlineedit.resize(203, 20) # set the size of the save raw image data qlineedit
+        save_raw_image_data_qlineedit.resize(203, 20) # set the size of the save raw image data qlineedit
 
-        self.save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier, 627) # set the position of the save raw image data qlineedit
+        save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier, 627) # set the position of the save raw image data qlineedit
 
         # save raw image data file extension label widget
         self.save_raw_image_data_extension_label_widget = QLabel("\".npy\"", self) # create the save raw image data extension label widget
@@ -505,7 +542,9 @@ class test_class:
         plot_dimension_match_aspect_ratio = 6.88 # designtate fixed dimension variable for image area to be square based on set DPI -below
 
         # self.output_plot_area = plot
+
         global output_plot_area
+
         output_plot_area = Plotting_Setup.MatPlotLib_Canvas(self, canvas_width = plot_dimension_match_aspect_ratio, canvas_height = plot_dimension_match_aspect_ratio,
                                                                 canvas_dpi = 100) # create plot area from MatPlotLib_Canvas class
 
