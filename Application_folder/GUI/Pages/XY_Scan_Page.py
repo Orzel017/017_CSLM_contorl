@@ -53,7 +53,7 @@ from GUI_Helper_Utilities import GUI_Helper_Functions # access GUI_Helper_Functi
 
 class test_class:
 
-    def __init__(self): # what is this?
+    def __init__(self): # what is this line?
 
         # define variables for use in entire class (all [2] functions)
         self.output_plot_area = output_plot_area # define output_plot_area
@@ -66,8 +66,6 @@ class test_class:
 
     # creating the function to take and xy iamge based on user parameters
     def run_xy_scan_script(self, parent = None): # define the function/script 
-
-        # super().run_xy_scan_script(parent)
 
         """
         * old text (outdated):
@@ -194,10 +192,12 @@ class test_class:
             for f in trange(array_size): # loop/iterate over the desired number of rows
                 
                 for k in range(array_size): # loop/iterate over the desired number of columns
+                    
+                    # reading the (current) counter value
+                    counter_value = input_counter_task.read(10)[-1] # read the actual and current counter value. This line is very important
+                    # six is fast; causes problem
 
-                    counter_value = input_counter_task.read(6)[-1]
-
-                    output_value += counter_value
+                    output_value += counter_value # increment the output value (to be used in the data array)
 
                     if f % 2 != 0: # this loop populates the created xy_scan_data_array (the if else strucuture is present bc of the snaking scanning pattern)
 
@@ -236,6 +236,12 @@ class test_class:
 
                         else:
                             break
+                
+                # update plot here
+                output_plot_area.axes.cla()
+                output_plot_area.axes.pcolormesh(data_array, cmap = "inferno") # plot the data array
+                output_plot_area.figure.canvas.draw() # draw the actual figure
+                output_plot_area.figure.canvas.flush_events()
 
                 if f < (array_size - 1): # this loop prevents from scanning an upper undesired row
 
