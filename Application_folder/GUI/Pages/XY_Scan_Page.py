@@ -346,7 +346,7 @@ class test_class:
 
         self.title_widget.setParent(self.xy_scan_input_left_side) # designate parent of title widget
 
-        self.title_widget.move(82, 0) # position the title widget
+        self.title_widget.move(81, 0) # position the title widget
 
         # sudo-global variables
         control_widgets_left_justify_modifier = 3 # left-justification
@@ -373,7 +373,7 @@ class test_class:
 
         resolution_qlineedit.move(control_widgets_left_justify_modifier + 60, control_widgets_top_justify_modifier) # position resolution qlineedit
 
-        resolution_qlineedit.resize(40, 15) # resize resolution qlineedit
+        resolution_qlineedit.resize(139, 15) # resize resolution qlineedit
 
         resolution_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
@@ -384,16 +384,16 @@ class test_class:
 
         self.pixels_widget.setParent(self.xy_scan_input_left_side) # designate parent of resolution widget
 
-        self.pixels_widget.move(control_widgets_left_justify_modifier + 105, control_widgets_top_justify_modifier) # position resolution widget
+        self.pixels_widget.move(control_widgets_left_justify_modifier + 203, control_widgets_top_justify_modifier) # position resolution widget
 
         # resolution disclaimer widget
-        self.resolution_disclaimer_widget = QLabel("Note: aspect ratio is 1:1", self) # create resolution widget
+        self.resolution_disclaimer_widget = QLabel("(Note: aspect ratio is 1:1)", self) # create resolution widget
 
         self.resolution_disclaimer_widget.setFont(QFont("Times", 8)) # adjust font size of resolution widget
 
         self.resolution_disclaimer_widget.setParent(self.xy_scan_input_left_side) # designate parent of resolution widget
 
-        self.resolution_disclaimer_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 15) # position resolution widget
+        self.resolution_disclaimer_widget.move(control_widgets_left_justify_modifier + 44, control_widgets_top_justify_modifier + 15) # position resolution widget
 
         # # read time
         # xy_scan_read_time_widget = QLabel("APD_t:", self) # widget
@@ -424,7 +424,7 @@ class test_class:
 
         minimum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 42) # position minimum x driving voltage qlineedit
 
-        minimum_x_driving_voltage_qlineedit.resize(40, 15) # set size of minimum x driving voltage qlineedit
+        minimum_x_driving_voltage_qlineedit.resize(130, 15) # set size of minimum x driving voltage qlineedit
 
         minimum_x_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
@@ -435,7 +435,7 @@ class test_class:
 
         self.minimum_x_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum x driving voltage unit label widget
 
-        self.minimum_x_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 42) # position minimum x driving voltage unit label widget
+        self.minimum_x_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 207, control_widgets_top_justify_modifier + 42) # position minimum x driving voltage unit label widget
 
         # maximum x driving voltage widget
         self.maximum_x_driving_voltage_widget = QLabel("Max x-voltage:", self) # create maximum x driving voltage widget
@@ -453,7 +453,7 @@ class test_class:
 
         maximum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 67) # position maximum x driving voltage qlineedit
 
-        maximum_x_driving_voltage_qlineedit.resize(40, 15) # set size of maximum x driving voltage qlineedit
+        maximum_x_driving_voltage_qlineedit.resize(130, 15) # set size of maximum x driving voltage qlineedit
 
         maximum_x_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
@@ -467,7 +467,7 @@ class test_class:
         self.maximum_x_driving_voltage_widget.setFont(QFont("Times", 8))
 
         # position maximum x driving voltage unit label widget
-        self.maximum_x_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 67)
+        self.maximum_x_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 207, control_widgets_top_justify_modifier + 67)
 
         # minimum x driving voltage widget
         self.minimum_y_driving_voltage_widget = QLabel("Min y-voltage:", self) # create minimum y driving voltage widget
@@ -487,7 +487,7 @@ class test_class:
 
         minimum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 95) # position minimum y driving voltage qlineedit
 
-        minimum_y_driving_voltage_qlineedit.resize(40, 15) # set size of minimum y driving voltage qlineedit
+        minimum_y_driving_voltage_qlineedit.resize(130, 15) # set size of minimum y driving voltage qlineedit
 
         minimum_y_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
@@ -498,7 +498,7 @@ class test_class:
 
         self.minimum_y_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum y driving voltage unit label widget
 
-        self.minimum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 95) # position minimum y driving voltage unit label widget
+        self.minimum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 207, control_widgets_top_justify_modifier + 95) # position minimum y driving voltage unit label widget
 
         # maximum y driving voltage widget
         self.maximum_y_driving_voltage_widget = QLabel("Max y-voltage:", self) # create maximum y driving voltage widget
@@ -518,7 +518,7 @@ class test_class:
 
         maximum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 120) # position maximum x driving voltage qlineedit
 
-        maximum_y_driving_voltage_qlineedit.resize(40, 15) # set size of maximum y driving voltage qlineedit
+        maximum_y_driving_voltage_qlineedit.resize(130, 15) # set size of maximum y driving voltage qlineedit
 
         maximum_y_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
@@ -530,27 +530,16 @@ class test_class:
         self.maximum_y_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum y driving voltage unit label widget
 
         # position maximum y driving voltage unit label widget
-        self.maximum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 120)
-
-        # run take xy image button
-        self.take_xy_image_button = QPushButton("Run\nXY image", self) # create a button to take xy image
-
-        self.take_xy_image_button.setParent(self.xy_scan_input_left_side) # designate parent of take xy image button
-
-        self.take_xy_image_button.resize(60, 40) # set size of the take xy image button
-
-        self.take_xy_image_button.move(control_widgets_left_justify_modifier + 79, control_widgets_top_justify_modifier + 628)
-
-        self.take_xy_image_button.clicked.connect(test_class.run_xy_scan_script)
+        self.maximum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 207, control_widgets_top_justify_modifier + 120)
 
         # save image data (function connection needs to be made) widget
         self.save_raw_image_data_widget = QPushButton("Save raw image data below:", self) # create the save raw image data button
 
         self.save_raw_image_data_widget.setParent(self.xy_scan_input_left_side) # set the "parent" bound of the save scan raw image data button
 
-        self.save_raw_image_data_widget.resize(148, 20) # resize the save raw image data button
+        self.save_raw_image_data_widget.resize(231, 20) # resize the save raw image data button
 
-        self.save_raw_image_data_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 586) # set the position of the save raw image data button
+        self.save_raw_image_data_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 626) # set the position of the save raw image data button
 
         self.save_raw_image_data_widget.clicked.connect(GUI_Helper_Functions.print_hello_world) # temporary button print response
 
@@ -561,23 +550,25 @@ class test_class:
 
         save_raw_image_data_qlineedit.setParent(self.xy_scan_input_left_side) # designate parent of the save raw image data qlineedit
         
-        save_raw_image_data_qlineedit.resize(203, 20) # set the size of the save raw image data qlineedit
+        save_raw_image_data_qlineedit.resize(200, 20) # set the size of the save raw image data qlineedit
 
-        save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier, 627) # set the position of the save raw image data qlineedit
+        save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier, 667) # set the position of the save raw image data qlineedit
 
         # save raw image data file extension label widget
         self.save_raw_image_data_extension_label_widget = QLabel("\".npy\"", self) # create the save raw image data extension label widget
 
         self.save_raw_image_data_extension_label_widget.setParent(self.xy_scan_input_left_side) # designate the parent of the save raw image data extension label widget
 
-        self.save_raw_image_data_extension_label_widget.move(control_widgets_left_justify_modifier + 204, 627) # set the position of the save raw image data extension label widget
+        self.save_raw_image_data_extension_label_widget.move(control_widgets_left_justify_modifier + 201, 670) # set the position of the save raw image data extension label widget
+
+        self.save_raw_image_data_extension_label_widget.setFont(QFont("Times", 8))
 
         # change color map of plot widegt
-        self.change_color_map_widget = QLabel("Change image color map:", self) # create widget to change the image's color bar
+        self.change_color_map_widget = QLabel("Click to change image color map:", self) # create widget to change the image's color bar
 
         self.change_color_map_widget.setParent(self.xy_scan_input_left_side) # designate parent of the change plot color map widget
 
-        self.change_color_map_widget.move(control_widgets_left_justify_modifier + 39, control_widgets_top_justify_modifier + 145) # position change plot's color map widget
+        self.change_color_map_widget.move(control_widgets_left_justify_modifier + 29, control_widgets_top_justify_modifier + 145) # position change plot's color map widget
 
         self.change_color_map_widget.setFont(QFont("Times", 8))
 
@@ -589,22 +580,33 @@ class test_class:
         self.change_color_map_to_pink_button = QPushButton("Pink", self)
         self.change_color_map_to_pink_button.setParent(self.xy_scan_input_left_side)
         self.change_color_map_to_pink_button.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value)
-        self.change_color_map_to_pink_button.move(control_widgets_left_justify_modifier + 40 - 3, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
+        self.change_color_map_to_pink_button.move(control_widgets_left_justify_modifier + 46, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
         self.change_color_map_to_pink_button.clicked.connect(test_class.re_plot_with_pink_color_map)
 
         # change color map (to inferno)
         self.change_color_map_to_inferno_button = QPushButton("Inferno", self)
         self.change_color_map_to_inferno_button.setParent(self.xy_scan_input_left_side)
         self.change_color_map_to_inferno_button.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value)
-        self.change_color_map_to_inferno_button.move(control_widgets_left_justify_modifier + 85 - 3, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
+        self.change_color_map_to_inferno_button.move(control_widgets_left_justify_modifier + 91, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
         self.change_color_map_to_inferno_button.clicked.connect(test_class.re_plot_with_inferno_color_map)
 
         # change color map (to Greys)
         self.change_color_map_to_Greys_button = QPushButton("Greys", self)
         self.change_color_map_to_Greys_button.setParent(self.xy_scan_input_left_side)
         self.change_color_map_to_Greys_button.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value)
-        self.change_color_map_to_Greys_button.move(control_widgets_left_justify_modifier + 130 - 3, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
+        self.change_color_map_to_Greys_button.move(control_widgets_left_justify_modifier + 135, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
         self.change_color_map_to_Greys_button.clicked.connect(test_class.re_plot_with_Greys_color_map)
+
+        # run take xy image button
+        self.take_xy_image_button = QPushButton("Run XY image", self) # create a button to take xy image
+
+        self.take_xy_image_button.setParent(self.xy_scan_input_left_side) # designate parent of take xy image button
+
+        self.take_xy_image_button.resize(231, 30) # set size of the take xy image button
+
+        self.take_xy_image_button.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 585)
+
+        self.take_xy_image_button.clicked.connect(test_class.run_xy_scan_script)
 
         ########################################################################################## end control area #######################################################################################
 
