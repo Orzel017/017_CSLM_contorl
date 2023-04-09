@@ -571,7 +571,7 @@ class test_class:
         self.change_color_map_widget.move(control_widgets_left_justify_modifier + 29, control_widgets_top_justify_modifier + 145) # position change plot's color map widget
 
         self.change_color_map_widget.setFont(QFont("Times", 8))
-
+        
         # position adjust variables changing image color maps:
         changing_color_map_button_square_aspect_ratio_value = 35
         changing_color_map_button_y_adjust_value = 165
