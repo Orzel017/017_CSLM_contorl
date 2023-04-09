@@ -5,7 +5,7 @@ Contents: UI elements to control Xy image taking
 
 Dates:
 Originally created: 01-17-2023
-Last modified: 04-08-2023
+Last modified: 04-09-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -27,7 +27,7 @@ from tqdm import trange # import trange function for progress bars during develo
 
 import PyQt5 # generic PyQt5 module import
 
-from PyQt5.QtWidgets import (QHBoxLayout, QFrame, QLabel, QLineEdit, QPushButton) # submodules from PyQt5.QtWidgets
+from PyQt5.QtWidgets import (QHBoxLayout, QFrame, QLabel, QLineEdit, QPushButton, QComboBox) # submodules from PyQt5.QtWidgets
 
 from PyQt5.QtGui import QFont # submodule from PyQt5.QtGui
 
@@ -51,6 +51,10 @@ from GUI_Helper_Utilities import GUI_Helper_Functions # access GUI_Helper_Functi
 
 ########################################################################################## end package imports ########################################################################################
 
+#
+global global_xy_image_data_array
+global_xy_image_data_array = numpy.zeros((3, 3))
+
 class test_class:
 
     def __init__(self): # what is this line?
@@ -63,6 +67,15 @@ class test_class:
         self.minimum_y_driving_voltage_qlineedit = minimum_y_driving_voltage_qlineedit # define minimum_y_driving_voltage_qlineedit
         self.maximum_y_driving_voltage_qlineedit = maximum_y_driving_voltage_qlineedit # define maximum_y_driving_voltage_qlineedit
         self.save_raw_image_data_qlineedit = save_raw_image_data_qlineedit # define save_raw_image_data_qlineedit
+        self.global_xy_image_data_array = global_xy_image_data_array
+    
+    #
+    def re_plot_with_pink_color_map(self, parent = None):
+        print(global_xy_image_data_array)
+        output_plot_area.axes.pcolormesh(global_xy_image_data_array, cmap = "pink") # plot the data array
+        output_plot_area.figure.canvas.draw() # draw the actual figure
+        # output_plot_area.figure.canvas.flush_events() # this line is very important and serves what purpose? This was the crux of one of the first versions of live-plotting
+
 
     # creating the function to take and xy iamge based on user parameters
     def run_xy_scan_script(self, parent = None): # define the function/script 
@@ -166,6 +179,7 @@ class test_class:
 
             # setup the data array for populating with image data
             
+            global_xy_image_data_array = numpy.zeros((3, 3))
             array_size = int(resolution_qlineedit.text()) # designate the array size based on user qlineedit input for the completed image data
             data_array = numpy.zeros((array_size, array_size)) # create an empty data array according to `array_size`
 
@@ -189,36 +203,36 @@ class test_class:
 
             ################################################################################ end script prelimaries #######################################################################################
 
-            for f in trange(array_size): # loop/iterate over the desired number of rows
+            for row_iterator in trange(array_size): # loop/iterate over the desired number of rows
                 
-                for k in range(array_size): # loop/iterate over the desired number of columns
+                for column_iterator in range(array_size): # loop/iterate over the desired number of columns
                     
                     # reading the (current) counter value
-                    counter_value = input_counter_task.read(10)[-1] # read the actual and current counter value. This line is very important
-                    # six is fast; causes problem
+                    counter_value = input_counter_task.read(9)[-1] # read the actual and current counter value. This line is very important
+                    # six is fast; and might cause problem
 
                     output_value += counter_value # increment the output value (to be used in the data array)
 
-                    if f % 2 != 0: # this loop populates the created xy_scan_data_array (the if else strucuture is present bc of the snaking scanning pattern)
+                    if row_iterator % 2 != 0: # this loop populates the created xy_scan_data_array (the if else strucuture is present bc of the snaking scanning pattern)
 
-                        data_array[f][((-k) + 1)] = (output_value - numpy.sum(data_array)) # add counter result to data array
+                        data_array[row_iterator][((-column_iterator) + 1)] = (output_value - numpy.sum(data_array)) # add counter result to data array
 
                         output_value == 0
                         counter_value == 0
 
                     else:
-                        if f == 0 and k == 0:
+                        if row_iterator == 0 and column_iterator == 0:
                             data_array[0][0] = output_value # add counter result to data array
 
                         else:
-                            data_array[f][k] = (output_value - numpy.sum(data_array)) # add counter result to data array
+                            data_array[row_iterator][column_iterator] = (output_value - numpy.sum(data_array)) # add counter result to data array
                         
                     output_value = 0
                     counter_value = 0
 
-                    if f % 2 == 0: # this loop adjusts for sweeping back and forth along each alternating row
+                    if row_iterator % 2 == 0: # this loop adjusts for sweeping back and forth along each alternating row
 
-                        if k < (array_size - 1):
+                        if column_iterator < (array_size - 1):
 
                             x_driving_voltage_to_change += x_drive_voltage_step # increment drive voltage forwards
                             x_driving_voltage_to_change = round(x_driving_voltage_to_change, 3)
@@ -228,7 +242,7 @@ class test_class:
                             break
 
                     else:
-                        if k < (array_size - 1):
+                        if column_iterator < (array_size - 1):
 
                             x_driving_voltage_to_change -= x_drive_voltage_step # increment drive voltage backwards
                             x_driving_voltage_to_change = round(x_driving_voltage_to_change, 3)
@@ -243,7 +257,7 @@ class test_class:
                 output_plot_area.figure.canvas.draw() # draw the actual figure
                 output_plot_area.figure.canvas.flush_events()
 
-                if f < (array_size - 1): # this loop prevents from scanning an upper undesired row
+                if row_iterator < (array_size - 1): # this loop prevents from scanning an upper undesired row
 
                     y_driving_voltage_to_change += y_drive_voltage_step # increment drive voltage
                     y_mirror_task.write(y_driving_voltage_to_change)
@@ -260,12 +274,14 @@ class test_class:
 
         # plot the completed data array
 
-        output_plot_area.axes.pcolormesh(data_array, cmap = "inferno") # plot the data array -using the defined colormap
+        global_xy_image_data_array += data_array
+
+        output_plot_area.axes.pcolormesh(global_xy_image_data_array, cmap = "inferno") # plot the data array -using the defined colormap
         output_plot_area.figure.canvas.draw() # draw the actual figure
         output_plot_area.figure.canvas.flush_events() # this line is very important and serves what purpose? This was the crux of one of the first versions of live-plotting
-
-        print("finished") # testing print line
-
+        print(global_xy_image_data_array)
+    # print(global_xy_image_data)
+    
     def build_xy_scan_page(self, parent = None): # define build_welcome_page to setup the xy scan page UI elements
 
         ##################################################################################### start create layout #########################################################################################
@@ -374,6 +390,8 @@ class test_class:
 
         self.minimum_x_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 40) # position minimum x driving voltage widget
 
+        self.minimum_x_driving_voltage_widget.setFont(QFont("Times", 8))
+
         # minimum x driving voltage qlineedit
         global minimum_x_driving_voltage_qlineedit
 
@@ -423,6 +441,8 @@ class test_class:
 
         self.maximum_x_driving_voltage_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate parent of maximum x driving voltage unit label widget
 
+        self.maximum_x_driving_voltage_widget.setFont(QFont("Times", 8))
+
         # position maximum x driving voltage unit label widget
         self.maximum_x_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 67)
 
@@ -432,6 +452,8 @@ class test_class:
         self.minimum_y_driving_voltage_widget.setParent(self.xy_scan_input_left_side) # designate parent of minimum y driving voltage widget
 
         self.minimum_y_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 93) # position minimum y driving voltage widget
+
+        self.minimum_y_driving_voltage_widget.setFont(QFont("Times", 8))
 
         # minimum y driving voltage qlineedit
         global minimum_y_driving_voltage_qlineedit
@@ -462,6 +484,8 @@ class test_class:
 
         self.maximum_y_driving_voltage_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 118) # position maximum y driving voltage widget
 
+        self.maximum_y_driving_voltage_widget.setFont(QFont("Times", 8))
+
         # maximum y driving voltage qlineedit
         global maximum_y_driving_voltage_qlineedit
 
@@ -485,17 +509,6 @@ class test_class:
         # position maximum y driving voltage unit label widget
         self.maximum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 118, control_widgets_top_justify_modifier + 120)
 
-        # # z piezo
-        # xy_scan_z_piezo_voltage_widget = QLabel("z_V:", self) # widget
-        # xy_scan_z_piezo_voltage_widget.setParent(self.left_window)
-        # xy_scan_z_piezo_voltage_widget.move(xy_scan_widgets_left_x_justify, 190 + row_y_adjust + overall_y_adjust)
-
-        # xy_scan_z_piezo_voltage_qlineedit = QLineEdit(self) # qclineedit
-        # xy_scan_z_piezo_voltage_qlineedit.setParent(self.left_window)
-        # xy_scan_z_piezo_voltage_qlineedit.move(30, 190 + row_y_adjust + overall_y_adjust)
-        # xy_scan_z_piezo_voltage_qlineedit.resize(55, 15)
-        # xy_scan_z_piezo_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
-
         # run take xy image button
         self.take_xy_image_button = QPushButton("Run\nXY image", self) # create a button to take xy image
 
@@ -506,11 +519,6 @@ class test_class:
         self.take_xy_image_button.move(control_widgets_left_justify_modifier + 79, control_widgets_top_justify_modifier + 628)
 
         self.take_xy_image_button.clicked.connect(test_class.run_xy_scan_script)
-
-        # old below
-        # self.take_xy_image_button.clicked.connect(Helper_Functions.start_xy_image) # start the xy scan process by calling the resolution validation function
-        # this framework is limited currently to only validating resolution
-        # old above
 
         # save image data (function connection needs to be made) widget
         self.save_raw_image_data_widget = QPushButton("Save raw image data below:", self) # create the save raw image data button
@@ -541,13 +549,43 @@ class test_class:
 
         self.save_raw_image_data_extension_label_widget.move(control_widgets_left_justify_modifier + 204, 627) # set the position of the save raw image data extension label widget
 
+        # change color map of plot widegt
+        self.change_color_map_widget = QLabel("Change image color map:", self) # create widget to change the image's color bar
+
+        self.change_color_map_widget.setParent(self.xy_scan_input_left_side) # designate parent of the change plot color map widget
+
+        self.change_color_map_widget.move(control_widgets_left_justify_modifier + 38, control_widgets_top_justify_modifier + 145) # position change plot's color map widget
+
+        self.change_color_map_widget.setFont(QFont("Times", 8))
+
+        # position adjust variables changing image color maps:
+        changing_color_map_button_square_aspect_ratio_value = 35
+        changing_color_map_button_y_adjust_value = 165
+
+        # change color map (to pink)
+        self.change_color_map_to_pink_button = QPushButton("Pink", self)
+        self.change_color_map_to_pink_button.setParent(self.xy_scan_input_left_side)
+        self.change_color_map_to_pink_button.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value)
+        self.change_color_map_to_pink_button.move(control_widgets_left_justify_modifier + 40 - 3, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
+        self.change_color_map_to_pink_button.clicked.connect(test_class.re_plot_with_pink_color_map)
+
+        # change color map (to Inferno)
+        self.change_color_map_to_pink_Inferno = QPushButton("Inferno", self)
+        self.change_color_map_to_pink_Inferno.setParent(self.xy_scan_input_left_side)
+        self.change_color_map_to_pink_Inferno.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value)
+        self.change_color_map_to_pink_Inferno.move(control_widgets_left_justify_modifier + 85 - 3, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
+
+        # change color map (to grayscale)
+        self.change_color_map_to_pink_Greys = QPushButton("Greys", self)
+        self.change_color_map_to_pink_Greys.setParent(self.xy_scan_input_left_side)
+        self.change_color_map_to_pink_Greys.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value)
+        self.change_color_map_to_pink_Greys.move(control_widgets_left_justify_modifier + 130 - 3, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
+
         ########################################################################################## end control area #######################################################################################
 
         ####################################################################################### start plot area ###########################################################################################
 
         plot_dimension_match_aspect_ratio = 6.88 # designtate fixed dimension variable for image area to be square based on set DPI -below
-
-        # self.output_plot_area = plot
 
         global output_plot_area
 

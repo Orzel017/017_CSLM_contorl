@@ -28,21 +28,21 @@ TODO:
 
 ######################################################################################## start package imports ########################################################################################
 
-import nidaqmx # import National Instruments (NI) DAQmx API package
+# import nidaqmx # import National Instruments (NI) DAQmx API package
 
-import numpy # import numpy package
+# import numpy # import numpy package
 
-import sys
+# import sys
 
-import path
+# import path
 
-current_file_directory = path.Path(__file__).abspath() # access current file's directory in folder structure
+# current_file_directory = path.Path(__file__).abspath() # access current file's directory in folder structure
 
-sys.path.append(current_file_directory.parent.parent.parent) # append triple parent of current file (in folder structure)
+# sys.path.append(current_file_directory.parent.parent.parent) # append triple parent of current file (in folder structure)
 
-from GUI.Pages import XY_Scan_Page
+# from GUI.Pages import XY_Scan_Page
 
-from GUI import GUI_Window_Contents
+# from GUI import GUI_Window_Contents
 
 ########################################################################################## end package imports ########################################################################################
 
