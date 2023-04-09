@@ -49,11 +49,9 @@ from Helper_Utilities import Helper_Functions # access Helper_Functions file fro
 
 from GUI_Helper_Utilities import GUI_Helper_Functions # access GUI_Helper_Functions from parent directorie's subfolder
 
-########################################################################################## end package imports ########################################################################################
+import pandas # import pandas module for data array writing and reading
 
-#
-global global_xy_image_data_array
-global_xy_image_data_array = numpy.zeros((3, 3))
+########################################################################################## end package imports ########################################################################################
 
 class test_class:
 
@@ -67,18 +65,43 @@ class test_class:
         self.minimum_y_driving_voltage_qlineedit = minimum_y_driving_voltage_qlineedit # define minimum_y_driving_voltage_qlineedit
         self.maximum_y_driving_voltage_qlineedit = maximum_y_driving_voltage_qlineedit # define maximum_y_driving_voltage_qlineedit
         self.save_raw_image_data_qlineedit = save_raw_image_data_qlineedit # define save_raw_image_data_qlineedit
-        self.global_xy_image_data_array = global_xy_image_data_array
-    
-    #
-    def re_plot_with_pink_color_map(self, parent = None):
-        print(global_xy_image_data_array)
-        output_plot_area.axes.pcolormesh(global_xy_image_data_array, cmap = "pink") # plot the data array
+
+    # define a function to re-plot an image (after imaging is complete) in a different color map
+    def re_plot_with_pink_color_map(self, parent = None): # define the function called `re_plot_with_pink_color_map`
+
+        imported_recent_image_data_array = pandas.read_csv("Application_folder\image_data_file.csv", dtype = float) # use pandas to read the data from the application's csv file
+
+        output_plot_area.axes.pcolormesh(imported_recent_image_data_array, cmap = "pink") # plot the data array # re-plot the image data in the plot area using the new desired color map
+
         output_plot_area.figure.canvas.draw() # draw the actual figure
-        # output_plot_area.figure.canvas.flush_events() # this line is very important and serves what purpose? This was the crux of one of the first versions of live-plotting
+
+        output_plot_area.figure.canvas.flush_events() # this line is very important and serves what purpose? This was the crux of one of the first versions of live-plotting
+
+    # define a function to re-plot an image (after imaging is complete) in a different color map
+    def re_plot_with_inferno_color_map(self, parent = None): # define the function called `re_plot_with_infero_color_map`
+
+        imported_recent_image_data_array = pandas.read_csv("Application_folder\image_data_file.csv", dtype = float) # use pandas to read the data from the application's csv file
+
+        output_plot_area.axes.pcolormesh(imported_recent_image_data_array, cmap = "inferno") # plot the data array # re-plot the image data in the plot area using the new desired color map
+
+        output_plot_area.figure.canvas.draw() # draw the actual figure
+        
+        output_plot_area.figure.canvas.flush_events() # this line is very important and serves what purpose? This was the crux of one of the first versions of live-plotting
+
+    # define a function to re-plot an image (after imaging is complete) in a different color map
+    def re_plot_with_Greys_color_map(self, parent = None): # define the function called `re_plot_with_Greys_color_map`
+
+        imported_recent_image_data_array = pandas.read_csv("Application_folder\image_data_file.csv", dtype = float) # use pandas to read the data from the application's csv file
+
+        output_plot_area.axes.pcolormesh(imported_recent_image_data_array, cmap = "Greys") # plot the data array # re-plot the image data in the plot area using the new desired color map
+
+        output_plot_area.figure.canvas.draw() # draw the actual figure
+        
+        output_plot_area.figure.canvas.flush_events() # this line is very important and serves what purpose? This was the crux of one of the first versions of live-plotting
 
 
     # creating the function to take and xy iamge based on user parameters
-    def run_xy_scan_script(self, parent = None): # define the function/script 
+    def run_xy_scan_script(self, parent = None): # define the function/script
 
         """
         * old text (outdated):
@@ -179,7 +202,6 @@ class test_class:
 
             # setup the data array for populating with image data
             
-            global_xy_image_data_array = numpy.zeros((3, 3))
             array_size = int(resolution_qlineedit.text()) # designate the array size based on user qlineedit input for the completed image data
             data_array = numpy.zeros((array_size, array_size)) # create an empty data array according to `array_size`
 
@@ -265,23 +287,24 @@ class test_class:
                 else:
                     break
             
-            # stopping the NI-DAQmx tasks (all of them used above)
+            # stopping the NI-DAQmx tasks (all of them used above):
+
             internal_clock_task.stop() # stop the internal clock task within the cDAQ module
             input_counter_task.stop() # stop the input counter task -cease collecting data even though input voltage stream is always available
 
             x_mirror_task.stop() # stop the x-mirror task
             y_mirror_task.stop() # stop the y-mirror task
 
-        # plot the completed data array
+        pandas.DataFrame(data_array).to_csv("Application_folder\image_data_file.csv", index = None) # use Pandas to write current image data to a .csv file within the application folder
 
-        global_xy_image_data_array += data_array
+        # plot the completed data array after scanning is complete (using the internall stored data array)
 
-        output_plot_area.axes.pcolormesh(global_xy_image_data_array, cmap = "inferno") # plot the data array -using the defined colormap
+        output_plot_area.axes.pcolormesh(data_array, cmap = "inferno") # plot the data array -using the defined colormap (default color map is inferno)
+
         output_plot_area.figure.canvas.draw() # draw the actual figure
+
         output_plot_area.figure.canvas.flush_events() # this line is very important and serves what purpose? This was the crux of one of the first versions of live-plotting
-        print(global_xy_image_data_array)
-    # print(global_xy_image_data)
-    
+
     def build_xy_scan_page(self, parent = None): # define build_welcome_page to setup the xy scan page UI elements
 
         ##################################################################################### start create layout #########################################################################################
@@ -554,7 +577,7 @@ class test_class:
 
         self.change_color_map_widget.setParent(self.xy_scan_input_left_side) # designate parent of the change plot color map widget
 
-        self.change_color_map_widget.move(control_widgets_left_justify_modifier + 38, control_widgets_top_justify_modifier + 145) # position change plot's color map widget
+        self.change_color_map_widget.move(control_widgets_left_justify_modifier + 39, control_widgets_top_justify_modifier + 145) # position change plot's color map widget
 
         self.change_color_map_widget.setFont(QFont("Times", 8))
 
@@ -569,17 +592,19 @@ class test_class:
         self.change_color_map_to_pink_button.move(control_widgets_left_justify_modifier + 40 - 3, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
         self.change_color_map_to_pink_button.clicked.connect(test_class.re_plot_with_pink_color_map)
 
-        # change color map (to Inferno)
-        self.change_color_map_to_pink_Inferno = QPushButton("Inferno", self)
-        self.change_color_map_to_pink_Inferno.setParent(self.xy_scan_input_left_side)
-        self.change_color_map_to_pink_Inferno.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value)
-        self.change_color_map_to_pink_Inferno.move(control_widgets_left_justify_modifier + 85 - 3, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
+        # change color map (to inferno)
+        self.change_color_map_to_inferno_button = QPushButton("Inferno", self)
+        self.change_color_map_to_inferno_button.setParent(self.xy_scan_input_left_side)
+        self.change_color_map_to_inferno_button.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value)
+        self.change_color_map_to_inferno_button.move(control_widgets_left_justify_modifier + 85 - 3, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
+        self.change_color_map_to_inferno_button.clicked.connect(test_class.re_plot_with_inferno_color_map)
 
-        # change color map (to grayscale)
-        self.change_color_map_to_pink_Greys = QPushButton("Greys", self)
-        self.change_color_map_to_pink_Greys.setParent(self.xy_scan_input_left_side)
-        self.change_color_map_to_pink_Greys.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value)
-        self.change_color_map_to_pink_Greys.move(control_widgets_left_justify_modifier + 130 - 3, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
+        # change color map (to Greys)
+        self.change_color_map_to_Greys_button = QPushButton("Greys", self)
+        self.change_color_map_to_Greys_button.setParent(self.xy_scan_input_left_side)
+        self.change_color_map_to_Greys_button.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value)
+        self.change_color_map_to_Greys_button.move(control_widgets_left_justify_modifier + 130 - 3, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
+        self.change_color_map_to_Greys_button.clicked.connect(test_class.re_plot_with_Greys_color_map)
 
         ########################################################################################## end control area #######################################################################################
 
