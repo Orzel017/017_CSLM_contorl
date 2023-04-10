@@ -5,7 +5,7 @@ Contents: welcome page UI elements
 
 Dates:
 Originally created: 01-14-2023
-Last modifed: 04-09-2023
+Last modifed: 04-10-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -59,7 +59,7 @@ def build_welcome_page(self): # define build_welcome_page to setup the welcome U
     self.application_welcome_widget = QLabel("Welcome to:", self)
     self.application_welcome_widget.setParent(self.welcome_background_frame_top)
     self.application_welcome_widget.setFont(QFont("Times", 12))
-    self.application_welcome_widget.move(402, 62 - y_axis_offset_temp)
+    self.application_welcome_widget.move(397, 62 - y_axis_offset_temp)
 
     # title widget: (QLabel)
     self.welcome_title_widget = QLabel("MDA b017 GUI") # create title widget
@@ -74,13 +74,13 @@ def build_welcome_page(self): # define build_welcome_page to setup the welcome U
     self.application_version_widget = QLabel("Version:")
     self.application_version_widget.setParent(self.welcome_background_frame_top)
     self.application_version_widget.setFont(QFont("Times", 11))
-    self.application_version_widget.move(379 + 5, 136 - y_axis_offset_temp)
+    self.application_version_widget.move(379 + 17, 136 - y_axis_offset_temp)
 
     # version number widget: (QLabel)
-    self.application_version_number_widget = QLabel("pre-release")
+    self.application_version_number_widget = QLabel("0.0")
     self.application_version_number_widget.setParent(self.welcome_background_frame_top)
     self.application_version_number_widget.setFont(QFont("Arial", 11))
-    self.application_version_number_widget.move(439 + 5, 138 - y_axis_offset_temp)
+    self.application_version_number_widget.move(440 + 10, 138 - y_axis_offset_temp)
 
     # pre-link GitHub widget (QLabel)
     self.GitHub_link_indication_QLabel = QLabel("Click here to visit the application's:", self)
