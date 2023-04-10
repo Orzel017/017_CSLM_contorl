@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally created: 01-14-2023
-Last modifed: 02-26-2023
+Last modifed: 04-09-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -21,7 +21,7 @@ from PyQt5.QtWidgets import (QListWidget, QHBoxLayout, QWidget, QStackedWidget, 
 
 from PyQt5.QtCore import Qt # Qt module from QtCore
 
-from Pages import Welcome_Page, Galvo_Control_Page, Camera_Control_Page, XY_Scan_Page, Spectroscopy_Page # import subpages
+from Pages import Welcome_Page, Galvo_Control_Page, Broad_Band_Light_Control_Page, Camera_Control_Page, XY_Scan_Page, Spectroscopy_Page # import subpages
 
 ########################################################################################## end package imports ########################################################################################
 
@@ -76,11 +76,12 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
         # adding items to the `QListWidget`
         self.left_items_list.insertItem (0, "Welcome") # item 1: welcome window
         self.left_items_list.insertItem (1, "Galvo Control") # item 2: galvo control (TODO: implement)
-        self.left_items_list.insertItem (2, "Camera Control") # item 2: Camera Control (TODO: implement ThorCam API)
-        self.left_items_list.insertItem (3, "XY-Image") # item 3: XY-image (TODO: implemented but awaiting transition)
-        # self.left_items_list.insertItem (4, "XZ-Image") # item 4: XZ-image (TODO: implemented but awaiting transition)
-        # self.left_items_list.insertItem (5, "YZ-Image") # item 5: YZ-image (TODO: implemented but awaiting transition)
-        self.left_items_list.insertItem (6, "Specroscopy") # item 6: spectrometer interface (TODO: implement using Seabreeze API)
+        self.left_items_list.insertItem (2, "Broad Band Src") #
+        self.left_items_list.insertItem (3, "Camera Control") # item 2: Camera Control (TODO: implement ThorCam API)
+        self.left_items_list.insertItem (4, "XY-Image") # item 3: XY-image (TODO: implemented but awaiting transition)
+        # self.left_items_list.insertItem (5, "XZ-Image") # item 4: XZ-image (TODO: implemented but awaiting transition)
+        # self.left_items_list.insertItem (6, "YZ-Image") # item 5: YZ-image (TODO: implemented but awaiting transition)
+        self.left_items_list.insertItem (5, "Spectroscopy") # item 6: spectrometer interface (TODO: implement using Seabreeze API)
 
         # permanently remove scroll bars from QListWidget
         self.left_items_list.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff) # vertical scroll bar
@@ -96,6 +97,7 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
         self.Welcome_page = QWidget() # welcome page
         self.Galvo_control_page = QWidget() # galvo control page
         self.Camera_control_page = QWidget() # camera control page
+        self.Broad_band_light_source_control_page = QWidget() # broad band light source control page
         self.XY_scan_page = QWidget() # XY image page
         # space here for XZ # XZ image page
         # space here for YZ # YZ image page
@@ -104,6 +106,7 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
         # build all (to be) displayed pages UI elements
         Welcome_Page.build_welcome_page(self) # welcome page
         Galvo_Control_Page.build_galvo_control_page(self) # galvo control page
+        Broad_Band_Light_Control_Page.build_broad_band_light_source_control_page(self) # broad band light source control page
         Camera_Control_Page.build_camera_control_page(self) # camera control page
         XY_Scan_Page.test_class.build_xy_scan_page(self) # XY image page
         # space here for XZ # XZ image page
@@ -115,6 +118,7 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
         # add all displayed options UIwidgets
         self.multi_item_display.addWidget(self.Welcome_page) # welcome page
         self.multi_item_display.addWidget(self.Galvo_control_page) # galvo control page
+        self.multi_item_display.addWidget(self.Broad_band_light_source_control_page) # broad band light source control page
         self.multi_item_display.addWidget(self.Camera_control_page) # camera control page
         self.multi_item_display.addWidget(self.XY_scan_page) # XY image page
         # space for XZ # XZ image page

@@ -1,10 +1,10 @@
 """
-File name: "Welcome_Page.py"
+File name: "Broad_Band_Light_Control_Page.py"
 
-Contents: welcome page UI elements
+Contents: UI elements to communicate witht eh borad band light source
 
 Dates:
-Originally created: 01-14-2023
+Originally created: 04-09-2023
 Last modifed: 04-09-2023
 Original author: MDA
 Last modified by: MDA
@@ -23,7 +23,7 @@ from PyQt5.QtGui import QFont # submodule from PyQt5.QtGui
 
 ########################################################################################## end package imports ########################################################################################
 
-def build_welcome_page(self): # define build_welcome_page to setup the welcome UI elements
+def build_broad_band_light_source_control_page(self): # define build_broad_band_light_source_control_page to setup the broad band light source control UI elements
 
     ##################################################################################### start create layout #########################################################################################
 
@@ -54,59 +54,13 @@ def build_welcome_page(self): # define build_welcome_page to setup the welcome U
     ######################################################################################### end frames ##############################################################################################
 
     ###################################################################################### start contents #############################################################################################
-    y_axis_offset_temp = -75
-    # welcome widget (QLabel)
-    self.application_welcome_widget = QLabel("Welcome to:", self)
-    self.application_welcome_widget.setParent(self.welcome_background_frame_top)
-    self.application_welcome_widget.setFont(QFont("Times", 12))
-    self.application_welcome_widget.move(402, 62 - y_axis_offset_temp)
-
-    # title widget: (QLabel)
-    self.welcome_title_widget = QLabel("MDA b017 GUI") # create title widget
-
-    self.welcome_title_widget.setParent(self.welcome_background_frame_top) # designate parent of title widget
-
-    self.welcome_title_widget.setFont(QFont("Amagro", 38)) # set font of welcome page title widget
-
-    self.welcome_title_widget.move(280, 80 - y_axis_offset_temp) # position the title
-
-    # version widget (QLabel)
-    self.application_version_widget = QLabel("Version:")
-    self.application_version_widget.setParent(self.welcome_background_frame_top)
-    self.application_version_widget.setFont(QFont("Times", 11))
-    self.application_version_widget.move(379 + 5, 136 - y_axis_offset_temp)
-
-    # version number widget: (QLabel)
-    self.application_version_number_widget = QLabel("pre-release")
-    self.application_version_number_widget.setParent(self.welcome_background_frame_top)
-    self.application_version_number_widget.setFont(QFont("Arial", 11))
-    self.application_version_number_widget.move(439 + 5, 138 - y_axis_offset_temp)
-
-    # pre-link GitHub widget (QLabel)
-    self.GitHub_link_indication_QLabel = QLabel("Click here to visit the application's:", self)
-    self.GitHub_link_indication_QLabel.setFont(QFont("Times", 8))
-    self.GitHub_link_indication_QLabel.move(200 + 115, 4)
-    self.GitHub_link_indication_QLabel.setParent(self.welcome_background_frame_bottom)
-
-    # GitHub link widget
-    link_to_GitHub_code_repository = "<a href=\"https://github.com/Orzel017/017_CLSM_control\">GitHub Repository</a>"
-    self.take_me_to_GitHub_widget = QLabel(self)
-    self.take_me_to_GitHub_widget.setText(link_to_GitHub_code_repository)
-    self.take_me_to_GitHub_widget.setParent(self.welcome_background_frame_bottom)
-    self.take_me_to_GitHub_widget.move(373 + 115, 4) # position the
-    self.take_me_to_GitHub_widget.setFont(QFont("Times", 8))
-    self.take_me_to_GitHub_widget.setOpenExternalLinks(True)
-
-    # setting colors of background frames:
-
-    self.welcome_background_frame_top.setStyleSheet("background-color: #f5f5f5") # set background color
-
-    self.welcome_background_frame_bottom.setStyleSheet("background-color: #ededed") # set background color
+    
+    
 
     ####################################################################################### end contents ##############################################################################################
 
     ##################################################################################### start finalize page #########################################################################################
 
-    self.Welcome_page.setLayout(self.behind_layout) # display welcome page UI elements
+    self.Broad_band_light_source_control_page.setLayout(self.behind_layout) # display broad band light source control page UI elements
 
     ##################################################################################### end finalize page ###########################################################################################
