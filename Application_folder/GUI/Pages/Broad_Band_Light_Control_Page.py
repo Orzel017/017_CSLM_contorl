@@ -17,7 +17,7 @@ TODO:
 
 ######################################################################################## start package imports ########################################################################################
 
-from PyQt5.QtWidgets import (QVBoxLayout, QFrame, QLabel) # submodules from PyQt5.QtWidgets
+from PyQt5.QtWidgets import (QVBoxLayout, QFrame, QLabel, QHBoxLayout) # submodules from PyQt5.QtWidgets
 
 from PyQt5.QtGui import QFont # submodule from PyQt5.QtGui
 
@@ -65,14 +65,45 @@ def build_broad_band_light_source_control_page(self): # define build_broad_band_
 
     self.broad_band_page_title_widget.move(362, 0) # position the title widget
 
-    # Thor Labs MBB1F1 LED name  widget
+    # Thor Labs MBB1F1 LED name widget
     self.Thor_Labs_MBB1F1_LED_name_widget = QLabel("Thor Labs MBB1F1 LED:") # create the Thor Labs MBB1F1 name widget
 
     # self.Thor_Labs_MBB1F1_LED_name_widget.setFont(QFont("Times", 8)) # adjust font size of the Thor Labs MBB1F1 name widget
 
     self.Thor_Labs_MBB1F1_LED_name_widget.setParent(self.broad_band_source_top_one_frame) # designate parent of the Thor Labs MBB1F1 name widget to (top) frame
-
+    
     self.Thor_Labs_MBB1F1_LED_name_widget.move(3, 20) # position the Thor Labs MBB1F1 LED name  widget
+
+    ###
+
+    self.Thor_Labs_MBB1F_LED_sub_background_layout = QHBoxLayout()
+    self.test_left_window = QFrame()
+    self.test_middle_window = QFrame()
+    self.test_right_window = QFrame()
+    self.Thor_Labs_MBB1F_LED_sub_background_layout.addWidget(self.test_left_window)
+    self.Thor_Labs_MBB1F_LED_sub_background_layout.addWidget(self.test_middle_window)
+    self.Thor_Labs_MBB1F_LED_sub_background_layout.addWidget(self.test_right_window)
+    self.background_layout.addLayout(self.Thor_Labs_MBB1F_LED_sub_background_layout)
+
+    ###
+
+    # # Thor Labs MBB1F1 LED information title widget
+    # self.Thor_Labs_MBB1F1_LED_information_title_widget = QLabel("Information:")
+    # next
+
+    # # Thor Labs MBB1F1 LED status title widget
+    # self.Thor_Labs_MBB1F1_LED_status_title_widget = QLabel("Source status:")
+    # self.Thor_Labs_MBB1F1_LED_status_title_widget.setFont(QFont("Times", 8))
+    # self.Thor_Labs_MBB1F1_LED_status_title_widget.setParent(self.broad_band_source_top_one_frame)
+    # self.Thor_Labs_MBB1F1_LED_status_title_widget.move(700, 20)
+
+    # # Thor Labs MBB1F1 LED status indicator widget
+    # self.Thor_Labs_MBB1F1_LED_status_indicator_widget = QLabel("OFF")
+    # self.Thor_Labs_MBB1F1_LED_status_indicator_widget.setFont(QFont("Times", 10))
+    # self.Thor_Labs_MBB1F1_LED_status_indicator_widget.setParent(self.broad_band_source_top_one_frame)
+    # self.Thor_Labs_MBB1F1_LED_status_indicator_widget.move(720, 50)
+
+    ###################################################################################################################################################################################################
 
     # Alt broad band source (one) two widget
     self.alt_broad_band_source_one_name_widget = QLabel("Alternate source space:") # create the alt broad band source one name widget
@@ -82,6 +113,8 @@ def build_broad_band_light_source_control_page(self): # define build_broad_band_
     self.alt_broad_band_source_one_name_widget.setParent(self.broad_band_source_middle_two_frame) # designate parent of alt broad band source one name widget to the (middle) frame
 
     self.alt_broad_band_source_one_name_widget.move(3, 2) # position the alt broad band source one name widget
+
+    ###################################################################################################################################################################################################
 
     # Alt broad band source (two) two widget
     self.alt_broad_band_source_two_name_widget = QLabel("Alternate source space:") # create the alt broad band source two name widget
