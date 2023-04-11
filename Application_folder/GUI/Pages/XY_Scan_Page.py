@@ -5,7 +5,7 @@ Contents: UI elements to control Xy image taking
 
 Dates:
 Originally created: 01-17-2023
-Last modified: 04-09-2023
+Last modified: 04-11-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -573,29 +573,44 @@ class test_class:
         self.change_color_map_widget.setFont(QFont("Times", 8))
         
         # position adjust variables changing image color maps:
-        changing_color_map_button_square_aspect_ratio_value = 35
-        changing_color_map_button_y_adjust_value = 165
+        changing_color_map_button_square_aspect_ratio_value = 35 # define a value to conform the buttons size to be square
+        changing_color_map_button_y_adjust_value = 165 # make a value for overall widget spacing
 
-        # change color map (to pink)
-        self.change_color_map_to_pink_button = QPushButton("Pink", self)
-        self.change_color_map_to_pink_button.setParent(self.xy_scan_input_left_side)
-        self.change_color_map_to_pink_button.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value)
+        # change color map (to pink) button
+        self.change_color_map_to_pink_button = QPushButton("Pink", self) # define the change color map (to pink) QPushButton
+
+        self.change_color_map_to_pink_button.setParent(self.xy_scan_input_left_side) # designate the parent of the change color map QPushButton
+
+        self.change_color_map_to_pink_button.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value) # resize the QPushButton
+
+        # position the QPushButton
         self.change_color_map_to_pink_button.move(control_widgets_left_justify_modifier + 46, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
-        self.change_color_map_to_pink_button.clicked.connect(test_class.re_plot_with_pink_color_map)
 
-        # change color map (to inferno)
-        self.change_color_map_to_inferno_button = QPushButton("Inferno", self)
-        self.change_color_map_to_inferno_button.setParent(self.xy_scan_input_left_side)
+        self.change_color_map_to_pink_button.clicked.connect(test_class.re_plot_with_pink_color_map) # connect the QPushButton to the respective chance color function
+
+        # change color map (to inferno) button
+        self.change_color_map_to_inferno_button = QPushButton("Inferno", self) # define the change color map (to inferno) QPushButton
+
+        self.change_color_map_to_inferno_button.setParent(self.xy_scan_input_left_side) # designate the parent of the change color map QPushButton
+
         self.change_color_map_to_inferno_button.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value)
+        
+        # position the QPushButton
         self.change_color_map_to_inferno_button.move(control_widgets_left_justify_modifier + 91, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
-        self.change_color_map_to_inferno_button.clicked.connect(test_class.re_plot_with_inferno_color_map)
 
-        # change color map (to Greys)
-        self.change_color_map_to_Greys_button = QPushButton("Greys", self)
-        self.change_color_map_to_Greys_button.setParent(self.xy_scan_input_left_side)
-        self.change_color_map_to_Greys_button.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value)
+        self.change_color_map_to_inferno_button.clicked.connect(test_class.re_plot_with_inferno_color_map) # connect the QPushButton to the respective chance color function
+
+        # change color map (to Greys) button
+        self.change_color_map_to_Greys_button = QPushButton("Greys", self) # define the change color map (to Greys) QPushButton
+
+        self.change_color_map_to_Greys_button.setParent(self.xy_scan_input_left_side) # designate the parent of the change color map QPushButton
+
+        self.change_color_map_to_Greys_button.resize(changing_color_map_button_square_aspect_ratio_value, changing_color_map_button_square_aspect_ratio_value) # resize the QPushButton
+
+        # position the QPushButton
         self.change_color_map_to_Greys_button.move(control_widgets_left_justify_modifier + 135, control_widgets_top_justify_modifier + changing_color_map_button_y_adjust_value)
-        self.change_color_map_to_Greys_button.clicked.connect(test_class.re_plot_with_Greys_color_map)
+
+        self.change_color_map_to_Greys_button.clicked.connect(test_class.re_plot_with_Greys_color_map) # connect the QPushButton to the respective chance color function
 
         # run take xy image button
         self.take_xy_image_button = QPushButton("Run XY image", self) # create a button to take xy image
