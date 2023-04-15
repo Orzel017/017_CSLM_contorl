@@ -5,7 +5,7 @@ Contents: welcome page UI elements
 
 Dates:
 Originally created: 01-14-2023
-Last modifed: 04-10-2023
+Last modifed: 04-14-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -66,7 +66,7 @@ def build_welcome_page(self): # define build_welcome_page to setup the welcome U
     self.application_welcome_widget.move(397, 62 - y_axis_offset_temp) # position the welcome widget
 
     # title widget: (QLabel)
-    self.welcome_title_widget = QLabel("MDA b017 GUI") # create the title widget (application name)
+    self.welcome_title_widget = QLabel("Pyfocal") # create the title widget (application name)
 
     self.welcome_title_widget.setParent(self.welcome_background_frame_top) # designate parent of title widget
 

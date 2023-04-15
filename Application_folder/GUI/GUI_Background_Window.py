@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally created: 01-14-2023
-Last modifed: 01-27-2023
+Last modifed: 04-14-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -76,7 +76,7 @@ class GUI_Window_Background(QtWidgets.QMainWindow):
         self.setMaximumSize(gui_window_width, gui_window_height) # set the main window max size
 
         # asthetics
-        self.setWindowTitle("mda_b017_gui") # set the title of the main app window
+        self.setWindowTitle("Pyfocal") # set the title of the main app window
 
         # overall GUI styling elements (example)
         # self.setStyleSheet("""
