@@ -20,7 +20,7 @@
 
 ## About
 
-MDA_GUI is an open source software package for controlling a confocal laser-scanning microscope (CSLM).
+Pyfocal is an open source software package for controlling a confocal laser-scanning microscope (CSLM).
 
 This repository is built from [this repository](https://github.com/mdbackerman/Quantum_optics_control), an original software package to control a CSLM built for the Lukin Group at Harvard University.
 
