@@ -5,7 +5,7 @@ Contents: UI elements to control Xy image taking
 
 Dates:
 Originally created: 01-17-2023
-Last modified: 04-12-2023
+Last modified: 04-25-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -27,7 +27,7 @@ from tqdm import trange # import trange function for progress bars during develo
 
 import PyQt5 # generic PyQt5 module import
 
-from PyQt5.QtWidgets import (QHBoxLayout, QFrame, QLabel, QLineEdit, QPushButton, QComboBox) # submodules from PyQt5.QtWidgets
+from PyQt5.QtWidgets import (QHBoxLayout, QFrame, QLabel, QLineEdit, QPushButton) # submodules from PyQt5.QtWidgets
 
 from PyQt5.QtGui import QFont # submodule from PyQt5.QtGui
 
@@ -39,6 +39,8 @@ import nidaqmx # import National Instruments (NI) DAQmx API package
 
 import numpy # import numpy package
 
+import pandas # import pandas module for data array writing and reading
+
 current_file_directory = path.Path(__file__).abspath() # access current file's directory in folder structure
 
 sys.path.append(current_file_directory.parent.parent.parent) # append triple parent of current file (in folder structure)
@@ -46,10 +48,6 @@ sys.path.append(current_file_directory.parent.parent.parent) # append triple par
 from Helper_Utilities import Plotting_Setup # access Plotting_Setup file from parent directorie's subfolder
 
 from Helper_Utilities import Helper_Functions # access Helper_Functions file from parent directorie's subfolder
-
-from GUI_Helper_Utilities import GUI_Helper_Functions # access GUI_Helper_Functions from parent directorie's subfolder
-
-import pandas # import pandas module for data array writing and reading
 
 ########################################################################################## end package imports ########################################################################################
 
@@ -239,6 +237,12 @@ class test_class:
 
                         data_array[row_iterator][((-column_iterator) + 1)] = (output_value - numpy.sum(data_array)) # add counter result to data array
 
+                        # temporary_result = (output_value - numpy.sum(data_array))
+                        # if temporary_result > 0:
+                        #     data_array[row_iterator][((-column_iterator) + 1)] = temporary_result # add counter result to data array
+                        # else:
+                        #     data_array[row_iterator][((-column_iterator) + 1)] = 0
+
                         output_value == 0
                         counter_value == 0
 
@@ -247,6 +251,12 @@ class test_class:
                             data_array[0][0] = output_value # add counter result to data array
 
                         else:
+                            # temporary_result_2 = (output_value - numpy.sum(data_array))
+                            # if temporary_result_2 > 0:
+                            #   data_array[row_iterator][column_iterator] = temporary_result_2
+                            # else:
+                            #     data_array[row_iterator][column_iterator] = 0
+
                             data_array[row_iterator][column_iterator] = (output_value - numpy.sum(data_array)) # add counter result to data array
                         
                     output_value = 0
@@ -275,7 +285,7 @@ class test_class:
                 
                 # update plot here
                 output_plot_area.axes.cla()
-                output_plot_area.axes.pcolormesh(data_array, cmap = "inferno") # plot the data array
+                output_plot_area.axes.pcolormesh(data_array, cmap = "pink") # plot the data array
                 output_plot_area.figure.canvas.draw() # draw the actual figure
                 output_plot_area.figure.canvas.flush_events()
 
@@ -541,7 +551,7 @@ class test_class:
 
         self.save_raw_image_data_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 626) # set the position of the save raw image data button
 
-        self.save_raw_image_data_widget.clicked.connect(GUI_Helper_Functions.print_hello_world) # temporary button print response
+        self.save_raw_image_data_widget.clicked.connect(Helper_Functions.save_raw_image_data_function()) #
 
         # save raw image data qlineedit
         global save_raw_image_data_qlineedit

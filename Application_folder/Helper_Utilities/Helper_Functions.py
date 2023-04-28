@@ -5,7 +5,7 @@ Contents: multiple helper fuctions for use within multiple files
 
 Dates:
 Originally created: 12-30-2022
-Last modifed: 02-12-2023
+Last modifed: 04-25-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -28,6 +28,43 @@ sys.path.append(current_file_directory.parent.parent.parent) # append parent of 
 from Scripts import STOP_xy_scan_script # access run_xy_scan_script from parent directory's subfolder
 
 ############################################################################################# end imports #############################################################################################
+
+############ start functions ###################
+
+def save_raw_image_data_function(address_to_save_raw_image_data):
+
+    print("Hello world!")
+
+############## end functions ##################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # # display invalid resolution error window fnc
 # def display_resolution_error_window_fnc(): # this fnc calls the "Make_Error_Window" class to display an eror message indicating user input is not validated
 #     self.Make_Error_Window = Make_Error_Window()

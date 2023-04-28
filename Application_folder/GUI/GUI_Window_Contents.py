@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally created: 01-14-2023
-Last modifed: 04-09-2023
+Last modifed: 04-23-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -77,11 +77,15 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
         self.left_items_list.insertItem (0, "Welcome") # item 1: welcome window
         self.left_items_list.insertItem (1, "Galvo Control") # item 2: galvo control (TODO: implement)
         self.left_items_list.insertItem (2, "Broad Band Src") #
-        self.left_items_list.insertItem (3, "Camera Control") # item 2: Camera Control (TODO: implement ThorCam API)
-        self.left_items_list.insertItem (4, "XY-Image") # item 3: XY-image (TODO: implemented but awaiting transition)
+        self.left_items_list.insertItem (3, "Laser Setup")
+        self.left_items_list.insertItem (4, "Stage Control")
+        self.left_items_list.insertItem (5, "Camera Control") # item 2: Camera Control (TODO: implement ThorCam API)
+        self.left_items_list.insertItem (6, "XY-Image") # item 3: XY-image (TODO: implemented but awaiting transition)
+        self.left_items_list.insertItem (7, "YZ-Image")
+        self.left_items_list.insertItem (8, "ZX-Image")
         # self.left_items_list.insertItem (5, "XZ-Image") # item 4: XZ-image (TODO: implemented but awaiting transition)
         # self.left_items_list.insertItem (6, "YZ-Image") # item 5: YZ-image (TODO: implemented but awaiting transition)
-        self.left_items_list.insertItem (5, "Spectroscopy") # item 6: spectrometer interface (TODO: implement using Seabreeze API)
+        self.left_items_list.insertItem (9, "Spectroscopy") # item 6: spectrometer interface (TODO: implement using Seabreeze API)
 
         # permanently remove scroll bars from QListWidget
         self.left_items_list.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff) # vertical scroll bar
