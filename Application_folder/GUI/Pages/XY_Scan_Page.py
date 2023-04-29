@@ -551,7 +551,8 @@ class test_class:
 
         self.save_raw_image_data_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 626) # set the position of the save raw image data button
 
-        self.save_raw_image_data_widget.clicked.connect(Helper_Functions.save_raw_image_data_function()) #
+        # self.save_raw_image_data_widget.clicked.connect(Helper_Functions.save_raw_image_data_function()) #
+        self.save_raw_image_data_widget.clicked.connect(lambda: Helper_Functions.save_raw_image_data_function("test"))
 
         # save raw image data qlineedit
         global save_raw_image_data_qlineedit

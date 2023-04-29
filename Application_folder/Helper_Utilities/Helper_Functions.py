@@ -5,7 +5,7 @@ Contents: multiple helper fuctions for use within multiple files
 
 Dates:
 Originally created: 12-30-2022
-Last modifed: 04-25-2023
+Last modifed: 04-29-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -19,13 +19,11 @@ TODO:
 
 import sys # generic sys module import
 
+import numpy # numpy package for data array and saving
+
+import pandas # pandas package for data array manipulation
+
 import path # module for accessing parent folder directories
-
-current_file_directory = path.Path(__file__).abspath() # access current file's directory in folder structure
-
-sys.path.append(current_file_directory.parent.parent.parent) # append parent of current file (in folder structure)
-
-from Scripts import STOP_xy_scan_script # access run_xy_scan_script from parent directory's subfolder
 
 ############################################################################################# end imports #############################################################################################
 
@@ -33,7 +31,39 @@ from Scripts import STOP_xy_scan_script # access run_xy_scan_script from parent 
 
 def save_raw_image_data_function(address_to_save_raw_image_data):
 
-    print("Hello world!")
+    if type(address_to_save_raw_image_data) != str:
+
+        passing_address_to_save_raw_image_data = str(address_to_save_raw_image_data)
+
+    else:
+        passing_address_to_save_raw_image_data = address_to_save_raw_image_data
+    
+    ###
+    # desktop_saving_address_text = "C:/Dekstop/"
+
+    # final_saving_address = desktop_saving_address_text + passing_address_to_save_raw_image_data
+    ###
+
+    ###
+    
+    ###
+
+
+    ####
+    read_csv_data_array = pandas.read_csv("Application_folder\image_data_file.csv", sep = ',', header = None)
+
+    converted_read_csv_data_array = numpy.array(read_csv_data_array)
+    ###
+
+    numpy.save(final_saving_address, converted_read_csv_data_array)
+
+
+
+
+
+
+
+    print("saved")
 
 ############## end functions ##################
 
