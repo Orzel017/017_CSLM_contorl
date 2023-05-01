@@ -5,7 +5,7 @@ Contents: QMainWindow for overall application window -to hold contents. This is 
 
 Dates:
 Originally created: 01-14-2023
-Last modifed: 04-23-2023
+Last modifed: 05-01-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -76,16 +76,14 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
         # adding items to the `QListWidget`
         self.left_items_list.insertItem (0, "Welcome") # item 1: welcome window
         self.left_items_list.insertItem (1, "Galvo Control") # item 2: galvo control (TODO: implement)
-        self.left_items_list.insertItem (2, "Broad Band Src") #
-        self.left_items_list.insertItem (3, "Laser Setup")
-        self.left_items_list.insertItem (4, "Stage Control")
-        self.left_items_list.insertItem (5, "Camera Control") # item 2: Camera Control (TODO: implement ThorCam API)
-        self.left_items_list.insertItem (6, "XY-Image") # item 3: XY-image (TODO: implemented but awaiting transition)
-        self.left_items_list.insertItem (7, "YZ-Image")
-        self.left_items_list.insertItem (8, "ZX-Image")
-        # self.left_items_list.insertItem (5, "XZ-Image") # item 4: XZ-image (TODO: implemented but awaiting transition)
-        # self.left_items_list.insertItem (6, "YZ-Image") # item 5: YZ-image (TODO: implemented but awaiting transition)
-        self.left_items_list.insertItem (9, "Spectroscopy") # item 6: spectrometer interface (TODO: implement using Seabreeze API)
+        self.left_items_list.insertItem (2, "Broadband Source") # item 3: broad band source control (TODO: implement)
+        self.left_items_list.insertItem (3, "Laser Setup") # item 4: laser control (TODO: implement)
+        self.left_items_list.insertItem (4, "Stage Control") # item 5: stage control (TODO: implement)
+        self.left_items_list.insertItem (5, "Camera Control") # item 6: Camera Control (TODO: implement ThorCam API)
+        self.left_items_list.insertItem (6, "XY-Image") # item 7: XY-image (in-progress)
+        self.left_items_list.insertItem (7, "YZ-Image") # item 8: # YZ imaging (TODO: implement)
+        self.left_items_list.insertItem (8, "ZX-Image") # item 9: ZX imaging (TODO: implement)
+        self.left_items_list.insertItem (9, "Spectroscopy") # item 10: spectrometer interface (TODO: implement using Seabreeze API)
 
         # permanently remove scroll bars from QListWidget
         self.left_items_list.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff) # vertical scroll bar
@@ -100,11 +98,13 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
         # initialize instances of each page to be displayed as `QWidget` objects
         self.Welcome_page = QWidget() # welcome page
         self.Galvo_control_page = QWidget() # galvo control page
-        self.Camera_control_page = QWidget() # camera control page
         self.Broad_band_light_source_control_page = QWidget() # broad band light source control page
+        self.Laser_setup_control_page = QWidget() # laser setup control page
+        self.Stage_control_page = QWidget() # stage control page
+        self.Camera_control_page = QWidget() # camera control page
         self.XY_scan_page = QWidget() # XY image page
-        # space here for XZ # XZ image page
-        # space here for YZ # YZ image page
+        self.YZ_scan_page = QWidget() # YZ image page
+        self.ZX_scan_page = QWidget() # ZX image page
         self.Spectroscopy_page = QWidget() # spectroscopy page
 
         # build all (to be) displayed pages UI elements
@@ -113,8 +113,6 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
         Broad_Band_Light_Control_Page.build_broad_band_light_source_control_page(self) # broad band light source control page
         Camera_Control_Page.build_camera_control_page(self) # camera control page
         XY_Scan_Page.test_class.build_xy_scan_page(self) # XY image page
-        # space here for XZ # XZ image page
-        # space here for YZ # YZ image page
         Spectroscopy_Page.build_spectroscopy_page(self) # spectroscopy page
 
         self.multi_item_display = QStackedWidget(self) # create the QStackedWidget
@@ -123,10 +121,12 @@ class Build_GUI_Constant_Contents(QWidget): # setup first GUI child object? Is `
         self.multi_item_display.addWidget(self.Welcome_page) # welcome page
         self.multi_item_display.addWidget(self.Galvo_control_page) # galvo control page
         self.multi_item_display.addWidget(self.Broad_band_light_source_control_page) # broad band light source control page
+        self.multi_item_display.addWidget(self.Laser_setup_control_page)
+        self.multi_item_display.addWidget(self.Stage_control_page)
         self.multi_item_display.addWidget(self.Camera_control_page) # camera control page
         self.multi_item_display.addWidget(self.XY_scan_page) # XY image page
-        # space for XZ # XZ image page
-        # space for YZ # YZ image page
+        self.multi_item_display.addWidget(self.YZ_scan_page) # YZ image page
+        self.multi_item_display.addWidget(self.ZX_scan_page) # ZX image page
         self.multi_item_display.addWidget(self.Spectroscopy_page) # spectroscopy page
 
         ########################################################################### end right half main GUI window ####################################################################################

@@ -5,7 +5,7 @@ Contents: multiple helper fuctions for use within multiple files
 
 Dates:
 Originally created: 12-30-2022
-Last modifed: 04-29-2023
+Last modifed: 05-01-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -17,83 +17,48 @@ TODO:
 
 ############################################################################################## start imports ##########################################################################################
 
-import sys # generic sys module import
+import os # generic os module import
 
 import numpy # numpy package for data array and saving
 
 import pandas # pandas package for data array manipulation
 
-import path # module for accessing parent folder directories
-
 ############################################################################################# end imports #############################################################################################
 
-############ start functions ###################
+########################################################################################## start functions ############################################################################################
 
-def save_raw_image_data_function(address_to_save_raw_image_data):
+def save_raw_image_data_function(address_to_save_raw_image_data): # define the raw image data saving function (biased to numpy file extension)
 
-    if type(address_to_save_raw_image_data) != str:
+    """
+    This function saves the raw image data to a user-named file. It can be saved to a variety of destinations including the desktop and documents folders.
+    """
 
-        passing_address_to_save_raw_image_data = str(address_to_save_raw_image_data)
+    # tuning user-input address type to be string
+    if type(address_to_save_raw_image_data) != str: # get cases for when user-input is not string
 
-    else:
-        passing_address_to_save_raw_image_data = address_to_save_raw_image_data
-    
-    ###
-    # desktop_saving_address_text = "C:/Dekstop/"
+        passing_address_to_save_raw_image_data = str(address_to_save_raw_image_data) # convert user-input file name to string
 
-    # final_saving_address = desktop_saving_address_text + passing_address_to_save_raw_image_data
-    ###
+    else: # catch remaining cases
+        passing_address_to_save_raw_image_data = address_to_save_raw_image_data # re-cast file name name
 
-    ###
-    
-    ###
+    # section to assemble desired file path to desired folder on computer (functionality extended to different machines)
+    computer_path_to_desktop_string = os.path.join(os.path.join(os.environ["USERPROFILE"]), "Desktop") # obtain path to Desktop
 
+    force_directory_slash_string = "\\" # initialize slash string for path assembly
 
-    ####
+    force_numpy_file_extension_string = ".npy" # initialize numpy file extension for path assembly
+
+    # create the final saving address
+    final_saving_address = computer_path_to_desktop_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_numpy_file_extension_string
+
+    # completing data array converison for saving
     read_csv_data_array = pandas.read_csv("Application_folder\image_data_file.csv", sep = ',', header = None)
 
-    converted_read_csv_data_array = numpy.array(read_csv_data_array)
-    ###
+    converted_read_csv_data_array = numpy.array(read_csv_data_array) # cast the read csv data (via pandas) to numpy array
 
-    numpy.save(final_saving_address, converted_read_csv_data_array)
+    numpy.save(final_saving_address, converted_read_csv_data_array) # saving the actual file
 
-
-
-
-
-
-
-    print("saved")
-
-############## end functions ##################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+########################################################################################### end functions #############################################################################################
 
 # # display invalid resolution error window fnc
 # def display_resolution_error_window_fnc(): # this fnc calls the "Make_Error_Window" class to display an eror message indicating user input is not validated

@@ -542,17 +542,9 @@ class test_class:
         # position maximum y driving voltage unit label widget
         self.maximum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 207, control_widgets_top_justify_modifier + 120)
 
-        # save image data (function connection needs to be made) widget
-        self.save_raw_image_data_widget = QPushButton("Save raw image data below:", self) # create the save raw image data button
-
-        self.save_raw_image_data_widget.setParent(self.xy_scan_input_left_side) # set the "parent" bound of the save scan raw image data button
-
-        self.save_raw_image_data_widget.resize(231, 20) # resize the save raw image data button
-
-        self.save_raw_image_data_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 626) # set the position of the save raw image data button
-
-        # self.save_raw_image_data_widget.clicked.connect(Helper_Functions.save_raw_image_data_function()) #
-        self.save_raw_image_data_widget.clicked.connect(lambda: Helper_Functions.save_raw_image_data_function("test"))
+        ################## break break break break break break break break break break break break break break break break break
+        ################## break break break break break break break break break break break break break break break break break
+        ################## break break break break break break break break break break break break break break break break break
 
         # save raw image data qlineedit
         global save_raw_image_data_qlineedit
@@ -565,6 +557,17 @@ class test_class:
 
         save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier, 667) # set the position of the save raw image data qlineedit
 
+        # save image data (function connection needs to be made) widget
+        self.save_raw_image_data_widget = QPushButton("Save raw image data below:", self) # create the save raw image data button
+
+        self.save_raw_image_data_widget.setParent(self.xy_scan_input_left_side) # set the "parent" bound of the save scan raw image data button
+
+        self.save_raw_image_data_widget.resize(231, 20) # resize the save raw image data button
+
+        self.save_raw_image_data_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 626) # set the position of the save raw image data button
+
+        self.save_raw_image_data_widget.clicked.connect(lambda: Helper_Functions.save_raw_image_data_function(save_raw_image_data_qlineedit.text())) #
+
         # save raw image data file extension label widget
         self.save_raw_image_data_extension_label_widget = QLabel("\".npy\"", self) # create the save raw image data extension label widget
 
@@ -573,6 +576,10 @@ class test_class:
         self.save_raw_image_data_extension_label_widget.move(control_widgets_left_justify_modifier + 201, 670) # set the position of the save raw image data extension label widget
 
         self.save_raw_image_data_extension_label_widget.setFont(QFont("Times", 8))
+
+        ################## break break break break break break break break break break break break break break break break break
+        ################## break break break break break break break break break break break break break break break break break
+        ################## break break break break break break break break break break break break break break break break break
 
         # change color map of plot widegt
         self.change_color_map_widget = QLabel("Click to change image color map:", self) # create widget to change the image's color bar
