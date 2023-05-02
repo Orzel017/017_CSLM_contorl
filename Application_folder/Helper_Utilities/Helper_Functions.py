@@ -5,7 +5,7 @@ Contents: multiple helper fuctions for use within multiple files
 
 Dates:
 Originally created: 12-30-2022
-Last modifed: 05-01-2023
+Last modifed: 05-02-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -27,13 +27,32 @@ import pandas # pandas package for data array manipulation
 
 ########################################################################################## start functions ############################################################################################
 
-def save_raw_image_data_function(address_to_save_raw_image_data, desktop_destination_check_box_state): # define the raw image data saving function (biased to numpy file extension)
+ # define the raw image data saving function (covers multiple file extensions?)
+def save_raw_image_data_function(
+                                address_to_save_raw_image_data,
+                                desktop_destination_check_box_state,
+                                documents_destination_check_box_state,
+                                downloads_destination_check_box_state,
+                                npy_file_extension_check_box_state,
+                                csv_file_extension_check_box_state,
+                                txt_file_extension_check_box_state
+                                ):
 
     """
     This function saves the raw image data to a user-named file. It can be saved to a variety of destinations including the desktop and documents folders.
+    Args:
+        address_to_save_raw_image_data,
+        desktop_destination_check_box_state,
+        documents_destination_check_box_state,
+        downloads_destination_check_box_state,
+        npy_file_extension_check_box_state,
+        csv_file_extension_check_box_state,
+        txt_file_extension_check_box_state
     """
 
     if len(address_to_save_raw_image_data) == 0:
+        
+        # print(desktop_destination_check_box_state, documents_destination_check_box_state, downloads_destination_check_box_state)
 
         print("Error")
     
@@ -48,21 +67,95 @@ def save_raw_image_data_function(address_to_save_raw_image_data, desktop_destina
             passing_address_to_save_raw_image_data = address_to_save_raw_image_data # re-cast file name name
 
         # section to assemble desired file path to desired folder on computer (functionality extended to different machines)
-        computer_path_to_desktop_string = os.path.join(os.path.join(os.environ["USERPROFILE"]), "Desktop") # obtain path to Desktop
+        computer_path_to_desktop_string = os.path.join(os.path.join(os.environ["USERPROFILE"]), "Desktop") # obtain path to Desktop folder
+        computer_path_to_documents_string = os.path.join(os.path.join(os.environ["USERPROFILE"]), "Documents") # obtain path to Documents folder
+        computer_path_to_downloads_string = os.path.join(os.path.join(os.environ["USERPROFILE"]), "Downloads") # obtain path to Downloads folder
 
         force_directory_slash_string = "\\" # initialize slash string for path assembly
 
         force_numpy_file_extension_string = ".npy" # initialize numpy file extension for path assembly
-
-        # create the final saving address
-        final_saving_address = computer_path_to_desktop_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_numpy_file_extension_string
-
+        force_csv_file_extension_string = ".csv" # initialize csv file extension for path assembly
+        force_txt_file_extension_string = ".txt" # initialize txt file extension for path assembly
+        
         # completing data array converison for saving
-        read_csv_data_array = pandas.read_csv("Application_folder\image_data_file.csv", sep = ',', header = None)
+        read_csv_data_array = pandas.read_csv("Application_folder\image_data_file.csv", sep = ',', header = None) # read the locally stored image data into a Pandas data frame
 
-        converted_read_csv_data_array = numpy.array(read_csv_data_array) # cast the read csv data (via pandas) to numpy array
+        converted_to_numpy_data_array_read_csv_data = numpy.array(read_csv_data_array) # cast the read csv data (via pandas) to numpy array
 
-        numpy.save(final_saving_address, converted_read_csv_data_array) # saving the actual file
+        if npy_file_extension_check_box_state == False and csv_file_extension_check_box_state == False and txt_file_extension_check_box_state == False:
+
+            print("Error")
+        
+        else:
+
+            if desktop_destination_check_box_state == False and documents_destination_check_box_state == False and downloads_destination_check_box_state == False:
+
+                print("Error")
+
+            else:
+
+                if npy_file_extension_check_box_state == True:
+
+                    if desktop_destination_check_box_state == True:
+
+                        # create the final saving address (to desktop)
+                        final_saving_address_to_desktop_numpy = computer_path_to_desktop_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_numpy_file_extension_string
+
+                        numpy.save(final_saving_address_to_desktop_numpy, converted_to_numpy_data_array_read_csv_data) # saving the actual file
+
+                    if documents_destination_check_box_state == True:
+
+                        # create the final saving address (to documents)
+                        final_saving_address_to_documents_numpy = computer_path_to_documents_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_numpy_file_extension_string
+                    
+                        numpy.save(final_saving_address_to_documents_numpy, converted_to_numpy_data_array_read_csv_data) # saving the actual file
+
+                    if downloads_destination_check_box_state == True:
+
+                        # create the final saving address (to downloads)
+                        final_saving_address_to_downloads_numpy = computer_path_to_downloads_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_numpy_file_extension_string
+
+                        numpy.save(final_saving_address_to_downloads_numpy, converted_to_numpy_data_array_read_csv_data) # saving the actual file
+
+                if csv_file_extension_check_box_state == True:
+
+                    if desktop_destination_check_box_state == True:
+
+                        # create the final saving address (to desktop)
+                        final_saving_address_to_desktop_csv = computer_path_to_desktop_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_csv_file_extension_string
+                        read_csv_data_array.to_csv(final_saving_address_to_desktop_csv, header = False, index = False)
+
+                    if documents_destination_check_box_state == True:
+
+                        # create the final saving address (to documents)
+                        final_saving_address_to_documents_csv = computer_path_to_documents_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_csv_file_extension_string
+                        read_csv_data_array.to_csv(final_saving_address_to_documents_csv, header = False, index = False)
+
+                    if downloads_destination_check_box_state == True:
+
+                        # create the final saving address (to downloads)
+                        final_saving_address_to_downloads_csv = computer_path_to_downloads_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_csv_file_extension_string
+                        read_csv_data_array.to_csv(final_saving_address_to_downloads_csv, header = False, index = False)
+
+                if txt_file_extension_check_box_state == True:
+
+                    if desktop_destination_check_box_state == True:
+
+                        # create the final saving address (to desktop)
+                        final_saving_address_to_desktop_txt = computer_path_to_desktop_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_txt_file_extension_string
+                        converted_to_numpy_data_array_read_csv_data.savetext(final_saving_address_to_desktop_txt)
+
+                    if documents_destination_check_box_state == True:
+
+                        # create the final saving address (to documents)
+                        final_saving_address_to_documents_txt = computer_path_to_documents_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_txt_file_extension_string
+                        converted_to_numpy_data_array_read_csv_data.savetext(final_saving_address_to_documents_txt)
+
+                    if downloads_destination_check_box_state == True:
+
+                        # create the final saving address (to downloads)
+                        final_saving_address_to_downloads_txt = computer_path_to_downloads_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_txt_file_extension_string
+                        converted_to_numpy_data_array_read_csv_data.savetext(final_saving_address_to_downloads_txt)
 
 ########################################################################################### end functions #############################################################################################
 

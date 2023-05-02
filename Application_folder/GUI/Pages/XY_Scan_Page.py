@@ -5,7 +5,7 @@ Contents: UI elements to control Xy image taking
 
 Dates:
 Originally created: 01-17-2023
-Last modified: 04-25-2023
+Last modified: 05-02-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -553,23 +553,52 @@ class test_class:
         self.save_image_data_header_widget.setFont(QFont("Times", 8)) # adjust font size of save image data header widget
         self.save_image_data_header_widget.setStyleSheet("border-bottom-width: 1px; border-bottom-style: solid; border-radius: 0px;") # underline the save image data header widget text
         self.save_image_data_header_widget.setParent(self.xy_scan_input_left_side) # designate parent of saving image data header widget
-        self.save_image_data_header_widget.move(81, 510) # position the saving image data header widget
+        self.save_image_data_header_widget.move(74, 547) # position the saving image data header widget
+
         # enter file name to save image data at widget
         self.file_name_to_save_image_data_at_widget = QLabel("Enter file name:") # create the file name to save data at widget
         self.file_name_to_save_image_data_at_widget.setFont(QFont("Times", 8)) # adjust font size of the file name to save data at widget
         self.file_name_to_save_image_data_at_widget.setParent(self.xy_scan_input_left_side) # designate parent of the file name to save data at widget
-        self.file_name_to_save_image_data_at_widget.move(70, 540) # position the file name to save data at widget
-
+        self.file_name_to_save_image_data_at_widget.move(81, 569) # position the file name to save data at widget
+        
         # save raw image data qlineedit
         global save_raw_image_data_qlineedit
 
         save_raw_image_data_qlineedit = QLineEdit(self) # create the qlineedit to save raw image data
 
         save_raw_image_data_qlineedit.setParent(self.xy_scan_input_left_side) # designate parent of the save raw image data qlineedit
-        
-        save_raw_image_data_qlineedit.resize(200, 20) # set the size of the save raw image data qlineedit
 
-        save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier, 550) # set the position of the save raw image data qlineedit
+        save_raw_image_data_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignCenter) # set the text alignment of the save raw image data qlineedit
+        
+        save_raw_image_data_qlineedit.resize(232, 20) # set the size of the save raw image data qlineedit
+
+        save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier, 584) # set the position of the save raw image data qlineedit
+
+        # file extension selection qcheckboxes
+        y_adjust_for_data_format_qcheckboxes = 35
+        # saving location widget
+        self.data_format_widget = QLabel("Format:") # create the saving format widget
+        self.data_format_widget.setFont(QFont("Times", 8)) # adjust font size of the saving format widget
+        self.data_format_widget.setParent(self.xy_scan_input_left_side) # designate parent of the saving format widget
+        self.data_format_widget.move(97, 639 - y_adjust_for_data_format_qcheckboxes) # position the saving format widget
+        # numpy (npy) file
+        self.numpy_npy_file_extension_checkbox = QCheckBox("\".npy\"")
+        self.numpy_npy_file_extension_checkbox.setChecked(False)
+        self.numpy_npy_file_extension_checkbox.setParent(self.xy_scan_input_left_side)
+        self.numpy_npy_file_extension_checkbox.move(control_widgets_left_justify_modifier, 630 - y_adjust_for_data_format_qcheckboxes)
+        self.numpy_npy_file_extension_checkbox.resize(49, 65)
+        # csv
+        self.csv_file_extension_checkbox = QCheckBox("\".csv\"")
+        self.csv_file_extension_checkbox.setChecked(False)
+        self.csv_file_extension_checkbox.setParent(self.xy_scan_input_left_side)
+        self.csv_file_extension_checkbox.move(control_widgets_left_justify_modifier + 93, 630 - y_adjust_for_data_format_qcheckboxes)
+        self.csv_file_extension_checkbox.resize(47, 65)
+        # text
+        self.txt_file_extension_checkbox = QCheckBox("\".txt\"")
+        self.txt_file_extension_checkbox.setChecked(False)
+        self.txt_file_extension_checkbox.setParent(self.xy_scan_input_left_side)
+        self.txt_file_extension_checkbox.move(control_widgets_left_justify_modifier + 187, 630 - y_adjust_for_data_format_qcheckboxes)
+        self.txt_file_extension_checkbox.resize(45, 65)
 
         # # save raw image data file extension label widget
         # self.save_raw_image_data_extension_label_widget = QLabel("\".npy\"", self) # create the save raw image data extension label widget
@@ -584,7 +613,7 @@ class test_class:
         self.data_saving_location_widget = QLabel("Destination:") # create the saving destination widget
         self.data_saving_location_widget.setFont(QFont("Times", 8)) # adjust font size of the saving destination widget
         self.data_saving_location_widget.setParent(self.xy_scan_input_left_side) # designate parent of the saving destination widget
-        self.data_saving_location_widget.move(86, 639) # position the saving destination widget
+        self.data_saving_location_widget.move(87, 639) # position the saving destination widget
         # desktop
         self.save_to_desktop_checkbox = QCheckBox("Desktop")
         self.save_to_desktop_checkbox.setChecked(False)
@@ -615,7 +644,12 @@ class test_class:
 
         self.save_raw_image_data_widget.clicked.connect(lambda: Helper_Functions.save_raw_image_data_function(
                                                                                                               address_to_save_raw_image_data = save_raw_image_data_qlineedit.text(),
-                                                                                                              desktop_destination_check_box_state = self.save_to_desktop_checkbox.isChecked()
+                                                                                                              desktop_destination_check_box_state = self.save_to_desktop_checkbox.isChecked(),
+                                                                                                              documents_destination_check_box_state = self.save_to_documents_checkbox.isChecked(),
+                                                                                                              downloads_destination_check_box_state = self.save_to_downloads_checkbox.isChecked(),
+                                                                                                              npy_file_extension_check_box_state = self.numpy_npy_file_extension_checkbox.isChecked(),
+                                                                                                              csv_file_extension_check_box_state = self.csv_file_extension_checkbox.isChecked(),
+                                                                                                              txt_file_extension_check_box_state = self.txt_file_extension_checkbox.isChecked()
                                                                                                               )
                                                         )
 
