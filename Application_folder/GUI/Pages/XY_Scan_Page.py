@@ -27,7 +27,7 @@ from tqdm import trange # import trange function for progress bars during develo
 
 import PyQt5 # generic PyQt5 module import
 
-from PyQt5.QtWidgets import (QHBoxLayout, QFrame, QLabel, QLineEdit, QPushButton) # submodules from PyQt5.QtWidgets
+from PyQt5.QtWidgets import (QHBoxLayout, QFrame, QLabel, QLineEdit, QPushButton, QCheckBox) # submodules from PyQt5.QtWidgets
 
 from PyQt5.QtGui import QFont # submodule from PyQt5.QtGui
 
@@ -354,6 +354,8 @@ class test_class:
 
         self.title_widget.setFont(QFont("Times", 8)) # adjust font size of title widget
 
+        self.title_widget.setStyleSheet("border-bottom-width: 1px; border-bottom-style: solid; border-radius: 0px;") # underline the title widget text
+
         self.title_widget.setParent(self.xy_scan_input_left_side) # designate parent of title widget
 
         self.title_widget.move(81, 0) # position the title widget
@@ -546,6 +548,18 @@ class test_class:
         ################## break break break break break break break break break break break break break break break break break
         ################## break break break break break break break break break break break break break break break break break
 
+        # save image data header
+        self.save_image_data_header_widget = QLabel("Save Image Data:") # create the save image data header widget
+        self.save_image_data_header_widget.setFont(QFont("Times", 8)) # adjust font size of save image data header widget
+        self.save_image_data_header_widget.setStyleSheet("border-bottom-width: 1px; border-bottom-style: solid; border-radius: 0px;") # underline the save image data header widget text
+        self.save_image_data_header_widget.setParent(self.xy_scan_input_left_side) # designate parent of saving image data header widget
+        self.save_image_data_header_widget.move(81, 510) # position the saving image data header widget
+        # enter file name to save image data at widget
+        self.file_name_to_save_image_data_at_widget = QLabel("Enter file name:") # create the file name to save data at widget
+        self.file_name_to_save_image_data_at_widget.setFont(QFont("Times", 8)) # adjust font size of the file name to save data at widget
+        self.file_name_to_save_image_data_at_widget.setParent(self.xy_scan_input_left_side) # designate parent of the file name to save data at widget
+        self.file_name_to_save_image_data_at_widget.move(70, 540) # position the file name to save data at widget
+
         # save raw image data qlineedit
         global save_raw_image_data_qlineedit
 
@@ -555,27 +569,55 @@ class test_class:
         
         save_raw_image_data_qlineedit.resize(200, 20) # set the size of the save raw image data qlineedit
 
-        save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier, 667) # set the position of the save raw image data qlineedit
+        save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier, 550) # set the position of the save raw image data qlineedit
 
-        # save image data (function connection needs to be made) widget
-        self.save_raw_image_data_widget = QPushButton("Save raw image data below:", self) # create the save raw image data button
+        # # save raw image data file extension label widget
+        # self.save_raw_image_data_extension_label_widget = QLabel("\".npy\"", self) # create the save raw image data extension label widget
+
+        # self.save_raw_image_data_extension_label_widget.setParent(self.xy_scan_input_left_side) # designate the parent of the save raw image data extension label widget
+
+        # self.save_raw_image_data_extension_label_widget.move(control_widgets_left_justify_modifier + 201, 670) # set the position of the save raw image data extension label widget
+
+        # self.save_raw_image_data_extension_label_widget.setFont(QFont("Times", 8))
+
+        # saving location widget
+        self.data_saving_location_widget = QLabel("Destination:") # create the saving destination widget
+        self.data_saving_location_widget.setFont(QFont("Times", 8)) # adjust font size of the saving destination widget
+        self.data_saving_location_widget.setParent(self.xy_scan_input_left_side) # designate parent of the saving destination widget
+        self.data_saving_location_widget.move(86, 639) # position the saving destination widget
+        # desktop
+        self.save_to_desktop_checkbox = QCheckBox("Desktop")
+        self.save_to_desktop_checkbox.setChecked(False)
+        self.save_to_desktop_checkbox.setParent(self.xy_scan_input_left_side)
+        self.save_to_desktop_checkbox.move(control_widgets_left_justify_modifier, 630)
+        self.save_to_desktop_checkbox.resize(57, 65)
+        # documents
+        self.save_to_documents_checkbox = QCheckBox("Documents")
+        self.save_to_documents_checkbox.setChecked(False)
+        self.save_to_documents_checkbox.setParent(self.xy_scan_input_left_side)
+        self.save_to_documents_checkbox.move(control_widgets_left_justify_modifier + 76, 630)
+        self.save_to_documents_checkbox.resize(73, 65)
+        # downloads
+        self.save_to_downloads_checkbox = QCheckBox("Downloads")
+        self.save_to_downloads_checkbox.setChecked(False)
+        self.save_to_downloads_checkbox.setParent(self.xy_scan_input_left_side)
+        self.save_to_downloads_checkbox.move(control_widgets_left_justify_modifier + 162, 630)
+        self.save_to_downloads_checkbox.resize(73, 65)
+
+        # save image data button widget
+        self.save_raw_image_data_widget = QPushButton("Save data", self) # create the save raw image data button
 
         self.save_raw_image_data_widget.setParent(self.xy_scan_input_left_side) # set the "parent" bound of the save scan raw image data button
 
-        self.save_raw_image_data_widget.resize(231, 20) # resize the save raw image data button
+        self.save_raw_image_data_widget.resize(236, 20) # resize the save raw image data button
 
-        self.save_raw_image_data_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 626) # set the position of the save raw image data button
+        self.save_raw_image_data_widget.move(control_widgets_left_justify_modifier - 2, control_widgets_top_justify_modifier + 650) # set the position of the save raw image data button
 
-        self.save_raw_image_data_widget.clicked.connect(lambda: Helper_Functions.save_raw_image_data_function(save_raw_image_data_qlineedit.text())) #
-
-        # save raw image data file extension label widget
-        self.save_raw_image_data_extension_label_widget = QLabel("\".npy\"", self) # create the save raw image data extension label widget
-
-        self.save_raw_image_data_extension_label_widget.setParent(self.xy_scan_input_left_side) # designate the parent of the save raw image data extension label widget
-
-        self.save_raw_image_data_extension_label_widget.move(control_widgets_left_justify_modifier + 201, 670) # set the position of the save raw image data extension label widget
-
-        self.save_raw_image_data_extension_label_widget.setFont(QFont("Times", 8))
+        self.save_raw_image_data_widget.clicked.connect(lambda: Helper_Functions.save_raw_image_data_function(
+                                                                                                              address_to_save_raw_image_data = save_raw_image_data_qlineedit.text(),
+                                                                                                              desktop_destination_check_box_state = self.save_to_desktop_checkbox.isChecked()
+                                                                                                              )
+                                                        )
 
         ################## break break break break break break break break break break break break break break break break break
         ################## break break break break break break break break break break break break break break break break break
@@ -638,7 +680,7 @@ class test_class:
 
         self.take_xy_image_button.resize(231, 30) # set size of the take xy image button
 
-        self.take_xy_image_button.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 585)
+        self.take_xy_image_button.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 420)
 
         self.take_xy_image_button.clicked.connect(test_class.run_xy_scan_script)
 

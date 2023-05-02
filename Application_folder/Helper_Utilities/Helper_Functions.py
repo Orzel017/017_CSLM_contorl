@@ -27,36 +27,42 @@ import pandas # pandas package for data array manipulation
 
 ########################################################################################## start functions ############################################################################################
 
-def save_raw_image_data_function(address_to_save_raw_image_data): # define the raw image data saving function (biased to numpy file extension)
+def save_raw_image_data_function(address_to_save_raw_image_data, desktop_destination_check_box_state): # define the raw image data saving function (biased to numpy file extension)
 
     """
     This function saves the raw image data to a user-named file. It can be saved to a variety of destinations including the desktop and documents folders.
     """
 
-    # tuning user-input address type to be string
-    if type(address_to_save_raw_image_data) != str: # get cases for when user-input is not string
+    if len(address_to_save_raw_image_data) == 0:
 
-        passing_address_to_save_raw_image_data = str(address_to_save_raw_image_data) # convert user-input file name to string
+        print("Error")
+    
+    else:
 
-    else: # catch remaining cases
-        passing_address_to_save_raw_image_data = address_to_save_raw_image_data # re-cast file name name
+        # tuning user-input address type to be string
+        if type(address_to_save_raw_image_data) != str: # get cases for when user-input is not string
 
-    # section to assemble desired file path to desired folder on computer (functionality extended to different machines)
-    computer_path_to_desktop_string = os.path.join(os.path.join(os.environ["USERPROFILE"]), "Desktop") # obtain path to Desktop
+            passing_address_to_save_raw_image_data = str(address_to_save_raw_image_data) # convert user-input file name to string
 
-    force_directory_slash_string = "\\" # initialize slash string for path assembly
+        else: # catch remaining cases
+            passing_address_to_save_raw_image_data = address_to_save_raw_image_data # re-cast file name name
 
-    force_numpy_file_extension_string = ".npy" # initialize numpy file extension for path assembly
+        # section to assemble desired file path to desired folder on computer (functionality extended to different machines)
+        computer_path_to_desktop_string = os.path.join(os.path.join(os.environ["USERPROFILE"]), "Desktop") # obtain path to Desktop
 
-    # create the final saving address
-    final_saving_address = computer_path_to_desktop_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_numpy_file_extension_string
+        force_directory_slash_string = "\\" # initialize slash string for path assembly
 
-    # completing data array converison for saving
-    read_csv_data_array = pandas.read_csv("Application_folder\image_data_file.csv", sep = ',', header = None)
+        force_numpy_file_extension_string = ".npy" # initialize numpy file extension for path assembly
 
-    converted_read_csv_data_array = numpy.array(read_csv_data_array) # cast the read csv data (via pandas) to numpy array
+        # create the final saving address
+        final_saving_address = computer_path_to_desktop_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_numpy_file_extension_string
 
-    numpy.save(final_saving_address, converted_read_csv_data_array) # saving the actual file
+        # completing data array converison for saving
+        read_csv_data_array = pandas.read_csv("Application_folder\image_data_file.csv", sep = ',', header = None)
+
+        converted_read_csv_data_array = numpy.array(read_csv_data_array) # cast the read csv data (via pandas) to numpy array
+
+        numpy.save(final_saving_address, converted_read_csv_data_array) # saving the actual file
 
 ########################################################################################### end functions #############################################################################################
 
