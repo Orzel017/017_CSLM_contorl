@@ -405,7 +405,7 @@ class test_class:
 
         self.resolution_disclaimer_widget.setParent(self.xy_scan_input_left_side) # designate parent of resolution widget
 
-        self.resolution_disclaimer_widget.move(control_widgets_left_justify_modifier + 44, control_widgets_top_justify_modifier + 15) # position resolution widget
+        self.resolution_disclaimer_widget.move(control_widgets_left_justify_modifier + 44, control_widgets_top_justify_modifier + 17) # position resolution widget
         
         # minimum x driving voltage widget
         self.minimum_x_driving_voltage_widget = QLabel("Min x-voltage:", self) # create minimum x driving voltage widget
@@ -423,9 +423,9 @@ class test_class:
 
         minimum_x_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of minimum x driving voltage qlineedit
 
-        minimum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 42) # position minimum x driving voltage qlineedit
+        minimum_x_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 72, control_widgets_top_justify_modifier + 42) # position minimum x driving voltage qlineedit
 
-        minimum_x_driving_voltage_qlineedit.resize(130, 15) # set size of minimum x driving voltage qlineedit
+        minimum_x_driving_voltage_qlineedit.resize(132, 15) # set size of minimum x driving voltage qlineedit
 
         minimum_x_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
@@ -486,9 +486,9 @@ class test_class:
 
         minimum_y_driving_voltage_qlineedit.setParent(self.xy_scan_input_left_side) # designated parent of minimum y driving voltage qlineedit
 
-        minimum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 74, control_widgets_top_justify_modifier + 95) # position minimum y driving voltage qlineedit
+        minimum_y_driving_voltage_qlineedit.move(control_widgets_left_justify_modifier + 72, control_widgets_top_justify_modifier + 95) # position minimum y driving voltage qlineedit
 
-        minimum_y_driving_voltage_qlineedit.resize(130, 15) # set size of minimum y driving voltage qlineedit
+        minimum_y_driving_voltage_qlineedit.resize(132, 15) # set size of minimum y driving voltage qlineedit
 
         minimum_y_driving_voltage_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # align input text to right-side
 
@@ -533,24 +533,43 @@ class test_class:
         # position maximum y driving voltage unit label widget
         self.maximum_y_driving_voltage_unit_label_widget.move(control_widgets_left_justify_modifier + 207, control_widgets_top_justify_modifier + 120)
 
-        #######################################################
-        #######################################################                             DWELL TIME #######################################################
-        #######################################################
+        # individual pixel dwell time widget (QLabel)
+        individual_piel_dwell_time_widget = QLabel("Dwell time:", self) # create the dwell time widget (QLabel)
 
-        # # read time
-        # xy_scan_read_time_widget = QLabel("APD_t:", self) # widget
-        # xy_scan_read_time_widget.setParent(self.left_window)
-        # xy_scan_read_time_widget.move(xy_scan_widgets_left_x_justify, 65 + row_y_adjust + overall_y_adjust)
+        individual_piel_dwell_time_widget.setParent(self.xy_scan_input_left_side) # designate the parent of the individual pizel dwell time widget
 
-        # xy_scan_read_time_qlineedit = QLineEdit(self) # qclineedit
-        # xy_scan_read_time_qlineedit.setParent(self.left_window)
-        # xy_scan_read_time_qlineedit.move(40, 65 + row_y_adjust + overall_y_adjust)
-        # xy_scan_read_time_qlineedit.resize(45, 15)
-        # xy_scan_read_time_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight)
+        individual_piel_dwell_time_widget.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 145) # set the position of the individual pixel dwell time widget
 
-        #######################################################
-        #######################################################                             DWELL TIME #######################################################
-        #######################################################
+        individual_pixel_dwell_time_qlineedit = QLineEdit(self) # create the individual pixel dwell time qlineedit
+
+        individual_pixel_dwell_time_qlineedit.setParent(self.xy_scan_input_left_side) # designate the parent of the individual pixel dwell time qlineedit
+
+        # set the position of the individual pixel dwell time qlineedit
+        individual_pixel_dwell_time_qlineedit.move(control_widgets_left_justify_modifier + 55, control_widgets_top_justify_modifier + 145)
+
+        individual_pixel_dwell_time_qlineedit.resize(118, 15) # control the size of the individual pixel dwell time qlineedit
+
+        individual_pixel_dwell_time_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignRight) # set the text alignment of the individual pixel dwell time qlineedit
+
+        # individual pixel dwell time unit label widget (QLabel)
+        individual_pixel_dwell_time_unit_label_widget = QLabel("milliseconds", self) # create the dwell time unit label widget (QLabel)
+
+        individual_pixel_dwell_time_unit_label_widget.setParent(self.xy_scan_input_left_side) # designate the parent of the individual pizel dwell time unit label widget
+
+        individual_pixel_dwell_time_unit_label_widget.setFont(QFont("Times", 8)) # set the font of the individual pixel dwell time unit label widget
+
+        # set the position of the individual pixel dwell time unit label widget
+        individual_pixel_dwell_time_unit_label_widget.move(control_widgets_left_justify_modifier + 176, control_widgets_top_justify_modifier + 145)
+
+                # individual pixel dwell time informative widget
+        self.individual_pixel_time_time_informative_widget = QLabel("(Light source park time per pixel)", self) # create the individual pixel dwell time informative widget
+
+        self.individual_pixel_time_time_informative_widget.setFont(QFont("Times", 8)) # adjust font size of the individual pixel dwell time informative widget
+
+        self.individual_pixel_time_time_informative_widget.setParent(self.xy_scan_input_left_side) # designate parent of the individual pixel dwell time informative widget
+
+        # position the individual pixel dwell time informative widget
+        self.individual_pixel_time_time_informative_widget.move(control_widgets_left_justify_modifier + 34, control_widgets_top_justify_modifier + 163)
 
         # save image data header
         self.save_image_data_header_widget = QLabel("Save Image Data:") # create the save image data header widget
@@ -561,16 +580,16 @@ class test_class:
 
         self.save_image_data_header_widget.setParent(self.xy_scan_input_left_side) # designate parent of saving image data header widget
 
-        self.save_image_data_header_widget.move(74, 547) # position the saving image data header widget
+        self.save_image_data_header_widget.move(74, 564) # position the saving image data header widget
 
-        # enter file name to save image data at widget
-        self.file_name_to_save_image_data_at_widget = QLabel("Enter file name:") # create the file name to save data at widget
+        # enter file name to save image data at widget  
+        self.file_name_to_save_image_data_at_widget = QLabel("File name:") # create the file name to save data at widget
 
         self.file_name_to_save_image_data_at_widget.setFont(QFont("Times", 8)) # adjust font size of the file name to save data at widget
 
         self.file_name_to_save_image_data_at_widget.setParent(self.xy_scan_input_left_side) # designate parent of the file name to save data at widget
 
-        self.file_name_to_save_image_data_at_widget.move(81, 569) # position the file name to save data at widget
+        self.file_name_to_save_image_data_at_widget.move(control_widgets_left_justify_modifier, 586) # position the file name to save data at widget
         
         # save raw image data qlineedit
         global save_raw_image_data_qlineedit
@@ -581,9 +600,9 @@ class test_class:
 
         save_raw_image_data_qlineedit.setAlignment(PyQt5.QtCore.Qt.AlignCenter) # set the text alignment of the save raw image data qlineedit
         
-        save_raw_image_data_qlineedit.resize(232, 20) # set the size of the save raw image data qlineedit
+        save_raw_image_data_qlineedit.resize(181, 20) # set the size of the save raw image data qlineedit
 
-        save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier, 584) # set the position of the save raw image data qlineedit
+        save_raw_image_data_qlineedit.move(control_widgets_left_justify_modifier + 52, 582) # set the position of the save raw image data qlineedit
 
         # saving location widget
         self.data_format_widget = QLabel("Format:") # create the saving format widget
@@ -701,14 +720,14 @@ class test_class:
 
         self.change_color_map_widget.setParent(self.xy_scan_input_left_side) # designate parent of the change plot color map widget
 
-        self.change_color_map_widget.move(control_widgets_left_justify_modifier + 34, control_widgets_top_justify_modifier + 145) # position change plot's color map widget
+        self.change_color_map_widget.move(control_widgets_left_justify_modifier + 34, control_widgets_top_justify_modifier + 245) # position change plot's color map widget
 
         self.change_color_map_widget.setFont(QFont("Times", 8))
         
         # position adjust variables changing image color maps:
         change_color_map_button_x_dimension = 47 # define a value for the button x dimension
         change_color_map_button_y_dimension = 35 # define a value for the button y dimension
-        changing_color_map_button_y_adjust_value = 165 # make a value for overall widget spacing
+        changing_color_map_button_y_adjust_value = 260 # make a value for overall widget spacing
 
         # change color map (to pink) button
         self.change_color_map_to_pink_button = QPushButton("Pink", self) # define the change color map (to pink) QPushButton
@@ -753,7 +772,7 @@ class test_class:
 
         self.take_xy_image_button.resize(231, 30) # set size of the take xy image button
 
-        self.take_xy_image_button.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 420)
+        self.take_xy_image_button.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 200)
 
         self.take_xy_image_button.clicked.connect(test_class.run_xy_scan_script)
 
