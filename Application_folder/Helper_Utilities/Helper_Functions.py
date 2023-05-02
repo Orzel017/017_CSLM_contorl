@@ -82,80 +82,88 @@ def save_raw_image_data_function(
 
         converted_to_numpy_data_array_read_csv_data = numpy.array(read_csv_data_array) # cast the read csv data (via pandas) to numpy array
 
-        if npy_file_extension_check_box_state == False and csv_file_extension_check_box_state == False and txt_file_extension_check_box_state == False:
+        # begin minimal error checking for checkboxes (first file extension then file destination)
+        if npy_file_extension_check_box_state == False and csv_file_extension_check_box_state == False and txt_file_extension_check_box_state == False: # catch if zero-input for file extension
 
-            print("Error")
+            print("Error") # display error message
         
-        else:
-
+        else: # catch all non-zero user-input cases for file extension checkboxes
+            
+            # catch all zero file destination cases from user-input checkboxes
             if desktop_destination_check_box_state == False and documents_destination_check_box_state == False and downloads_destination_check_box_state == False:
 
-                print("Error")
+                print("Error") # display error message
 
-            else:
+            else: # catch all non-zero file destination cases from user-input checkboxes
 
-                if npy_file_extension_check_box_state == True:
+                if npy_file_extension_check_box_state == True: # select desired ".npy" file extension cases
 
-                    if desktop_destination_check_box_state == True:
+                    if desktop_destination_check_box_state == True: # select desired desktop destination cases
 
                         # create the final saving address (to desktop)
                         final_saving_address_to_desktop_numpy = computer_path_to_desktop_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_numpy_file_extension_string
 
-                        numpy.save(final_saving_address_to_desktop_numpy, converted_to_numpy_data_array_read_csv_data) # saving the actual file
+                        numpy.save(final_saving_address_to_desktop_numpy, converted_to_numpy_data_array_read_csv_data) # saving the actual data file
 
-                    if documents_destination_check_box_state == True:
+                    if documents_destination_check_box_state == True: # select desired documents destination cases
 
                         # create the final saving address (to documents)
                         final_saving_address_to_documents_numpy = computer_path_to_documents_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_numpy_file_extension_string
                     
-                        numpy.save(final_saving_address_to_documents_numpy, converted_to_numpy_data_array_read_csv_data) # saving the actual file
+                        numpy.save(final_saving_address_to_documents_numpy, converted_to_numpy_data_array_read_csv_data) # saving the actual data file
 
-                    if downloads_destination_check_box_state == True:
+                    if downloads_destination_check_box_state == True: # select desired downloads destination cases
 
                         # create the final saving address (to downloads)
                         final_saving_address_to_downloads_numpy = computer_path_to_downloads_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_numpy_file_extension_string
 
-                        numpy.save(final_saving_address_to_downloads_numpy, converted_to_numpy_data_array_read_csv_data) # saving the actual file
+                        numpy.save(final_saving_address_to_downloads_numpy, converted_to_numpy_data_array_read_csv_data) # saving the actual data file
 
-                if csv_file_extension_check_box_state == True:
+                if csv_file_extension_check_box_state == True: # select desired ".csv" file extension cases
 
-                    if desktop_destination_check_box_state == True:
+                    if desktop_destination_check_box_state == True: # select desired desktop destination cases
 
                         # create the final saving address (to desktop)
                         final_saving_address_to_desktop_csv = computer_path_to_desktop_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_csv_file_extension_string
-                        read_csv_data_array.to_csv(final_saving_address_to_desktop_csv, header = False, index = False)
 
-                    if documents_destination_check_box_state == True:
+                        read_csv_data_array.to_csv(final_saving_address_to_desktop_csv, header = False, index = False) # saving the actual data file
+
+                    if documents_destination_check_box_state == True: # select desired documents destination cases
 
                         # create the final saving address (to documents)
                         final_saving_address_to_documents_csv = computer_path_to_documents_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_csv_file_extension_string
-                        read_csv_data_array.to_csv(final_saving_address_to_documents_csv, header = False, index = False)
 
-                    if downloads_destination_check_box_state == True:
+                        read_csv_data_array.to_csv(final_saving_address_to_documents_csv, header = False, index = False) # saving the actual data file
+
+                    if downloads_destination_check_box_state == True: # select desired downloads destination cases
 
                         # create the final saving address (to downloads)
                         final_saving_address_to_downloads_csv = computer_path_to_downloads_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_csv_file_extension_string
-                        read_csv_data_array.to_csv(final_saving_address_to_downloads_csv, header = False, index = False)
 
-                if txt_file_extension_check_box_state == True:
+                        read_csv_data_array.to_csv(final_saving_address_to_downloads_csv, header = False, index = False) # saving the actual data file
 
-                    if desktop_destination_check_box_state == True:
+                if txt_file_extension_check_box_state == True: # select desired ".txt" file extension cases
+
+                    if desktop_destination_check_box_state == True: # select desired desktop destination cases
 
                         # create the final saving address (to desktop)
                         final_saving_address_to_desktop_txt = computer_path_to_desktop_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_txt_file_extension_string
-                        converted_to_numpy_data_array_read_csv_data.savetext(final_saving_address_to_desktop_txt)
 
-                    if documents_destination_check_box_state == True:
+                        numpy.savetxt(final_saving_address_to_desktop_txt, converted_to_numpy_data_array_read_csv_data) # saving the actual data file
+
+                    if documents_destination_check_box_state == True: # select desired documents destination cases
 
                         # create the final saving address (to documents)
                         final_saving_address_to_documents_txt = computer_path_to_documents_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_txt_file_extension_string
-                        converted_to_numpy_data_array_read_csv_data.savetext(final_saving_address_to_documents_txt)
+                        
+                        numpy.savetxt(final_saving_address_to_documents_txt, converted_to_numpy_data_array_read_csv_data) # saving the actual data file
 
-                    if downloads_destination_check_box_state == True:
+                    if downloads_destination_check_box_state == True: # select desired downloads destination cases
 
                         # create the final saving address (to downloads)
                         final_saving_address_to_downloads_txt = computer_path_to_downloads_string + force_directory_slash_string + passing_address_to_save_raw_image_data + force_txt_file_extension_string
-                        converted_to_numpy_data_array_read_csv_data.savetext(final_saving_address_to_downloads_txt)
+
+                        numpy.savetxt(final_saving_address_to_downloads_txt, converted_to_numpy_data_array_read_csv_data) # saving the actual data file
 
 ########################################################################################### end functions #############################################################################################
 
