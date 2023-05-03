@@ -98,8 +98,17 @@ class test_class:
         output_plot_area.figure.canvas.flush_events() # this line is very important and serves what purpose? This was the crux of one of the first versions of live-plotting
 
 
-    # creating the function to take and xy iamge based on user parameters
-    def run_xy_scan_script(self, parent = None): # define the function/script
+    # creating/defining the function to take and xy image based on user parameters
+    def run_xy_scan_script(self,
+                           
+                           desired_individual_pixel_dwell_time_in_milliseconds,
+
+                           parent = None
+
+                           ):
+
+        import time
+        start_time = time.time()
 
         """
         * old text (outdated):
@@ -198,6 +207,15 @@ class test_class:
             internal_clock_task.start() # start the internal_clock_task
             input_counter_task.start() # start the input_counter_task
 
+            # control rounding for integer value of individual pixel dwell time
+            if round(desired_individual_pixel_dwell_time_integer_value) < 2:
+
+                desired_individual_pixel_dwell_time_integer_value == 2
+            
+            else:
+
+                desired_individual_pixel_dwell_time_integer_value = round(desired_individual_pixel_dwell_time_in_milliseconds)
+
             # setup the data array for populating with image data
             
             array_size = int(resolution_qlineedit.text()) # designate the array size based on user qlineedit input for the completed image data
@@ -221,17 +239,18 @@ class test_class:
 
             output_value = 0
 
+            print(desired_individual_pixel_dwell_time_integer_value)
+
             ################################################################################ end script prelimaries #######################################################################################
 
             for row_iterator in trange(array_size): # loop/iterate over the desired number of rows
                 
                 for column_iterator in range(array_size): # loop/iterate over the desired number of columns
                     
-                    # reading the (current) counter value
-                    counter_value = input_counter_task.read(6)[-1] # read the actual and current counter value. This line is very important
-                    # six is fast; and might cause problem
-
-                    output_value += counter_value # increment the output value (to be used in the data array)
+                    for pixel_dwell_time_millisecond_iterator in range(desired_individual_pixel_dwell_time_integer_value):
+                        # reading the (current) counter value
+                        counter_value = input_counter_task.read(1, timeout = 0.000000000001)[0] # read the actual and current counter value. This line is very important
+                        output_value += counter_value # increment the output value (to be used in the data array)
 
                     if row_iterator % 2 != 0: # this loop populates the created xy_scan_data_array (the if else strucuture is present bc of the snaking scanning pattern)
 
@@ -314,6 +333,10 @@ class test_class:
         output_plot_area.figure.canvas.draw() # draw the actual figure
 
         output_plot_area.figure.canvas.flush_events() # this line is very important and serves what purpose? This was the crux of one of the first versions of live-plotting
+
+        finish_time = time.time()
+        elapsed_scan_time = finish_time - start_time
+        print("Elapsed time: %s" % elapsed_scan_time)
 
     def build_xy_scan_page(self, parent = None): # define build_welcome_page to setup the xy scan page UI elements
 
@@ -774,7 +797,10 @@ class test_class:
 
         self.take_xy_image_button.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 200)
 
-        self.take_xy_image_button.clicked.connect(test_class.run_xy_scan_script)
+        # calling the take xy image function via the xy image button click
+        self.take_xy_image_button.clicked.connect(lambda: test_class.run_xy_scan_script(
+                                                                                        individual_pixel_dwell_time_qlineedit.text()
+                                                                                        ))
 
         ########################################################################################## end control area #######################################################################################
 
