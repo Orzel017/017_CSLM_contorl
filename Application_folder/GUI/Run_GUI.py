@@ -10,7 +10,7 @@ Original author: MDA
 Last modified by: MDA
 
 Notes:
-Currently, this software application is run out of an editor (consistently VSCode). "Run" is clicked from this file within the folder "MDA_App". The longer-term end goal of this software is to have 
+Currently, this software application is run out of an editor (consistently VSCode). "Run" is clicked from this file within the folder `Pyfocal`. The longer-term end goal of this software is to have 
 one packaged application avaialble from the desktop of a designated machine and another copy available in an editor for making changes.
 """
 

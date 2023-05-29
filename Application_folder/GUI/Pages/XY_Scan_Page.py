@@ -5,7 +5,7 @@ Contents: UI elements to control Xy image taking
 
 Dates:
 Originally created: 01-17-2023
-Last modified: 05-02-2023
+Last modified: 05-05-2023
 Original author: MDA
 Last modified by: MDA
 
@@ -96,7 +96,6 @@ class test_class:
         output_plot_area.figure.canvas.draw() # draw the actual figure
         
         output_plot_area.figure.canvas.flush_events() # this line is very important and serves what purpose? This was the crux of one of the first versions of live-plotting
-
 
     # creating/defining the function to take and xy image based on user parameters
     def run_xy_scan_script(self,
@@ -207,14 +206,14 @@ class test_class:
             internal_clock_task.start() # start the internal_clock_task
             input_counter_task.start() # start the input_counter_task
 
-            # control rounding for integer value of individual pixel dwell time
-            if round(desired_individual_pixel_dwell_time_integer_value) < 2:
+            # # control rounding for integer value of individual pixel dwell time
+            # if round(desired_individual_pixel_dwell_time_integer_value) < 2:
 
-                desired_individual_pixel_dwell_time_integer_value == 2
+            #     desired_individual_pixel_dwell_time_integer_value == 2
             
-            else:
+            # else:
 
-                desired_individual_pixel_dwell_time_integer_value = round(desired_individual_pixel_dwell_time_in_milliseconds)
+            #     desired_individual_pixel_dwell_time_integer_value = round(desired_individual_pixel_dwell_time_in_milliseconds)
 
             # setup the data array for populating with image data
             
@@ -239,7 +238,7 @@ class test_class:
 
             output_value = 0
 
-            print(desired_individual_pixel_dwell_time_integer_value)
+            # print(desired_individual_pixel_dwell_time_integer_value)
 
             ################################################################################ end script prelimaries #######################################################################################
 
@@ -247,10 +246,15 @@ class test_class:
                 
                 for column_iterator in range(array_size): # loop/iterate over the desired number of columns
                     
-                    for pixel_dwell_time_millisecond_iterator in range(desired_individual_pixel_dwell_time_integer_value):
-                        # reading the (current) counter value
-                        counter_value = input_counter_task.read(1, timeout = 0.000000000001)[0] # read the actual and current counter value. This line is very important
-                        output_value += counter_value # increment the output value (to be used in the data array)
+                    # for pixel_dwell_time_millisecond_iterator in range(desired_individual_pixel_dwell_time_integer_value):
+                    #     # reading the (current) counter value
+                    #     counter_value = input_counter_task.read(1, timeout = 0.000000000001)[0] # read the actual and current counter value. This line is very important
+                    #     output_value += counter_value # increment the output value (to be used in the data array)
+
+                    # for pixel_dwell_time_millisecond_iterator in range(6):
+                    #     # reading the (current) counter value
+                    counter_value = input_counter_task.read(9)[-1] # read the actual and current counter value. This line is very important
+                    output_value += counter_value # increment the output value (to be used in the data array)
 
                     if row_iterator % 2 != 0: # this loop populates the created xy_scan_data_array (the if else strucuture is present bc of the snaking scanning pattern)
 
@@ -798,8 +802,8 @@ class test_class:
         self.take_xy_image_button.move(control_widgets_left_justify_modifier, control_widgets_top_justify_modifier + 200)
 
         # calling the take xy image function via the xy image button click
-        self.take_xy_image_button.clicked.connect(lambda: test_class.run_xy_scan_script(
-                                                                                        individual_pixel_dwell_time_qlineedit.text()
+        self.take_xy_image_button.clicked.connect(lambda: test_class.run_xy_scan_script(self,
+                                                                                        desired_individual_pixel_dwell_time_in_milliseconds = individual_pixel_dwell_time_qlineedit.text()
                                                                                         ))
 
         ########################################################################################## end control area #######################################################################################
