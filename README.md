@@ -22,18 +22,17 @@ README file for Pyfocal software application
 
 <!-- GitHub connection badges for software information-->
 <p>
-    <center>
-    <!--<div align = "center">
-        [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)</div>-->
+<center>
+<!--<div align = "center">
+[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)</div>-->
         
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=mdbackerman/017_CSLM_control)
-    
 </center>
 </p>
 
 <center>
-
+    
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/mdbackerman/StrapDown.js/graphs/commit-activity)
 [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
