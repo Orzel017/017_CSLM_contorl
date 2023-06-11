@@ -68,7 +68,7 @@ class test_class:
     def re_plot_with_pink_color_map(self, parent = None): # define the function called `re_plot_with_pink_color_map`
 
         imported_recent_image_data_array = pandas.read_csv("Application_folder\image_data_file.csv", dtype = float) # use pandas to read the data from the application's csv file
-
+    
         output_plot_area.axes.pcolormesh(imported_recent_image_data_array, cmap = "pink") # plot the data array # re-plot the image data in the plot area using the new desired color map
 
         output_plot_area.figure.canvas.draw() # draw the actual figure
